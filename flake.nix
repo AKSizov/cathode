@@ -184,6 +184,46 @@
           }
         ];
       };
+      snow-nix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          # Module Imports
+          stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          # If you want to use modules from nixos-hardware:
+          #hardware.nixosModules.common-cpu-amd
+          hardware.nixosModules.common-pc-ssd
+          hardware.nixosModules.common-gpu-nvidia
+          #hardware.nixosModules.common-gpu-amd
+          hardware.nixosModules.common-cpu-intel
+
+          ./nixos/base.nix # Base OS configuration
+          ./nixos/nvidia.nix # Machines with nvidia cards
+          ./nixos/gui.nix # Disable this gui module if you're running headless (server)
+
+          ./hardware-configs/hw-snow-nix.nix # (nixos-generate-config) hardware configuration
+
+          {
+            networking.hostName = "snow-nix";
+            networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
+            time.timeZone = "America/New_York";
+            users.users = {
+              user = {
+                initialPassword = "correcthorsebatterystaple";
+                isNormalUser = true;
+                linger = true; # Starts user services on boot
+                openssh.authorizedKeys.keys = [
+                  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILp3QWpsKLZtI38se2R5JatwUUJ4g6i95cTvYtYTo5Wb"
+                ];
+                extraGroups = ["wheel" "video" "audio" "networkmanager"];
+              };
+            };
+            home-manager.users.user = import ./home-manager/base.nix; # gui.nix for DE, base.nix for headless
+            home-manager.extraSpecialArgs = { inherit inputs outputs; };
+          }
+        ];
+      };
     };
   };
 }

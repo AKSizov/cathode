@@ -48,9 +48,10 @@
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
   stylix.image = pkgs.fetchurl {
     url = "https://cdna.artstation.com/p/assets/images/images/025/088/372/large/kanistra-studio-17-service-station.jpg?1584566564";
-    sha256 = "sha256-0075yagfvmimns0yzvyrcnczmy47j33x3na9cin3ky359wxkxy5a=";
+    name = "service-station.jpg";
+    sha256 = "0075yagfvmimns0yzvyrcnczmy47j33x3na9cin3ky359wxkxy5a";
   };
-  #stylix.image = "${../res/custom/wall.jpg}"; # Custom wallpaper
+  #stylix.image = "${../res/custom/wall.jpg}"; # Old version that worked
 
   stylix.polarity = "dark";
   stylix.targets.console.enable = false;
