@@ -219,7 +219,7 @@
                 extraGroups = ["wheel" "video" "audio" "networkmanager"];
               };
             };
-            home-manager.users.user = import ./home-manager/base.nix; # gui.nix for DE, base.nix for headless
+            home-manager.users.user = import ./home-manager/gui.nix; # gui.nix for DE, base.nix for headless
             home-manager.extraSpecialArgs = { inherit inputs outputs; };
           }
         ];
