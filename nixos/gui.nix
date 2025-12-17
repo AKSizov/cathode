@@ -39,6 +39,25 @@
     # > ps -L -o pid,tid,cls,rtprio,cmd -C pipewire
   };
 
+  # This section remaps tab to LWin for the sake of tiling window managers like hyprland.
+  # A single press of the tab key still works as normal.  
+  services.keyd = {
+  enable = true;
+  keyboards = {
+    # The name is just the name of the configuration file, it does not really matter
+    default = {
+      ids = [ "*" ]; # what goes into the [id] section, here we select all keyboards
+      # Everything but the ID section:
+      extraConfig = ''
+        [main]
+        # overload(modifier_layer, tap_action)
+        tab = overload(meta, tab)
+      '';
+    };
+  };
+};
+
+
   security.rtkit.enable = true;
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
