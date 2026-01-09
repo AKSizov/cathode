@@ -76,7 +76,6 @@
   programs.cava.enable = true;
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
     plugins = [
         pkgs.rofi-calc
     ];

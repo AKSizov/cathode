@@ -17,7 +17,7 @@
 
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       user.email = "37084670+AKSizov@users.noreply.github.com";
       user.name = "AKSizov";
       init.defaultBranch = "master";

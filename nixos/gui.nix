@@ -13,7 +13,6 @@
 
   fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
 
-  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -78,7 +77,6 @@
   services.ollama.enable = true;
   programs.hyprland.enable = true;
   programs.nix-ld.enable = true;
-  services.preload.enable = true;
 
   # For hyprpanel
   services.upower.enable = true;
