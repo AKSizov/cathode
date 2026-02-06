@@ -164,9 +164,6 @@
   services.tailscale.enable = true;
   services.tailscale.package = pkgs.tailscale.overrideAttrs { doCheck = false; };
 
-  # Android debugging
-  programs.adb.enable = true;
-
   # ============================================================================
   # Virtualisation & Containers
   # ============================================================================

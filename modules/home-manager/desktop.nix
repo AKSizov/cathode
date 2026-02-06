@@ -16,10 +16,7 @@
   home.packages = with pkgs; [
     # Creative & Design
     gimp3
-    blender
-    freecad
-    openscad-unstable
-    openscad-lsp
+    openscad
     
     # Media & Entertainment
     parsec-bin
@@ -30,10 +27,6 @@
     
     # 3D Printing
     orca-slicer
-    
-    # System UI
-    hyprpanel
-    cava
   ];
 
   # ============================================================================
@@ -83,9 +76,7 @@
   programs.firefox.enable = true;
   programs.mpv.enable = true;
   programs.yt-dlp.enable = true;
-  programs.obs-studio.enable = true;
-  programs.hyprlock.enable = true;
-  programs.cava.enable = true;
+  programs.hyprlock.enable = true; # Not yet implemented
   
   programs.rofi = {
     enable = true;

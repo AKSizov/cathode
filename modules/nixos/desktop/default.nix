@@ -2,7 +2,6 @@
 {
   imports = [
     ./audio.nix
-    ./hyprland.nix
     ./stylix.nix
   ];
 
@@ -14,6 +13,19 @@
     firefox
     kitty
   ];
+
+  # Key remapping: Tab becomes Super when held
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      extraConfig = ''
+        [main]
+        # overload(modifier_layer, tap_action)
+        tab = overload(meta, tab)
+      '';
+    };
+  };
 
   # Fonts
   fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
