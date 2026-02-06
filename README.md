@@ -15,27 +15,18 @@ cathode/
 │   └── snow-nix/            # Desktop workstation (NVIDIA GPU)
 ├── modules/
 │   ├── nixos/
-│   │   ├── core/            # Base system configuration
-│   │   │   ├── boot.nix     # Boot, kernel, and sysctl tuning
-│   │   │   ├── networking.nix
-│   │   │   ├── nix.nix      # Nix settings and auto-upgrade
-│   │   │   ├── security.nix
-│   │   │   ├── services.nix # SSH, Tailscale, device management
-│   │   │   └── virtualisation.nix
-│   │   ├── desktop/         # Desktop environment
+│   │   ├── core.nix         # Base system (boot, networking, nix, services, containers)
+│   │   ├── users.nix        # Default user configuration
+│   │   ├── desktop/         # Desktop environment modules
+│   │   │   ├── default.nix  # Desktop packages and services
 │   │   │   ├── audio.nix    # PipeWire configuration
 │   │   │   ├── hyprland.nix # Window manager
 │   │   │   └── stylix.nix   # System theming
 │   │   └── hardware/
 │   │       └── nvidia.nix   # NVIDIA GPU support
 │   └── home-manager/
-│       ├── core/            # Base user configuration
-│       ├── desktop/         # Desktop user environment
-│       │   ├── hyprland.nix
-│       │   └── stylix.nix
-│       └── profiles/
-│           ├── headless.nix # Server/headless profile
-│           └── desktop.nix  # Desktop user profile
+│       ├── base.nix         # Core user environment (CLI tools, git, etc.)
+│       └── desktop.nix      # Desktop user apps (GUI apps, Hyprland, themes)
 ├── hardware-configs/        # Hardware-specific configs (nixos-generate-config)
 └── dotfiles/               # Traditional dotfiles integrated via Home Manager
 ```
@@ -79,40 +70,31 @@ sudo nixos-rebuild switch --flake .#hostname
    {
      imports = [
        ../default.nix
-       ../../modules/nixos/core
+       ../../modules/nixos/core.nix
+       ../../modules/nixos/users.nix
        ../../modules/nixos/desktop  # Or omit for headless
        ../../hardware-configs/hw-newhostname.nix
      ];
 
      networking.hostName = "newhostname";
 
-     users.users.user = {
-       initialPassword = "changeme";
-       isNormalUser = true;
-       linger = true;
-       openssh.authorizedKeys.keys = [ "ssh-ed25519 ..." ];
-       extraGroups = [ "wheel" "video" "audio" "networkmanager" ];
-     };
-
-     home-manager.users.user = import ../../modules/home-manager/profiles/desktop.nix;
+     # Home Manager configuration
+     home-manager.users.user = import ../../modules/home-manager/desktop.nix;
+     # For headless: import ../../modules/home-manager/base.nix;
    }
    ```
 
-4. Add to `flake.nix`:
+4. Add to `flake.nix` nixosConfigurations:
    ```nix
-   newhostname = nixpkgs.lib.nixosSystem {
-     system = "x86_64-linux";
-     specialArgs = { inherit inputs; outputs = self; };
-     modules = [ ./hosts/newhostname ];
-   };
+   newhostname = mkHost "x86_64-linux" ./hosts/newhostname;
    ```
 
 ## Customization
 
 ### Desktop vs Headless
 
-- **Desktop**: Import `modules/nixos/desktop` and use `profiles/desktop.nix`
-- **Headless**: Skip desktop module and use `profiles/headless.nix`
+- **Desktop**: Import `modules/nixos/desktop` and set home-manager to `../../modules/home-manager/desktop.nix`
+- **Headless**: Skip desktop module and set home-manager to `../../modules/home-manager/base.nix`
 
 ### NVIDIA GPUs
 
@@ -123,8 +105,15 @@ Import the NVIDIA module in your host configuration:
 
 ### Adding Packages
 
-- **System-wide**: Add to `modules/nixos/core/default.nix` or `modules/nixos/desktop/default.nix`
-- **User-specific**: Add to `modules/home-manager/profiles/desktop.nix` or create a custom profile
+- **System-wide**: Add to `modules/nixos/core.nix` or `modules/nixos/desktop/default.nix`
+- **User-specific**: Add to `modules/home-manager/base.nix` (CLI) or `modules/home-manager/desktop.nix` (GUI)
+
+### Customizing User Settings
+
+Default user configuration is in `modules/nixos/users.nix`. Override specific settings in your host config:
+```nix
+users.users.user.openssh.authorizedKeys.keys = [ "your-ssh-key" ];
+```
 
 ## Philosophy
 

@@ -19,31 +19,21 @@
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon/main";
   };
 
-  outputs = { self, nixpkgs, ... } @ inputs: {
-    nixosConfigurations = {
-      mininix = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs = { self, nixpkgs, ... } @ inputs:
+    let
+      # Helper function to reduce boilerplate
+      mkHost = system: hostPath: nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = { inherit inputs; outputs = self; };
-        modules = [ ./hosts/mininix ];
+        modules = [ hostPath ];
       };
-
-      m1n1x = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = { inherit inputs; outputs = self; };
-        modules = [ ./hosts/m1n1x ];
-      };
-
-      closetcard = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; outputs = self; };
-        modules = [ ./hosts/closetcard ];
-      };
-
-      snow-nix = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; outputs = self; };
-        modules = [ ./hosts/snow-nix ];
+    in
+    {
+      nixosConfigurations = {
+        mininix = mkHost "x86_64-linux" ./hosts/mininix;
+        m1n1x = mkHost "aarch64-linux" ./hosts/m1n1x;
+        closetcard = mkHost "x86_64-linux" ./hosts/closetcard;
+        snow-nix = mkHost "x86_64-linux" ./hosts/snow-nix;
       };
     };
-  };
 }
