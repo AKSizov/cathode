@@ -30,10 +30,9 @@
     in
     {
       nixosConfigurations = {
-        mininix = mkHost "x86_64-linux" ./hosts/mininix;
-        m1n1x = mkHost "aarch64-linux" ./hosts/m1n1x;
-        closetcard = mkHost "x86_64-linux" ./hosts/closetcard;
-        snow-nix = mkHost "x86_64-linux" ./hosts/snow-nix;
+        mininix = mkHost "x86_64-linux" ./hosts/mininix.nix;
+        m1n1x = mkHost "aarch64-linux" ./hosts/m1n1x.nix;
+        closetcard = mkHost "x86_64-linux" ./hosts/closetcard.nix;
       };
     };
 }

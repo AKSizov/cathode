@@ -1,11 +1,11 @@
 { inputs, ... }:
 {
   imports = [
-    ../default.nix
-    ../../modules/nixos/core.nix
-    ../../modules/nixos/users.nix
-    ../../modules/nixos/hardware/nvidia.nix
-    ../../hardware-configs/hw-closetcard.nix
+    ./default.nix
+    ../modules/nixos/core.nix
+    ../modules/nixos/users.nix
+    ../modules/nixos/hardware/nvidia.nix
+    ../hardware-configs/hw-closetcard.nix
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.hardware.nixosModules.common-gpu-nvidia
     inputs.hardware.nixosModules.common-cpu-intel
@@ -32,5 +32,5 @@
   system.autoUpgrade.allowReboot = true;
 
   # Home Manager configuration (headless)
-  home-manager.users.user = import ../../modules/home-manager/base.nix;
+  home-manager.users.user = import ../modules/home-manager/base.nix;
 }
