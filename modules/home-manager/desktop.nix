@@ -78,6 +78,7 @@
   # VSCode with FHS environment for extension compatibility
   programs.vscode = {
     enable = true;
+    package = pkgs.vscodium;
     extensions = with pkgs.vscode-extensions; [
       saoudrizwan.claude-dev
       ms-vscode.remote-explorer
@@ -91,6 +92,7 @@
       "workbench.panel.defaultLocation" = "right";
       "workbench.editor.showTabs" = "none";
       "update.showReleaseNotes" = false;
+      "chat.disableAIFeatures" = true;
       
       # Terminal profiles
       "terminal.integrated.profiles.linux" = {
