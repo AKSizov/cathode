@@ -7,6 +7,7 @@
   
   imports = [
     ./base.nix
+    ./hyprland.nix
   ];
 
   # ============================================================================
@@ -58,15 +59,6 @@
 
   # Enable Wayland for Electron apps (VSCode, etc.)
   home.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  # ============================================================================
-  # Window Manager - Hyprland
-  # ============================================================================
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = "source = ${../../dotfiles/.config/hypr/hyprland.conf}";
-  };
 
   # ============================================================================
   # Desktop Applications
@@ -132,6 +124,9 @@
       sha256 = "1af4rgl9q5k93xy1bsk148rb1xp0cz6ax2gadiimq840yqrp6y79";
     };
     polarity = "dark";
-    targets.firefox.enable = false;
+    
+    targets = {
+      firefox.enable = false;
+    };
   };
 }
