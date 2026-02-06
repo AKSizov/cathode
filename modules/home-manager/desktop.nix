@@ -78,7 +78,11 @@
   # VSCode with FHS environment for extension compatibility
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode.fhs;
+    extensions = with pkgs.vscode-extensions; [
+      saoudrizwan.claude-dev
+      ms-vscode.remote-explorer
+    ];
+
     userSettings = {
       "files.autoSave" = "afterDelay";
       "editor.wordWrap" = "on";
