@@ -183,12 +183,13 @@
   # ============================================================================
 
   system.autoUpgrade = {
-    rebootWindow = {
-      lower = "03:00";
-      upper = "05:00";
-    };
+    enable = true;
+    flake = "github:AKSizov/cathode";
+    flags = [
+      "--update-input" "nixpkgs"
+      "-L"
+    ];
+    dates = "02:00";
     randomizedDelaySec = "1h";
-    flake = inputs.self.outPath;
-    dates = "3:00";
   };
 }
