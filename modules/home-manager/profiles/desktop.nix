@@ -22,7 +22,6 @@
     parsec-bin
     moonlight-qt
     obsidian
-    hyprpanel
     orca-slicer
   ];
 }

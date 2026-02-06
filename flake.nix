@@ -17,8 +17,6 @@
     hardware.url = "github:NixOS/nixos-hardware/master";
     
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon/main";
-    
-    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
   };
 
   outputs = { self, nixpkgs, ... } @ inputs: {
