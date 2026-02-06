@@ -14,6 +14,12 @@
     kitty
   ];
 
+  # Required for Home Manager xdg.portal to work properly
+  environment.pathsToLink = [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
+  ];
+
   # Key remapping: Tab becomes Super when held
   services.keyd = {
     enable = true;
