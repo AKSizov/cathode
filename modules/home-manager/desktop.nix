@@ -95,6 +95,16 @@
       "workbench.panel.defaultLocation" = "right";
       "workbench.editor.showTabs" = "none";
       "update.showReleaseNotes" = false;
+      
+      # Terminal profiles
+      "terminal.integrated.profiles.linux" = {
+        "bash (agent)" = {
+          "path" = "bash";
+          "args" = [ "--noprofile" "--norc" ];
+          "icon" = "terminal-bash";
+        };
+      };
+      "terminal.integrated.defaultProfile.linux" = "bash (agent)";
     };
   };
 
