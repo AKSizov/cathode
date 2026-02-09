@@ -17,6 +17,15 @@
     hardware.url = "github:NixOS/nixos-hardware/master";
     
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon/main";
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake/beta";
+      inputs = {
+        # IMPORTANT: To ensure compatibility with the latest Firefox version, use nixpkgs-unstable.
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
   outputs = { self, nixpkgs, ... } @ inputs:

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 {
   # ============================================================================
   # Desktop Home Manager Configuration
@@ -6,6 +6,7 @@
   # User environment for desktop systems with GUI applications
   
   imports = [
+    inputs.zen-browser.homeModules.beta
     ./base.nix
     ./hyprland.nix
   ];
@@ -69,6 +70,55 @@
   programs.mpv.enable = true;
   programs.yt-dlp.enable = true;
   programs.hyprlock.enable = true; # Not yet implemented
+  programs.zen-browser = {
+    enable = true;
+    policies = {
+      AutofillAddressEnabled = false;
+      AutofillCreditCardEnabled = false;
+      DisableAppUpdate = true;
+      DisableFeedbackCommands = true;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+    };
+    profiles."default" = {
+      # containersForce = true;
+      # containers = {
+      #   Shopping = {
+      #     color = "purple";
+      #     icon = "cart";
+      #     id = 1;
+      #   };
+      #   Banking = {
+      #     color = "green";
+      #     icon = "dollar";
+      #     id = 2;
+      #   };
+      # };
+      settings = {
+        "browser.tabs.warnOnClose" = false;
+        "browser.download.panel.shown" = false;
+        "zen.tabs.vertical.right-side" = true;
+      };
+      keyboardShortcuts = builtins.genList (n: {
+        id = "zen-workspace-switch-${toString (n + 1)}";
+        key = toString (n + 1);
+        modifiers.control = true;
+      }) 9;
+      # Fails activation on schema changes to detect potential regressions
+      # Find this in about:config or prefs.js of your profile
+      keyboardShortcutsVersion = 14;
+    };
+  };
+
   
   programs.rofi = {
     enable = true;
