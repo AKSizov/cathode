@@ -8,25 +8,20 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.luks.devices = {
-    luksroot = {
-      device = "/dev/disk/by-uuid/1102765a-ef69-4279-b384-89e86c2b7231";
-      preLVM = true;
-    };
-  };
-
   boot.initrd.availableKernelModules = [ "usb_storage" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/mapper/vgmain-root";
-      fsType = "ext4";
+    { device = "/dev/mapper/cathode-root";
+      fsType = "btrfs";
     };
 
+  boot.initrd.luks.devices."cathode-root".device = "/dev/disk/by-uuid/d3c7bba0-c269-4515-8d68-2a6624a7713b";
+
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/B7F6-1EFD";
+    { device = "/dev/disk/by-uuid/FF2D-1B09";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
