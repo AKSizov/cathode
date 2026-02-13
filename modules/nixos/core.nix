@@ -34,7 +34,7 @@
 
   boot = {
     # Supported filesystems
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = [ "ntfs" "btrfs" ];
     
     # Enable systemd in initrd for faster boot and hibernation
     initrd.systemd.enable = true;
