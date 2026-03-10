@@ -4,7 +4,7 @@
     ./default.nix
     ../modules/nixos/core.nix
     ../modules/nixos/users.nix
-    ../hardware-configs/grassblock.nix
+    ../hardware-configs/hw-grassblock.nix
   ];
 
   networking.hostName = "grassblock.net";
