@@ -7,7 +7,7 @@
     ../hardware-configs/hw-grassblock.nix
   ];
 
-  networking.hostName = "grassblock.net";
+  networking.hostName = "grassblock";
 
   # Disable sleep/suspend (headless server)
   systemd.targets.sleep.enable = false;
