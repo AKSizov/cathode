@@ -39,9 +39,6 @@
     # Enable systemd in initrd for faster boot and hibernation
     initrd.systemd.enable = true;
     
-    # Use Zen kernel by default for better desktop performance
-    kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
-    
     # Kernel parameters for performance and memory management
     kernelParams = [
       "zswap.enabled=1"
