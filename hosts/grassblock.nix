@@ -15,9 +15,17 @@
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
 
-  boot.loader.grub.enable = false;
   boot.loader.systemd-boot.enable = false;
-  boot.loader.external.enable = true;
+  boot.loader.efi = {
+    efiSysMountPoint = "/boot/efi";
+    canTouchEfiVariables = false;
+  };
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev";
+    efiInstallAsRemovable = true;
+  };
 
   # Enable auto-upgrades with reboot
   system.autoUpgrade.enable = true;
