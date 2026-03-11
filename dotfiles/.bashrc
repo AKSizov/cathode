@@ -31,6 +31,7 @@ shopt -s dirspell  # Auto-corrects directory names with small typos
 # Aliases
 alias ..='cd ..'
 alias ...='cd ../..'
+alias sudo='sudo ' # Allow sudo with aliases
 
 # Program specific aliases
 alias nrf='sudo nix flake update'
