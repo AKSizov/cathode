@@ -1,10 +1,13 @@
+# Exit immediately for non-interactive shells (SSH commands, scripts, etc.)
+[[ $- != *i* ]] && return
+
 # Eye candy
 if [[ $- == *i* && -x $(command -v fastfetch) ]]; then
   fastfetch < /dev/null
 fi
 
 # Autolaunch Hyprland
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR:-0}" -eq 1 ]; then
     dbus-run-session Hyprland > /tmp/hyprland.log
 fi
 # Eternal bash history.
