@@ -73,6 +73,7 @@
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.hyprland.enableGnomeKeyring = true;
+  services.tailscale.enable = true; # sudo tailscale up --auth-key=KEY
 
   # Desktop services
   services.upower.enable = true;
