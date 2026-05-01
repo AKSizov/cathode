@@ -39,21 +39,14 @@
   gtk = {
     enable = true;
     cursorTheme = {
-      package = pkgs.vanilla-dmz;
-      name = "Vanilla-DMZ";
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
       size = 24;
     };
   };
 
-  # ============================================================================
-  # Qt Theme Configuration
-  # ============================================================================
-
-  qt = {
-    enable = true;
-    platformTheme.name = lib.mkForce "adwaita";
-    style.name = lib.mkForce "adwaita-dark";
-  };
+  # Qt theming is handled by Stylix (uses qtct platform)
+  qt.enable = true;
 
   # ============================================================================
   # Wayland Environment
@@ -123,6 +116,7 @@
   
   programs.rofi = {
     enable = true;
+    # rofi-wayland was merged into rofi as of nixpkgs 25.11
     plugins = [ pkgs.rofi-calc ];
   };
 
@@ -130,12 +124,12 @@
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       saoudrizwan.claude-dev
       ms-vscode.remote-explorer
     ];
 
-    userSettings = {
+    profiles.default.userSettings = {
       "files.autoSave" = "afterDelay";
       "editor.wordWrap" = "on";
       "nix.enableLanguageServer" = true;
@@ -172,21 +166,14 @@
   services.easyeffects.enable = true;
 
   # ============================================================================
-  # Theming - Stylix
+  # Stylix - Home Manager Level
   # ============================================================================
+  # Base theming is configured at the NixOS level in
+  # modules/nixos/desktop/stylix.nix and inherited by Home Manager.
+  # Browser profile names must be declared here (HM-level option).
 
-  stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    image = pkgs.fetchurl {
-      url = "https://cdnb.artstation.com/p/assets/images/images/025/145/885/large/kanistra-studio-20-workplace.jpg?1584794327";
-      name = "kanistra-studio-20-workplace.jpg";
-      sha256 = "1af4rgl9q5k93xy1bsk148rb1xp0cz6ax2gadiimq840yqrp6y79";
-    };
-    polarity = "dark";
-    
-    targets = {
-      firefox.enable = false;
-    };
+  stylix.targets = {
+    firefox.profileNames = [ "default" ];
+    zen-browser.profileNames = [ "default" ];
   };
 }

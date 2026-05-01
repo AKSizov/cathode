@@ -16,6 +16,7 @@
     lz4
     pv
     podman-compose
+    nixfmt-rfc-style
   ];
 
   # Enable unfree packages
@@ -77,15 +78,25 @@
   };
 
   # ============================================================================
-  # Swap Configuration
+  # Swap Strategy
   # ============================================================================
-  
-  swapDevices = [{
-    device = "/swapfile";
-    size = 16 * 1024; # 16GB in MB
-  }];
-  
-  # ZRAM swap for compression
+  # Three-layer approach for universal memory management:
+  #
+  # Layer 1: zramSwap (below) — Compressed swap in RAM, dynamically grows/shrinks
+  #   with memory pressure. Up to 50% of physical RAM, lz4 compression.
+  #   This is the primary "dynamic" swap layer — no disk I/O needed.
+  #
+  # Layer 2: zswap (kernel param above) — Compresses pages before writing to disk
+  #   swapfile, reducing disk I/O when Layer 1 is exhausted.
+  #
+  # Layer 3: Disk swapfile (per-host) — Static overflow on disk for pathological
+  #   cases. Only configured on hosts that need it (desktops with enough disk).
+  #   Server/VPS hosts rely on zram alone.
+  #
+  # Result: Most swap happens in compressed RAM (fast), disk is only touched
+  # under extreme memory pressure — similar to Windows' dynamic pagefile but
+  # faster because zram compression ratios typically achieve 2-3x.
+
   zramSwap = {
     enable = true;
     algorithm = "lz4";
@@ -112,7 +123,11 @@
     settings = {
       # Enable flakes and new command-line interface
       experimental-features = "nix-command flakes";
+      connect-timeout = 5; # Prevent hanging on unreachable substitutes
     };
+    
+    # Pin flake inputs in registry so `nix run nixpkgs#hello` uses system nixpkgs
+    registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     
     # Automatic garbage collection
     gc = {
@@ -146,9 +161,9 @@
   };
 
   # Laptop lid switch behavior
-  services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchDocked = "ignore";
   };
 
   # Device management and mounting
@@ -175,18 +190,4 @@
     defaultNetwork.settings.dns_enabled = true; # Enable DNS for containers
   };
 
-  # ============================================================================
-  # System Auto-Upgrade
-  # ============================================================================
-
-  system.autoUpgrade = {
-    enable = true;
-    flake = "github:AKSizov/cathode";
-    flags = [
-      "--update-input" "nixpkgs"
-      "-L"
-    ];
-    dates = "02:00";
-    randomizedDelaySec = "1h";
-  };
 }

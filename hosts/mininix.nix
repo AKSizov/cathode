@@ -12,6 +12,9 @@
 
   networking.hostName = "mininix";
 
+  # Swap configuration (16GB swapfile)
+  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
 }

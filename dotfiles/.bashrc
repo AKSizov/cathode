@@ -6,9 +6,9 @@ if [[ $- == *i* && -x $(command -v fastfetch) ]]; then
   fastfetch < /dev/null
 fi
 
-# Autolaunch Hyprland
+# Autolaunch Hyprland on first TTY
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR:-0}" -eq 1 ]; then
-    dbus-run-session Hyprland > /tmp/hyprland.log
+    exec Hyprland
 fi
 # Eternal bash history.
 # ---------------------

@@ -11,6 +11,9 @@
 
   networking.hostName = "m1n1x";
 
+  # Swap configuration (16GB swapfile)
+  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+
   # Apple Silicon specific configuration
   boot.kernelParams = [ "apple_dcp.show_notch=1" ];
   boot.extraModprobeConfig = ''

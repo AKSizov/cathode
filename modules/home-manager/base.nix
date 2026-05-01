@@ -25,9 +25,11 @@
 
   programs.git = {
     enable = true;
-    userEmail = "37084670+AKSizov@users.noreply.github.com";
-    userName = "AKSizov";
-    extraConfig = {
+    settings = {
+      user = {
+        email = "37084670+AKSizov@users.noreply.github.com";
+        name = "AKSizov";
+      };
       init.defaultBranch = "master";
     };
   };
@@ -49,6 +51,22 @@
   programs.bash = {
     enable = true;
     bashrcExtra = "source ${../../dotfiles/.bashrc}";
+  };
+
+  # ============================================================================
+  # Nix Configuration
+  # ============================================================================
+
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      connect-timeout = 5;
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
   };
 
   # ============================================================================

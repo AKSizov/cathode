@@ -68,13 +68,20 @@
     };
   };
 
+  # XDG portal configuration for Hyprland
+  # Enables screen sharing, file dialogs, etc.
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+    ];
+  };
+
   # Security and authentication
   security.rtkit.enable = true;
   security.polkit.enable = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.hyprland.enableGnomeKeyring = true;
-  services.tailscale.enable = true; # sudo tailscale up --auth-key=KEY
-
   # Desktop services
   services.upower.enable = true;
   services.blueman.enable = true;

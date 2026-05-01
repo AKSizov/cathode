@@ -11,7 +11,6 @@
     inputs.hardware.nixosModules.common-cpu-intel
   ];
 
-  system = "aarch64-linux";
   networking.hostName = "closetcard";
 
   # Static IP configuration
