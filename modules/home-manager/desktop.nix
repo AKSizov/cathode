@@ -9,6 +9,9 @@
     inputs.zen-browser.homeModules.beta
     ./base.nix
     ./hyprland.nix
+    ./waybar.nix
+    ./swaync.nix
+    ./hyprlock.nix
   ];
 
   # ============================================================================
@@ -30,6 +33,12 @@
     # 3D Printing
     orca-slicer
     prusa-slicer
+
+    # Icon theme for rofi
+    papirus-icon-theme
+
+    # CLI tools
+    libnotify  # notify-send for swaync
   ];
 
   # ============================================================================
@@ -63,7 +72,7 @@
   programs.firefox.enable = true;
   programs.mpv.enable = true;
   programs.yt-dlp.enable = true;
-  programs.hyprlock.enable = true; # Not yet implemented
+
   programs.zen-browser = {
     enable = true;
     policies = {
@@ -118,6 +127,16 @@
     enable = true;
     # rofi-wayland was merged into rofi as of nixpkgs 25.11
     plugins = [ pkgs.rofi-calc ];
+    extraConfig = {
+      modi = "drun";
+      show-icons = true;
+      icon-theme = "Papirus-Dark";
+      drun-display-format = "{name}";
+      disable-history = false;
+      sidebar-mode = false;
+      matching = "fuzzy";
+    };
+    theme = ./rofi-theme.rasi;
   };
 
   # VSCode with FHS environment for extension compatibility
@@ -165,6 +184,9 @@
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
 
+  # TODO: Add eww/ags desktop widgets for system stats overlay
+  # Consider: eww (Elkowars Wacky Widgets) with Tokyo Night themed CSS
+
   # ============================================================================
   # Stylix - Home Manager Level
   # ============================================================================
@@ -175,5 +197,7 @@
   stylix.targets = {
     firefox.profileNames = [ "default" ];
     zen-browser.profileNames = [ "default" ];
+    rofi.enable = false;  # Using custom Tokyo Night theme instead
+    hyprlock.enable = false;  # Using custom hyprlock config with specific input field styling
   };
 }

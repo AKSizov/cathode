@@ -105,7 +105,7 @@
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
       "$menu" = "rofi -show drun";
-      "$lock" = "systemctl hibernate";
+      "$lock" = "loginctl lock-session";
 
       # Key bindings — App launchers
       bind = [
@@ -177,6 +177,9 @@
       windowrulev2 = [
         "suppressevent maximize, class:.*"
         "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+        "float, class:^(Rofi)$"
+        "stayfocused, class:^(Rofi)$"
+        "float, class:^(swaync.*)$"
       ];
     };
 
@@ -227,6 +230,8 @@
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
       exec-once = systemctl start --user hyprpolkitagent
+      exec-once = waybar
+      exec-once = swaync
     '';
   };
 }
