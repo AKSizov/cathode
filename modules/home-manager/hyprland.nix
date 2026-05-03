@@ -24,8 +24,8 @@
 
       # General settings
       general = {
-        gaps_in = 8;
-        gaps_out = 16;
+        gaps_in = 6;
+        gaps_out = 12;
         border_size = 2;
         resize_on_border = true;
         allow_tearing = false;
@@ -34,21 +34,21 @@
 
       # Decoration
       decoration = {
-        rounding = 10;
+        rounding = 12;
         active_opacity = 1.0;
         inactive_opacity = 1.0;
         dim_inactive = true;
-        dim_strength = 0.05;
+        dim_strength = 0.1;
 
         shadow = {
           enabled = true;
-          range = 4;
+          range = 8;
           render_power = 3;
         };
 
         blur = {
           enabled = true;
-          size = 8;
+          size = 10;
           passes = 3;
           vibrancy = 0.1696;
         };
@@ -113,6 +113,7 @@
         "$mainMod, Return, exec, $terminal"
         "$mainMod, R, exec, $menu"
         "$mainMod, L, exec, $lock"
+        "$mainMod, N, exec, dunstctl set-paused toggle"
 
         # Window management
         "$mainMod, Q, killactive"
@@ -177,9 +178,41 @@
       windowrulev2 = [
         "suppressevent maximize, class:.*"
         "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+
+        # Floating apps — dialogs, settings, utilities
         "float, class:^(Rofi)$"
         "stayfocused, class:^(Rofi)$"
-        "float, class:^(swaync.*)$"
+        "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
+        "float, class:^(pavucontrol)$"
+        "size 800 600, class:^(pavucontrol)$"
+        "float, class:^(nm-connection-editor)$"
+        "size 600 500, class:^(nm-connection-editor)$"
+        "float, class:^(blueman-manager)$"
+        "size 700 500, class:^(blueman-manager)$"
+        "float, class:^(org.gnome.FileRoller)$"
+        "float, class:^(org.gnome.Calculator)$"
+        "size 400 500, class:^(org.gnome.Calculator)$"
+        "float, class:^(org.gnome.DejaDup)$"
+        "float, class:^(org.gnome.SystemMonitor)$"
+        "size 900 600, class:^(org.gnome.SystemMonitor)$"
+        "float, class:^(xdg-desktop-portal-gtk)$"
+        "float, class:^(org.kde.dolphin)$, title:^(Copy —|Move —|Delete —)"
+        "float, class:^(easyeffects)$"
+        "size 900 600, class:^(easyeffects)$"
+
+        # File dialogs
+        "float, title:^(Open File|Save File|Open Folder)$"
+
+        # Pinp apps (stay on top, no focus steal)
+        "float, class:^(com.obsproject.Studio)$, title:^(Properties for|Transform|Filters|About)"
+
+        # Picture-in-Picture
+        "float, title:^(Picture-in-Picture)$"
+        "pin, title:^(Picture-in-Picture)$"
+        "size 480 270, title:^(Picture-in-Picture)$"
+
+        # Popups and notifications
+        "float, class:^(dunst)$"
       ];
     };
 
@@ -206,6 +239,10 @@
       bindl = , switch:off:Apple SMC power/lid events, exec, hyprctl keyword monitor "eDP-1, preferred, auto, auto"
       bindl = , switch:on:Apple SMC power/lid events, exec, hyprctl keyword monitor "eDP-1, disable"
 
+      # Idle dim — gently dim all windows when idle, restore on activity
+      bindl = , idle:in:120, exec, hyprctl keyword decoration:active_opacity 0.85 && hyprctl keyword decoration:inactive_opacity 0.75
+      bindl = , idle:out:120, exec, hyprctl keyword decoration:active_opacity 1.0 && hyprctl keyword decoration:inactive_opacity 1.0
+
       # Input configuration
       input {
           kb_layout = us
@@ -231,7 +268,7 @@
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
       exec-once = systemctl start --user hyprpolkitagent
       exec-once = waybar
-      exec-once = swaync
+      exec-once = dunst
     '';
   };
 }

@@ -5,7 +5,7 @@
 
 /* Global */
 * {
-  font-family: "Inter", "FiraCode Nerd Font", sans-serif;
+  font-family: "FiraCode Nerd Font", "Inter", sans-serif;
   font-size: 13px;
   border: none;
   border-radius: 0;
@@ -26,8 +26,8 @@
 #idle_inhibitor,
 #pulseaudio,
 #network,
-#cpu,
-#memory,
+#custom-cpu,
+#custom-memory,
 #battery,
 #tray {
   background: rgba(36, 40, 59, 0.9);
@@ -90,13 +90,13 @@
   color: #565f89;
 }
 
-/* CPU */
-#cpu {
+/* CPU — custom progress bar module */
+#custom-cpu {
   color: #bb9af7;
 }
 
-/* Memory */
-#memory {
+/* Memory — custom progress bar module */
+#custom-memory {
   color: #e0af68;
 }
 

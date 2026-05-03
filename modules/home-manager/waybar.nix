@@ -16,7 +16,7 @@
 
       modules-left = [ "hyprland/workspaces" "hyprland/window" ];
       modules-center = [ "clock" ];
-      modules-right = [ "idle_inhibitor" "pulseaudio" "network" "cpu" "memory" "battery" "tray" ];
+      modules-right = [ "idle_inhibitor" "pulseaudio" "network" "custom/cpu" "custom/memory" "battery" "tray" ];
 
       "hyprland/workspaces" = {
         format = "{icon}";
@@ -49,16 +49,16 @@
       idle_inhibitor = {
         format = "{icon}";
         format-icons = {
-          activated = "";
-          deactivated = "";
+          activated = "󰒳";
+          deactivated = "󰒲";
         };
-        tooltip-format-activated = "Idle inhibitor active";
-        tooltip-format-deactivated = "Idle inhibitor inactive";
+        tooltip-format-activated = "Caffeine mode — screen won't dim";
+        tooltip-format-deactivated = "Screen will dim when idle";
       };
 
       clock = {
-        format = "  {:%H:%M}";
-        format-alt = "  {:%A, %B %d}";
+        format = "󰥔  {:%H:%M}";
+        format-alt = "󰃭  {:%A, %B %d}";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
         calendar = {
           mode = "year";
@@ -78,31 +78,78 @@
 
       pulseaudio = {
         format = "{icon}  {volume}%";
-        format-muted = "  muted";
+        format-muted = "󰖁  muted";
         format-icons = {
-          headphone = "";
-          headset = "";
-          default = [ "" "" "" ];
+          headphone = "󰋋";
+          headset = "󰋎";
+          default = [ "󰕿" "󰖀" "󰕾" ];
         };
         on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
       };
 
       network = {
-        format-wifi = "  {essid}";
-        format-ethernet = "  {ipaddr}";
-        format-disconnected = "  offline";
+        format-wifi = "󰤨  {essid}";
+        format-ethernet = "󰈀  {ipaddr}";
+        format-disconnected = "󰤭  offline";
         tooltip-format-wifi = "WiFi: {essid} ({signalStrength}%)\nIP: {ipaddr}\nFreq: {frequency} GHz";
         tooltip-format-ethernet = "IP: {ipaddr}\nGateway: {gwaddr}";
       };
 
-      cpu = {
-        format = "  {usage}%";
+      # CPU with Unicode progress bar
+      "custom/cpu" = {
+        format = "󰻠 {}";
+        exec = let
+          script = pkgs.writeShellScript "waybar-cpu" ''
+            read -r _ user nice system idle iowait irq softirq steal _ _ < /proc/stat
+            prev_idle=$((idle + iowait))
+            prev_total=$((user + nice + system + idle + iowait + irq + softirq + steal))
+            sleep 1
+            read -r _ user nice system idle iowait irq softirq steal _ _ < /proc/stat
+            cur_idle=$((idle + iowait))
+            cur_total=$((user + nice + system + idle + iowait + irq + softirq + steal))
+            diff_idle=$((cur_idle - prev_idle))
+            diff_total=$((cur_total - prev_total))
+            diff_usage=$((diff_total - diff_idle))
+            if [ $diff_total -gt 0 ]; then
+              pct=$(( 100 * diff_usage / diff_total ))
+            else
+              pct=0
+            fi
+            filled=$(( pct / 10 ))
+            empty=$(( 10 - filled ))
+            bar=""
+            for ((i=0; i<filled; i++)); do bar+="█"; done
+            for ((i=0; i<empty; i++)); do bar+="░"; done
+            echo "{\"text\": \"$bar ''${pct}%\", \"class\": \"cpu-''${pct}\"}"
+          '';
+        in "${script}";
+        return-type = "json";
+        interval = 2;
         tooltip = false;
       };
 
-      memory = {
-        format = "  {}%";
-        tooltip-format = "Used: {used:0.1f}G / {total:0.1f}G";
+      # Memory with Unicode progress bar
+      "custom/memory" = {
+        format = "󰍛 {}";
+        exec = let
+          script = pkgs.writeShellScript "waybar-mem" ''
+            read -r _ total used _ _ _ _ _ _ _ _ _ < <(free --mega | grep Mem)
+            if [ "$total" -gt 0 ]; then
+              pct=$(( 100 * used / total ))
+            else
+              pct=0
+            fi
+            filled=$(( pct / 10 ))
+            empty=$(( 10 - filled ))
+            bar=""
+            for ((i=0; i<filled; i++)); do bar+="█"; done
+            for ((i=0; i<empty; i++)); do bar+="░"; done
+            echo "{\"text\": \"$bar ''${pct}%\", \"class\": \"mem-''${pct}\"}"
+          '';
+        in "${script}";
+        return-type = "json";
+        interval = 2;
+        tooltip = false;
       };
 
       battery = {
@@ -112,9 +159,9 @@
           critical = 15;
         };
         format = "{icon}  {capacity}%";
-        format-charging = "  {capacity}%";
-        format-plugged = "  {capacity}%";
-        format-icons = [ "" "" "" "" "" ];
+        format-charging = "󰂄  {capacity}%";
+        format-plugged = "󰚥  {capacity}%";
+        format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
       };
 
       tray = {

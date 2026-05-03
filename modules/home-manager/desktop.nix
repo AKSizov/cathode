@@ -10,7 +10,7 @@
     ./base.nix
     ./hyprland.nix
     ./waybar.nix
-    ./swaync.nix
+    ./dunst.nix
     ./hyprlock.nix
   ];
 
@@ -38,7 +38,7 @@
     papirus-icon-theme
 
     # CLI tools
-    libnotify  # notify-send for swaync
+    libnotify  # notify-send for dunst
   ];
 
   # ============================================================================
@@ -199,5 +199,6 @@
     zen-browser.profileNames = [ "default" ];
     rofi.enable = false;  # Using custom Tokyo Night theme instead
     hyprlock.enable = false;  # Using custom hyprlock config with specific input field styling
+    dunst.enable = false;  # Using custom Tokyo Night dunst config
   };
 }
