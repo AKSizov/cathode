@@ -129,7 +129,25 @@
     # rofi-wayland was merged into rofi as of nixpkgs 25.11
     plugins = [ pkgs.rofi-calc ];
     extraConfig = {
-      modi = "drun,power:${./power-menu.sh}";
+      modi = "drun,power:${pkgs.writeShellScript "power-menu" ''
+        if [ -z "''${ROFI_RETV:-}" ]; then
+          echo "Lock"
+          echo "Logout"
+          echo "Suspend"
+          echo "Hibernate"
+          echo "Reboot"
+          echo "Shutdown"
+        else
+          case "$@" in
+            Lock) loginctl lock-session ;;
+            Logout) loginctl terminate-user "$USER" ;;
+            Suspend) systemctl suspend ;;
+            Hibernate) systemctl hibernate ;;
+            Reboot) systemctl reboot ;;
+            Shutdown) systemctl poweroff ;;
+          esac
+        fi
+      ''}";
       show-icons = true;
       icon-theme = "Papirus-Dark";
       drun-display-format = "{name}";
