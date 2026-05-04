@@ -1,16 +1,17 @@
 #!/bin/sh
-# Rofi power menu — Tokyo Night themed via rofi-theme.rasi
+# Rofi power menu — script mode
 
-if [ -z "$@" ]; then
-  echo "🔒 Lock"
-  echo "🚪 Logout"
-  echo "💤 Suspend"
-  echo "❄️ Hibernate"
-  echo "🔄 Reboot"
-  echo "⏻ Shutdown"
+if [ -z "${ROFI_RETV:-}" ]; then
+  # Not running inside rofi — just output options
+  echo "Lock"
+  echo "Logout"
+  echo "Suspend"
+  echo "Hibernate"
+  echo "Reboot"
+  echo "Shutdown"
 else
-  choice=$(echo "$@" | sed 's/^[^ ]* //')
-  case "$choice" in
+  # Rofi passes selection as argument
+  case "$@" in
     Lock) loginctl lock-session ;;
     Logout) loginctl terminate-user "$USER" ;;
     Suspend) systemctl suspend ;;
