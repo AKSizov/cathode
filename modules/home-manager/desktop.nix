@@ -12,6 +12,7 @@
     ./waybar.nix
     ./dunst.nix
     ./hyprlock.nix
+
   ];
 
   # ============================================================================
@@ -128,7 +129,7 @@
     # rofi-wayland was merged into rofi as of nixpkgs 25.11
     plugins = [ pkgs.rofi-calc ];
     extraConfig = {
-      modi = "drun";
+      modi = "drun,power:${./power-menu.sh}";
       show-icons = true;
       icon-theme = "Papirus-Dark";
       drun-display-format = "{name}";
@@ -173,6 +174,12 @@
   # ============================================================================
   # Desktop Services
   # ============================================================================
+
+  # On-screen volume/brightness overlay
+  services.swayosd.enable = true;
+
+  # Clipboard history manager (systemd services auto-start wl-paste watchers)
+  services.cliphist.enable = true;
 
   # Blue light filter
   services.wlsunset = {

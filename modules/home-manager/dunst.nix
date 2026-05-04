@@ -20,11 +20,12 @@
         transparency = 10;
         notification_height = 0;
         separator_height = 2;
-        padding = 12;
-        horizontal_padding = 12;
-        text_icon_padding = 10;
-        frame_width = 0;
-        frame_color = "#24283b";
+        padding = 14;
+        horizontal_padding = 14;
+        text_icon_padding = 12;
+        corner_radius = 12;
+        frame_width = 2;
+        frame_color = "#565f89";
         separator_color = "frame";
 
         # Sort by urgency
@@ -39,7 +40,7 @@
         # Icons
         icon_position = "left";
         min_icon_size = 32;
-        max_icon_size = 40;
+        max_icon_size = 48;
         icon_path = "/usr/share/icons/Papirus-Dark/16x16/status/:/usr/share/icons/Papirus-Dark/16x16/devices/";
 
         # Progress bar
@@ -48,6 +49,7 @@
         progress_bar_frame_width = 1;
         progress_bar_min_width = 150;
         progress_bar_max_width = 300;
+        progress_bar_corners_radius = 4;
 
         # Misc
         markup = "full";
@@ -70,16 +72,16 @@
 
       # Tokyo Night — Low urgency
       urgency_low = {
-        background = "#1a1b26";
+        background = "#1a1b26cc";
         foreground = "#c0caf5";
-        frame_color = "#24283b";
+        frame_color = "#565f89";
         timeout = 5;
         # No icon override — uses iconTheme above
       };
 
       # Tokyo Night — Normal urgency
       urgency_normal = {
-        background = "#1a1b26";
+        background = "#1a1b26cc";
         foreground = "#c0caf5";
         frame_color = "#7aa2f7";
         timeout = 8;
@@ -87,7 +89,7 @@
 
       # Tokyo Night — Critical urgency
       urgency_critical = {
-        background = "#1a1b26";
+        background = "#1a1b26cc";
         foreground = "#f7768e";
         frame_color = "#f7768e";
         timeout = 0;

@@ -5,7 +5,6 @@
   # ============================================================================
 
   home.packages = with pkgs; [
-    brightnessctl
     playerctl
   ];
 
@@ -63,14 +62,15 @@
           "easeInOutCubic, 0.65, 0.05, 0.36, 1"
           "linear, 0, 0, 1, 1"
           "quick, 0.15, 0, 0.1, 1"
+          "spring, 0.3, 1.2, 0.5, 1"
         ];
 
         animation = [
           "global, 1, 6, default"
           "border, 1, 4, easeOutQuint"
           "windows, 1, 3, easeOutQuint"
-          "windowsIn, 1, 3, easeOutQuint, popin 87%"
-          "windowsOut, 1, 1.5, linear, popin 87%"
+          "windowsIn, 1, 4, spring, popin 87%"
+          "windowsOut, 1, 2, easeOutQuint, popin 87%"
           "fadeIn, 1, 3, quick"
           "fadeOut, 1, 3, quick"
           "fade, 1, 3, quick"
@@ -114,6 +114,8 @@
         "$mainMod, R, exec, $menu"
         "$mainMod, L, exec, $lock"
         "$mainMod, N, exec, dunstctl set-paused toggle"
+        "$mainMod, V, exec, rofi -modi 'clipboard:cliphist-rofi' -show clipboard -show-icons"
+        "$mainMod SHIFT, E, exec, rofi -show power"
 
         # Window management
         "$mainMod, Q, killactive"
@@ -219,15 +221,15 @@
     # Media keys, lid switch, input/device config, and autostart
     # These use bindl/bindel and input/device blocks that are cleaner in extraConfig
     extraConfig = ''
-      # Media Keys
-      bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-      bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-      bindel = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-      bindel = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+      # Media Keys (via swayosd-client for on-screen overlay)
+      bindel = , XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise
+      bindel = , XF86AudioLowerVolume, exec, swayosd-client --output-volume lower
+      bindel = , XF86AudioMute, exec, swayosd-client --output-volume mute-toggle
+      bindel = , XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle
 
-      # Brightness
-      bindel = , XF86MonBrightnessUp, exec, brightnessctl s 10%+
-      bindel = , XF86MonBrightnessDown, exec, brightnessctl s 10%-
+      # Brightness (via swayosd-client for on-screen overlay)
+      bindel = , XF86MonBrightnessUp, exec, swayosd-client --brightness raise
+      bindel = , XF86MonBrightnessDown, exec, swayosd-client --brightness lower
 
       # Player controls
       bindl = , XF86AudioNext, exec, playerctl next
