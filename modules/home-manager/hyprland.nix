@@ -115,7 +115,7 @@
         "$mainMod, L, exec, $lock"
         "$mainMod, N, exec, dunstctl set-paused toggle"
         "$mainMod, V, exec, rofi -modi 'clipboard:cliphist-rofi' -show clipboard -show-icons"
-        "$mainMod SHIFT, E, exec, rofi -show power"
+        "$mainMod SHIFT, E, exec, rofi -show drun"
 
         # Window management
         "$mainMod, Q, killactive"
