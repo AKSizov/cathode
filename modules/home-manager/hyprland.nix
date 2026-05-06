@@ -107,7 +107,7 @@
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
-      "$lock" = "loginctl lock-session";
+      "$lock" = "noctalia-shell ipc call lockScreen lock";
 
       # Key bindings — App launchers
       bind = [
