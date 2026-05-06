@@ -261,11 +261,13 @@
           accel_profile = adaptive
       }
 
-      # Noctalia layer rules — blur for bar, panels, and popups
-      layerrule[noctalia-blur] {
-          match:namespace = noctalia-background-.*
+      # Noctalia layer rules — blur for bar and panels
+      layerrule {
+          name = noctalia
+          match:namespace = noctalia-background-.*$
+          ignore_alpha = 0.5
           blur = true
-          ignorealpha = 0.5
+          blur_popups = true
       }
 
       # Autostart
