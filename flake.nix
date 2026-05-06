@@ -16,7 +16,6 @@
     
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hardware.url = "github:NixOS/nixos-hardware/master";
