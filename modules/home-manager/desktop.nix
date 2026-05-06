@@ -22,6 +22,10 @@
       };
       ui = {
         translucentWidgets = true;
+        panelBackgroundOpacity = 0.85;
+      };
+      bar = {
+        backgroundOpacity = 0.85;
       };
       brightness = {
         enableDdcSupport = true;
