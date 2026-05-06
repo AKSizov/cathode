@@ -46,10 +46,14 @@
       appLauncher = {
         enableClipboardHistory = true;
       };
+      colorSchemes = {
+        predefinedScheme = "Tokyo Night";
+        darkMode = true;
+        useWallpaperColors = false;
+      };
       plugins = {
-        colorSchemes = {
-          predefinedScheme = "Tokyo Night";
-        };
+        autoUpdate = false;
+        notifyUpdates = true;
       };
     };
   };
