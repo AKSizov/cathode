@@ -18,12 +18,6 @@
     settings = {
       settingsVersion = 0;
       bar = {
-        barType = "simple";
-        position = "top";
-        showCapsule = true;
-        backgroundOpacity = 0.93;
-        frameRadius = 12;
-        outerCorners = true;
         widgets = {
           left = [
             { id = "Launcher"; }
@@ -44,17 +38,7 @@
         };
       };
       general = {
-        lockOnSuspend = true;
-        showSessionButtonsOnLockScreen = true;
-        enableShadows = true;
-        enableBlurBehind = true;
         telemetryEnabled = false;
-      };
-      ui = {
-        panelBackgroundOpacity = 0.93;
-      };
-      wallpaper = {
-        enabled = true;
       };
       appLauncher = {
         enableClipboardHistory = true;
