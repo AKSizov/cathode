@@ -23,7 +23,7 @@
         enabled = true;
         screenOffTimeout = 300;
         lockTimeout = 360;
-        suspendTimeout = 600;
+        suspendTimeout = 0;
         fadeDuration = 5;
       };
       desktopWidgets = {
