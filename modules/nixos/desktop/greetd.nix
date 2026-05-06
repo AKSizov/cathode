@@ -2,18 +2,24 @@
 {
   # Enable Hyprland at the NixOS level so a .desktop session file is generated
   # for tuigreet to discover. Without this, greetd can't find the Hyprland session.
+  # withUWSM registers a proper XDG session and handles systemd integration.
+  # IMPORTANT: When using UWSM, home-manager's hyprland systemd.enable must be false
+  # (set in hyprland.nix) to avoid conflicts.
   programs.hyprland = {
     enable = true;
-    withUWSM = true; # UWSM wraps Hyprland with proper XDG session registration
+    withUWSM = true;
   };
 
   # greetd — minimal, distro-agnostic display manager
   services.greetd = {
     enable = true;
     settings = {
-      default = {
+      default_session = {
         # tuigreet: TUI greeter — keyboard-driven, fits the aesthetic
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd Hyprland";
+        # --sessions points to wayland-sessions dir so tuigreet discovers
+        # the UWSM-registered Hyprland session (hyprland.desktop)
+        # --remember / --remember-session persist last login across reboots
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions /run/current-system/sw/share/wayland-sessions";
         user = "greeter";
       };
     };

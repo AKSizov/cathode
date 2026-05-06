@@ -10,6 +10,9 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    # MUST be false when using UWSM (NixOS-level withUWSM = true)
+    # UWSM handles systemd session management itself
+    systemd.enable = false;
 
     settings = {
       # Monitor configuration

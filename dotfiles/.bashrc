@@ -6,10 +6,6 @@ if [[ $- == *i* && -x $(command -v fastfetch) ]]; then
   fastfetch < /dev/null
 fi
 
-# Autolaunch Hyprland on first TTY
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR:-0}" -eq 1 ]; then
-    exec Hyprland
-fi
 # Eternal bash history.
 # ---------------------
 # Undocumented feature which sets the size to "unlimited".
