@@ -259,6 +259,7 @@
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
       exec-once = systemctl start --user hyprpolkitagent
+      exec-once = qs -c noctalia-shell
     '';
   };
 }
