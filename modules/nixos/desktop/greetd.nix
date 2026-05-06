@@ -1,39 +1,22 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
-  # Enable Hyprland at the NixOS level so a .desktop session file is generated
-  # for tuigreet to discover. Without this, greetd can't find the Hyprland session.
-  # withUWSM registers a proper XDG session and handles systemd integration.
+  # Enable Hyprland at the NixOS level with UWSM for proper session registration.
+  # This creates a hyprland.desktop entry in wayland-sessions so tuigreet can find it.
   # IMPORTANT: When using UWSM, home-manager's hyprland systemd.enable must be false
-  # (set in hyprland.nix) to avoid conflicts.
+  # (set in hyprland.nix) to avoid conflicts — UWSM handles systemd integration itself.
   programs.hyprland = {
     enable = true;
     withUWSM = true;
   };
 
-  # greetd — minimal, distro-agnostic display manager
+  # greetd — minimal display manager
   services.greetd = {
     enable = true;
+    useTextGreeter = true;
     settings = {
       default_session = {
-        # tuigreet: TUI greeter — keyboard-driven, fits the aesthetic
-        # --sessions points to wayland-sessions dir so tuigreet discovers
-        # the UWSM-registered Hyprland session (hyprland.desktop)
-        # --remember / --remember-session persist last login across reboots
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions /run/current-system/sw/share/wayland-sessions";
-        user = "greeter";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session";
       };
     };
   };
-
-  # Prevent greetd restart loop on crash (default systemd config restarts
-  # always, which causes a VT switching loop when the greeter exits)
-  systemd.services.greetd = {
-    serviceConfig = {
-      Restart = lib.mkForce "on-failure";
-      RestartSec = "5";
-    };
-  };
-
-  # PAM: allow greetd to unlock gnome-keyring on login
-  security.pam.services.greetd.enableGnomeKeyring = true;
 }
