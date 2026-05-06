@@ -262,12 +262,10 @@
       }
 
       # Noctalia layer rules — blur for bar, panels, and popups
-      layerrule {
-          name = noctalia
-          match:namespace = noctalia-background-.*$
-          ignore_alpha = 0.5
+      layerrule[noctalia-blur] {
+          match:namespace = noctalia-background-.*
           blur = true
-          blur_popups = true
+          ignorealpha = 0.5
       }
 
       # Autostart
