@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # Enable Hyprland at the NixOS level so a .desktop session file is generated
   # for tuigreet to discover. Without this, greetd can't find the Hyprland session.
@@ -19,7 +19,7 @@
         # --sessions points to wayland-sessions dir so tuigreet discovers
         # the UWSM-registered Hyprland session (hyprland.desktop)
         # --remember / --remember-session persist last login across reboots
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions /run/current-system/sw/share/wayland-sessions";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions /run/current-system/sw/share/wayland-sessions";
         user = "greeter";
       };
     };
@@ -29,7 +29,7 @@
   # always, which causes a VT switching loop when the greeter exits)
   systemd.services.greetd = {
     serviceConfig = {
-      Restart = "on-failure";
+      Restart = lib.mkForce "on-failure";
       RestartSec = "5";
     };
   };
