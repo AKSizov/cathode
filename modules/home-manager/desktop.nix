@@ -15,47 +15,6 @@
   # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
   programs.noctalia-shell = {
     enable = true;
-    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    settings = {
-      settingsVersion = 0;
-      bar = {
-        widgets = {
-          left = [
-            { id = "Launcher"; }
-            { id = "ActiveWindow"; }
-          ];
-          center = [
-            { id = "Workspace"; }
-          ];
-          right = [
-            { id = "SystemMonitor"; }
-            { id = "Tray"; }
-            { id = "NotificationHistory"; }
-            { id = "Battery"; }
-            { id = "Volume"; }
-            { id = "Brightness"; }
-            { id = "ControlCenter"; }
-          ];
-        };
-      };
-      general = {
-        telemetryEnabled = false;
-        lockOnSuspend = true;
-        lockScreenAnimations = true;
-      };
-      appLauncher = {
-        enableClipboardHistory = true;
-      };
-      colorSchemes = {
-        predefinedScheme = "Tokyo Night";
-        darkMode = true;
-        useWallpaperColors = false;
-      };
-      plugins = {
-        autoUpdate = false;
-        notifyUpdates = true;
-      };
-    };
   };
 
   # ============================================================================

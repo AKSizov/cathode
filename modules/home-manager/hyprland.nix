@@ -116,9 +116,9 @@
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
         # Noctalia shell
-        "$mainMod, Space, exec, qs -c noctalia-shell ipc call launcher toggle"
-        "$mainMod, S, exec, qs -c noctalia-shell ipc call controlCenter toggle"
-        "$mainMod, comma, exec, qs -c noctalia-shell ipc call settings toggle"
+        "$mainMod, Space, exec, noctalia-ipc launcher toggle"
+        "$mainMod, S, exec, noctalia-ipc controlCenter toggle"
+        "$mainMod, comma, exec, noctalia-ipc settings toggle"
         "$mainMod, F, fullscreen"
 
         # Focus movement
@@ -221,11 +221,11 @@
       bindl = , XF86AudioPrev, exec, playerctl previous
 
       # Volume & Brightness (via Noctalia IPC)
-      bindel = , XF86AudioRaiseVolume, exec, qs -c noctalia-shell ipc call volume increase
-      bindel = , XF86AudioLowerVolume, exec, qs -c noctalia-shell ipc call volume decrease
-      bindl = , XF86AudioMute, exec, qs -c noctalia-shell ipc call volume muteOutput
-      bindel = , XF86MonBrightnessUp, exec, qs -c noctalia-shell ipc call brightness increase
-      bindel = , XF86MonBrightnessDown, exec, qs -c noctalia-shell ipc call brightness decrease
+      bindel = , XF86AudioRaiseVolume, exec, noctalia-ipc volume increase
+      bindel = , XF86AudioLowerVolume, exec, noctalia-ipc volume decrease
+      bindl = , XF86AudioMute, exec, noctalia-ipc volume muteOutput
+      bindel = , XF86MonBrightnessUp, exec, noctalia-ipc brightness increase
+      bindel = , XF86MonBrightnessDown, exec, noctalia-ipc brightness decrease
 
       # Lid switch (laptop)
       bindl = , switch:off:Apple SMC power/lid events, exec, hyprctl keyword monitor "eDP-1, preferred, auto, auto"
@@ -259,7 +259,7 @@
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
       exec-once = systemctl start --user hyprpolkitagent
-      exec-once = qs -c noctalia-shell
+      exec-once = noctalia-shell
     '';
   };
 }
