@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hardware.url = "github:NixOS/nixos-hardware/master";
     
     nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon/main";

@@ -7,13 +7,65 @@
   
   imports = [
     inputs.zen-browser.homeModules.beta
+    inputs.noctalia.homeModules.default
     ./base.nix
     ./hyprland.nix
-    ./waybar.nix
-    ./dunst.nix
-    ./hyprlock.nix
-
   ];
+
+  # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
+  programs.noctalia-shell = {
+    enable = true;
+    settings = {
+      settingsVersion = 0;
+      bar = {
+        barType = "simple";
+        position = "top";
+        showCapsule = true;
+        backgroundOpacity = 0.93;
+        frameRadius = 12;
+        outerCorners = true;
+        widgets = {
+          left = [
+            { id = "Launcher"; }
+            { id = "ActiveWindow"; }
+          ];
+          center = [
+            { id = "Workspace"; }
+          ];
+          right = [
+            { id = "SystemMonitor"; }
+            { id = "Tray"; }
+            { id = "NotificationHistory"; }
+            { id = "Battery"; }
+            { id = "Volume"; }
+            { id = "Brightness"; }
+            { id = "ControlCenter"; }
+          ];
+        };
+      };
+      general = {
+        lockOnSuspend = true;
+        showSessionButtonsOnLockScreen = true;
+        enableShadows = true;
+        enableBlurBehind = true;
+        telemetryEnabled = false;
+      };
+      ui = {
+        panelBackgroundOpacity = 0.93;
+      };
+      wallpaper = {
+        enabled = true;
+      };
+      appLauncher = {
+        enableClipboardHistory = true;
+      };
+      plugins = {
+        colorSchemes = {
+          predefinedScheme = "Tokyo Night";
+        };
+      };
+    };
+  };
 
   # ============================================================================
   # Desktop Packages
@@ -34,12 +86,6 @@
     # 3D Printing
     orca-slicer
     prusa-slicer
-
-    # Icon theme for rofi
-    papirus-icon-theme
-
-    # CLI tools
-    libnotify  # notify-send for dunst
   ];
 
   # ============================================================================
@@ -123,22 +169,7 @@
     };
   };
 
-  
-  programs.rofi = {
-    enable = true;
-    # rofi-wayland was merged into rofi as of nixpkgs 25.11
-    plugins = [ pkgs.rofi-calc ];
-    extraConfig = {
-      modi = "drun";
-      show-icons = true;
-      icon-theme = "Papirus-Dark";
-      drun-display-format = "{name}";
-      disable-history = false;
-      sidebar-mode = false;
-      matching = "fuzzy";
-    };
-    theme = ./rofi-theme.rasi;
-  };
+
 
   # VSCode with FHS environment for extension compatibility
   programs.vscode = {
@@ -175,13 +206,7 @@
   # Desktop Services
   # ============================================================================
 
-  # On-screen volume/brightness overlay
-  services.swayosd.enable = true;
 
-  # Clipboard history manager (systemd services auto-start wl-paste watchers)
-  services.cliphist.enable = true;
-
-  # Blue light filter
   services.wlsunset = {
     enable = true;
     sunset = "20:00";
@@ -191,8 +216,7 @@
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
 
-  # TODO: Add eww/ags desktop widgets for system stats overlay
-  # Consider: eww (Elkowars Wacky Widgets) with Tokyo Night themed CSS
+  # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
 
   # ============================================================================
   # Stylix - Home Manager Level
@@ -204,8 +228,5 @@
   stylix.targets = {
     firefox.profileNames = [ "default" ];
     zen-browser.profileNames = [ "default" ];
-    rofi.enable = false;  # Using custom Tokyo Night theme instead
-    hyprlock.enable = false;  # Using custom hyprlock config with specific input field styling
-    dunst.enable = false;  # Using custom Tokyo Night dunst config
   };
 }

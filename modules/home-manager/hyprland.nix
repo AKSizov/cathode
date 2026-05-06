@@ -104,18 +104,14 @@
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
-      "$menu" = "rofi -show drun";
+      "$menu" = "noctalia-launcher";
       "$lock" = "loginctl lock-session";
 
       # Key bindings — App launchers
       bind = [
         "$mainMod, T, exec, $terminal"
         "$mainMod, Return, exec, $terminal"
-        "$mainMod, R, exec, $menu"
         "$mainMod, L, exec, $lock"
-        "$mainMod, N, exec, dunstctl set-paused toggle"
-        "$mainMod, V, exec, rofi -modi 'clipboard:cliphist-rofi' -show clipboard -show-icons"
-        "$mainMod SHIFT, E, exec, rofi -show drun"
 
         # Window management
         "$mainMod, Q, killactive"
@@ -182,8 +178,7 @@
         "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
 
         # Floating apps — dialogs, settings, utilities
-        "float, class:^(Rofi)$"
-        "stayfocused, class:^(Rofi)$"
+
         "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
         "float, class:^(pavucontrol)$"
         "size 800 600, class:^(pavucontrol)$"
@@ -214,23 +209,13 @@
         "size 480 270, title:^(Picture-in-Picture)$"
 
         # Popups and notifications
-        "float, class:^(dunst)$"
+
       ];
     };
 
     # Media keys, lid switch, input/device config, and autostart
     # These use bindl/bindel and input/device blocks that are cleaner in extraConfig
     extraConfig = ''
-      # Media Keys (via swayosd-client for on-screen overlay)
-      bindel = , XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise
-      bindel = , XF86AudioLowerVolume, exec, swayosd-client --output-volume lower
-      bindel = , XF86AudioMute, exec, swayosd-client --output-volume mute-toggle
-      bindel = , XF86AudioMicMute, exec, swayosd-client --input-volume mute-toggle
-
-      # Brightness (via swayosd-client for on-screen overlay)
-      bindel = , XF86MonBrightnessUp, exec, swayosd-client --brightness raise
-      bindel = , XF86MonBrightnessDown, exec, swayosd-client --brightness lower
-
       # Player controls
       bindl = , XF86AudioNext, exec, playerctl next
       bindl = , XF86AudioPause, exec, playerctl play-pause
@@ -269,8 +254,6 @@
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
       exec-once = systemctl start --user hyprpolkitagent
-      exec-once = waybar
-      exec-once = dunst
     '';
   };
 }
