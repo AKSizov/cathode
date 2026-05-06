@@ -116,9 +116,9 @@
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
         # Noctalia shell
-        "$mainMod, Space, exec, qs -c noctalia-shell ipc call launcher toggle"
-        "$mainMod, S, exec, qs -c noctalia-shell ipc call controlCenter toggle"
-        "$mainMod, comma, exec, qs -c noctalia-shell ipc call settings toggle"
+        "$mainMod, Space, exec, noctalia-shell ipc call launcher toggle"
+        "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
+        "$mainMod, comma, exec, noctalia-shell ipc call settings toggle"
         "$mainMod, F, fullscreen"
 
         # Focus movement
@@ -220,7 +220,7 @@
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
 
-      $ipc = qs -c noctalia-shell ipc call
+      $ipc = noctalia-shell ipc call
 
       # Volume & Brightness (via Noctalia IPC)
       bindel = , XF86AudioRaiseVolume, exec, $ipc volume increase
