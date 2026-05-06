@@ -39,6 +39,8 @@
       };
       general = {
         telemetryEnabled = false;
+        lockOnSuspend = true;
+        lockScreenAnimations = true;
       };
       appLauncher = {
         enableClipboardHistory = true;

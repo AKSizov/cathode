@@ -104,7 +104,6 @@
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
-      "$menu" = "noctalia-launcher";
       "$lock" = "loginctl lock-session";
 
       # Key bindings — App launchers
@@ -116,7 +115,10 @@
         # Window management
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
-        "$mainMod, Space, togglefloating"
+        # Noctalia shell
+        "$mainMod, Space, exec, qs -c noctalia-shell ipc call launcher toggle"
+        "$mainMod, S, exec, qs -c noctalia-shell ipc call controlCenter toggle"
+        "$mainMod, comma, exec, qs -c noctalia-shell ipc call settings toggle"
         "$mainMod, F, fullscreen"
 
         # Focus movement
@@ -148,10 +150,6 @@
         "$mainMod SHIFT, 8, movetoworkspace, 8"
         "$mainMod SHIFT, 9, movetoworkspace, 9"
         "$mainMod SHIFT, 0, movetoworkspace, 10"
-
-        # Special workspace (scratchpad)
-        "$mainMod, S, togglespecialworkspace, magic"
-        "$mainMod SHIFT, S, movetoworkspace, special:magic"
 
         # Magic terminal scratchpad
         "$mainMod, grave, exec, [workspace special:term; float; size 50% 600; move 25% 16] kitty"
@@ -221,6 +219,13 @@
       bindl = , XF86AudioPause, exec, playerctl play-pause
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
+
+      # Volume & Brightness (via Noctalia IPC)
+      bindel = , XF86AudioRaiseVolume, exec, qs -c noctalia-shell ipc call volume increase
+      bindel = , XF86AudioLowerVolume, exec, qs -c noctalia-shell ipc call volume decrease
+      bindl = , XF86AudioMute, exec, qs -c noctalia-shell ipc call volume muteOutput
+      bindel = , XF86MonBrightnessUp, exec, qs -c noctalia-shell ipc call brightness increase
+      bindel = , XF86MonBrightnessDown, exec, qs -c noctalia-shell ipc call brightness decrease
 
       # Lid switch (laptop)
       bindl = , switch:off:Apple SMC power/lid events, exec, hyprctl keyword monitor "eDP-1, preferred, auto, auto"
