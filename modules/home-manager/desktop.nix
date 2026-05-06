@@ -17,28 +17,17 @@
     enable = true;
     settings = {
       general = {
-        showChangelogOnStartup = lib.mkForce false;
-        lockScreenAnimations = lib.mkForce true;
-      };
-      ui = {
-        translucentWidgets = lib.mkForce true;
-        panelBackgroundOpacity = lib.mkForce 0.85;
-      };
-      bar = {
-        backgroundOpacity = lib.mkForce 0.85;
-      };
-      brightness = {
-        enableDdcSupport = lib.mkForce true;
+        showChangelogOnStartup = false;
       };
       idle = {
-        enabled = lib.mkForce true;
-        screenOffTimeout = lib.mkForce 300;
-        lockTimeout = lib.mkForce 360;
-        suspendTimeout = lib.mkForce 0;
-        fadeDuration = lib.mkForce 5;
+        enabled = true;
+        screenOffTimeout = 300;
+        lockTimeout = 360;
+        suspendTimeout = 0;
+        fadeDuration = 5;
       };
       desktopWidgets = {
-        enabled = lib.mkForce true;
+        enabled = true;
       };
     };
   };
