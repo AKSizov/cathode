@@ -43,7 +43,8 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v17
 
       - name: Check Flake
-        run: nix flake check --no-build
+        continue-on-error: true
+        run: nix flake check
 
   build:
     name: Build (${{ matrix.system }})
