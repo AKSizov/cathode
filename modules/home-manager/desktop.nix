@@ -157,12 +157,6 @@
   # ============================================================================
 
 
-  services.wlsunset = {
-    enable = true;
-    sunset = "20:00";
-    sunrise = "8:00";
-  };
-
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
 
