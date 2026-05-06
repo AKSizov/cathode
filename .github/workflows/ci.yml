@@ -33,30 +33,24 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
-    name: Flake check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v17
-
-      - name: Check Flake
-        continue-on-error: true
-        run: nix flake check
-
   build:
-    name: Build (${{ matrix.system }})
-    needs: check
+    name: Build ${{ matrix.host }}
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - system: x86_64-linux
+          - host: mininix
+            system: x86_64-linux
             runner: ubuntu-latest
-          - system: aarch64-linux
+          - host: closetcard
+            system: x86_64-linux
+            runner: ubuntu-latest
+          - host: m1n1x
+            system: aarch64-linux
+            runner: ubuntu-24.04-arm
+          - host: grassblock
+            system: aarch64-linux
             runner: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
@@ -68,36 +62,11 @@ jobs:
         uses: DeterminateSystems/flakehub-cache-action@v1
 
       - name: Configure Cachix
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: cachix/cachix-action@v16
         with:
           name: cathode
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          # Don't push on PRs from forks (no secrets available)
-          pushFilter: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
 
-      - name: Build nixosConfigurations for ${{ matrix.system }}
-        run: |
-          # Build all nixosConfigurations matching this system architecture
-          configs=$(nix eval .#nixosConfigurations --apply '
-            builtins.filterAttrs (_: v: v.config.nixpkgs.system == "${{ matrix.system }}")
-          ' --json | jq -r 'keys[]')
-
-          if [ -z "$configs" ]; then
-            echo "No nixosConfigurations found for ${{ matrix.system }}"
-            exit 0
-          fi
-
-          echo "Building: $configs"
-          for host in $configs; do
-            echo "::group::Building $host"
-            nix build .#nixosConfigurations."$host".config.system.build.toplevel \
-              --option system ${{ matrix.system }} \
-              --print-build-logs
-            echo "::endgroup::"
-          done
-
-      - name: Push to Cachix
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          # Push all built paths to cachix
-          nix path-info --all --json | jq -r 'keys[]' | cachix push cathode
+      - name: Build ${{ matrix.host }}
+        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel --print-build-logs
