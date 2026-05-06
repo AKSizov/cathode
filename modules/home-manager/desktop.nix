@@ -18,6 +18,13 @@
     settings = {
       general = {
         showChangelogOnStartup = false;
+        lockScreenAnimations = true;
+      };
+      ui = {
+        translucentWidgets = true;
+      };
+      brightness = {
+        enableDdcSupport = true;
       };
       idle = {
         enabled = true;
