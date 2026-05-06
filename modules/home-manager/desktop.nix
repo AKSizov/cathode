@@ -15,6 +15,21 @@
   # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
   programs.noctalia-shell = {
     enable = true;
+    settings = {
+      general = {
+        showChangelogOnStartup = false;
+      };
+      idle = {
+        enabled = true;
+        screenOffTimeout = 300;
+        lockTimeout = 360;
+        suspendTimeout = 600;
+        fadeDuration = 5;
+      };
+      desktopWidgets = {
+        enabled = true;
+      };
+    };
   };
 
   # ============================================================================
