@@ -1,0 +1,102 @@
+# ============================================================================
+# Cathode CI — Build all NixOS configs & push to Cachix
+# ============================================================================
+#
+# Cachix Setup (one-time):
+#   1. nix profile install nixpkgs#cachix
+#   2. cachix authtoken <token-from-cachix>
+#   3. cachix create cathode          # or cathode-os if taken
+#   4. Add CACHIX_AUTH_TOKEN to GitHub repo secrets (Settings → Secrets → Actions)
+#   5. After creating the cache, note the public key from `cachix pubkeys`
+#      and add it to your NixOS config:
+#
+#        nix.settings = {
+#          substituters = [ "https://cathode.cachix.org" ];
+#          trusted-public-keys = [ "cathode.cachix.org-1:<PUBLIC_KEY_HERE>" ];
+#        };
+#
+#      Or use the nix-community cachix module:
+#        services.cachix-watch-agent.enable = true;
+#        (see https://github.com/cachix/cachix)
+# ============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [master, "feature/*"]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Flake check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v17
+
+      - name: Check Flake
+        run: nix flake check --no-build
+
+  build:
+    name: Build (${{ matrix.system }})
+    needs: check
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: x86_64-linux
+            runner: ubuntu-latest
+          - system: aarch64-linux
+            runner: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v17
+
+      - name: Cache nix store
+        uses: DeterminateSystems/flakehub-cache-action@v1
+
+      - name: Configure Cachix
+        uses: cachix/cachix-action@v16
+        with:
+          name: cathode
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          # Don't push on PRs from forks (no secrets available)
+          pushFilter: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+
+      - name: Build nixosConfigurations for ${{ matrix.system }}
+        run: |
+          # Build all nixosConfigurations matching this system architecture
+          configs=$(nix eval .#nixosConfigurations --apply '
+            builtins.filterAttrs (_: v: v.config.nixpkgs.system == "${{ matrix.system }}")
+          ' --json | jq -r 'keys[]')
+
+          if [ -z "$configs" ]; then
+            echo "No nixosConfigurations found for ${{ matrix.system }}"
+            exit 0
+          fi
+
+          echo "Building: $configs"
+          for host in $configs; do
+            echo "::group::Building $host"
+            nix build .#nixosConfigurations."$host".config.system.build.toplevel \
+              --option system ${{ matrix.system }} \
+              --print-build-logs
+            echo "::endgroup::"
+          done
+
+      - name: Push to Cachix
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          # Push all built paths to cachix
+          nix path-info --all --json | jq -r 'keys[]' | cachix push cathode
