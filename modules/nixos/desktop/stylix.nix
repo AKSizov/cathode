@@ -9,6 +9,6 @@
     '';
     polarity = "dark";
     targets.console.enable = false;
-
+    targets.hyprland.enable = false;
   };
 }
