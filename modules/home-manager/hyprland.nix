@@ -10,6 +10,9 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    # MUST be false when using UWSM (NixOS-level withUWSM = true)
+    # UWSM handles systemd session management itself
+    systemd.enable = false;
 
     settings = {
       # Monitor configuration
@@ -104,7 +107,7 @@
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
-      "$lock" = "loginctl lock-session";
+      "$lock" = "noctalia-shell ipc call lockScreen lock";
 
       # Key bindings — App launchers
       bind = [
