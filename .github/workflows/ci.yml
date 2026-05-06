@@ -39,6 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # m1n1x excluded — requires Asahi firmware not available in CI
         include:
           - host: mininix
             system: x86_64-linux
@@ -46,9 +47,6 @@ jobs:
           - host: closetcard
             system: x86_64-linux
             runner: ubuntu-latest
-          - host: m1n1x
-            system: aarch64-linux
-            runner: ubuntu-24.04-arm
           - host: grassblock
             system: aarch64-linux
             runner: ubuntu-24.04-arm
