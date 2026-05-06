@@ -19,13 +19,6 @@
       general = {
         showChangelogOnStartup = false;
       };
-      bar = {
-        widgets = {
-          right = [
-            { type = "MediaMini"; settings = { showVisualizer = true; visualizerType = "linear"; hideMode = "hidden"; }; }
-          ];
-        };
-      };
       idle = {
         enabled = true;
         screenOffTimeout = 300;
