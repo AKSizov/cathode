@@ -2,6 +2,7 @@
 {
   imports = [
     ./audio.nix
+    ./greetd.nix
     ./stylix.nix
   ];
 
@@ -92,6 +93,5 @@
   # Bluetooth
   hardware.bluetooth.powerOnBoot = false;
 
-  # Auto-login
-  services.getty.autologinUser = "user";
+
 }
