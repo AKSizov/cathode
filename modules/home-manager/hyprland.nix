@@ -261,9 +261,14 @@
           accel_profile = adaptive
       }
 
-      # Noctalia layer rules — blur for bar and panels
-      layerrule = blur, noctalia-background-.*
-      layerrule = ignorealpha 0.5, noctalia-background-.*
+      # Noctalia layer rules — blur for bar, panels, and popups
+      layerrule {
+          name = noctalia
+          match:namespace = noctalia-background-.*$
+          ignore_alpha = 0.5
+          blur = true
+          blur_popups = true
+      }
 
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
