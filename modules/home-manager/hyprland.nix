@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   # ============================================================================
   # Hyprland Window Manager Configuration
@@ -26,8 +26,6 @@
         gaps_in = 6;
         gaps_out = 12;
         border_size = 2;
-        "col.active_border" = lib.mkForce "rgba(7aa2f7ff)";
-        "col.inactive_border" = lib.mkForce "rgba(3b4261aa)";
         resize_on_border = true;
         allow_tearing = false;
         layout = "dwindle";

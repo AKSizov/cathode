@@ -9,5 +9,9 @@
     '';
     polarity = "dark";
     targets.console.enable = false;
+    # Tone down the Hyprland active border (base0D is used for borders)
+    override = {
+      base0D = "#7aa2f7";
+    };
   };
 }
