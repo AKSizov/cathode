@@ -262,13 +262,8 @@
       }
 
       # Noctalia layer rules — blur for bar and panels
-      layerrule {
-          name = noctalia
-          match:namespace = noctalia-background-.*$
-          ignore_alpha = 0.5
-          blur = true
-          blur_popups = true
-      }
+      layerrule = blur, noctalia-background-.*
+      layerrule = ignorealpha 0.5, noctalia-background-.*
 
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
