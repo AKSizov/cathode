@@ -25,8 +25,8 @@
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake/beta";
       inputs = {
-        # IMPORTANT: To ensure compatibility with the latest Firefox version, use nixpkgs-unstable.
-        nixpkgs.follows = "nixpkgs";
+        # zen-browser needs nixpkgs-unstable for latest Firefox compatibility
+        # Do NOT follow our nixpkgs (25.11) — it will cause version mismatch
         home-manager.follows = "home-manager";
       };
     };

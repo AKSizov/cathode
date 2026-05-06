@@ -5,9 +5,12 @@
     ../modules/nixos/core.nix
     ../modules/nixos/users.nix
     ../hardware-configs/hw-grassblock.nix
+    ../modules/cachix.nix
   ];
 
   networking.hostName = "grassblock";
+
+  cathode.cachix.enable = true;
 
   # Disable sleep/suspend (headless server)
   systemd.targets.sleep.enable = false;

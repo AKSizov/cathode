@@ -18,9 +18,8 @@ in
 
     publicKey = lib.mkOption {
       type = lib.types.str;
-      default = "";
+      default = "cathode.cachix.org-1:st3kUjfZmv1cuGv43nXMUAxPPEceIQioBcs0ApFyeBA=";
       description = "Public key for the cathode cachix cache";
-      example = "cathode.cachix.org-1:abcdef1234567890...";
     };
   };
 

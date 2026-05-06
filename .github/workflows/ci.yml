@@ -5,19 +5,9 @@
 # Cachix Setup (one-time):
 #   1. nix profile install nixpkgs#cachix
 #   2. cachix authtoken <token-from-cachix>
-#   3. cachix create cathode          # or cathode-os if taken
+#   3. cachix create cathode
 #   4. Add CACHIX_AUTH_TOKEN to GitHub repo secrets (Settings → Secrets → Actions)
-#   5. After creating the cache, note the public key from `cachix pubkeys`
-#      and add it to your NixOS config:
-#
-#        nix.settings = {
-#          substituters = [ "https://cathode.cachix.org" ];
-#          trusted-public-keys = [ "cathode.cachix.org-1:<PUBLIC_KEY_HERE>" ];
-#        };
-#
-#      Or use the nix-community cachix module:
-#        services.cachix-watch-agent.enable = true;
-#        (see https://github.com/cachix/cachix)
+#   5. Enable cathode.cachix.enable = true in host configs (already done)
 # ============================================================================
 
 name: CI

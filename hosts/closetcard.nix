@@ -6,12 +6,15 @@
     ../modules/nixos/users.nix
     ../modules/nixos/hardware/nvidia.nix
     ../hardware-configs/hw-closetcard.nix
+    ../modules/cachix.nix
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.hardware.nixosModules.common-gpu-nvidia
     inputs.hardware.nixosModules.common-cpu-intel
   ];
 
   networking.hostName = "closetcard";
+
+  cathode.cachix.enable = true;
 
   # Static IP configuration
   networking.useDHCP = false;
