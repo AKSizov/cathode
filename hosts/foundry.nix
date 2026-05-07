@@ -5,7 +5,7 @@
     ../modules/nixos/core.nix
     ../modules/nixos/desktop
     ../modules/nixos/users.nix
-    # TODO: Generate hardware-config with nixos-generate-config and import here
+    ../hardware-configs/hw-foundry.nix
     ../modules/cachix.nix
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-cpu-intel
