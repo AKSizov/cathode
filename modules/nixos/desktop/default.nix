@@ -81,8 +81,12 @@
   # Security and authentication
   security.rtkit.enable = true;
   security.polkit.enable = true;
+
+  # GNOME Keyring — unlock on login via PAM
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.hyprland.enableGnomeKeyring = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
+  security.pam.services.login.enableGnomeKeyring = true;
+
   # Desktop services
   services.upower.enable = true;
   services.blueman.enable = true;

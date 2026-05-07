@@ -101,19 +101,21 @@
       # Misc
       misc = {
         force_default_wallpaper = -1;
+        lock_cmd = "pidof noctalia-shell && noctalia-shell ipc call lockScreen lock";
+        before_sleep_cmd = "noctalia-shell ipc call lockScreen lock";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
       # Variables
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
       "$fileManager" = "nautilus";
-      "$lock" = "noctalia-shell ipc call lockScreen lock";
 
       # Key bindings — App launchers
       bind = [
         "$mainMod, T, exec, $terminal"
         "$mainMod, Return, exec, $terminal"
-        "$mainMod, L, exec, $lock"
+        "$mainMod, L, exec, loginctl lock-session"
 
         # Window management
         "$mainMod, Q, killactive"
