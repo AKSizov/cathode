@@ -26,6 +26,7 @@
       general = {
         showChangelogOnStartup = lib.mkForce false;
         lockScreenAnimations = lib.mkForce true;
+        lockOnSuspend = lib.mkForce true; # Must be explicit — jsonFormat.type replaces entire attrset
       };
       brightness = {
         enableDdcSupport = lib.mkForce true;
