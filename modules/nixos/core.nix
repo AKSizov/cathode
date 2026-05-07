@@ -107,11 +107,8 @@
   # Networking
   # ============================================================================
 
-  # Wireless networking with iwd
-  networking.wireless.iwd = {
-    enable = true;
-    settings.General.EnableNetworkConfiguration = true;
-  };
+  # NetworkManager for WiFi management (Noctalia panel compat)
+  networking.networkmanager.enable = true;
 
   # ============================================================================
   # Nix Configuration
