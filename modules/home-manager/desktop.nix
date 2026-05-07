@@ -205,54 +205,7 @@
     };
   };
 
-  # Handle loginctl lock-session → Noctalia lock screen.
-  # Hyprland doesn't natively respond to DBus lock signals (that's hypridle's job),
-  # and we don't use hypridle. This service monitors the logind session for Lock
-  # signals and triggers Noctalia's lock screen.
-  systemd.user.services.noctalia-lock-on-dbus = {
-    Unit = {
-      Description = "Lock Noctalia screen on loginctl lock-session";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = toString (pkgs.writeShellScript "noctalia-lock-dbus-monitor" ''
-        set -euo pipefail
 
-        # Get our session's D-Bus object path from logind
-        # GetSession returns (objectpath,) in GVariant format — extract just the path
-        SESSION_PATH=$(${lib.getExe' pkgs.glib "gdbus"} call --system \
-          --dest org.freedesktop.login1 \
-          --object-path /org/freedesktop/login1 \
-          --method org.freedesktop.login1.Manager.GetSession \
-          auto 2>/dev/null \
-          | ${lib.getExe' pkgs.gnused "sed"} "s/.*'\\([^']*\\)'.*/\\1/" \
-          || true)
-
-        if [ -z "$SESSION_PATH" ]; then
-          echo "Could not determine session path, exiting"
-          exit 1
-        fi
-
-        echo "Monitoring $SESSION_PATH for Lock signal"
-
-        exec ${lib.getExe' pkgs.glib "gdbus"} monitor --system \
-          --dest org.freedesktop.login1 \
-          --object-path "$SESSION_PATH" 2>/dev/null \
-          | ${lib.getExe' pkgs.gnugrep "grep"} --line-buffered "Lock" \
-          | while read -r line; do
-              echo "Lock signal received, locking screen"
-              ${config.programs.noctalia-shell.package}/bin/noctalia-shell ipc call lockScreen lock
-            done
-      '');
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
 
   # ============================================================================
   # Stylix - Home Manager Level
