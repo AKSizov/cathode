@@ -1,0 +1,23 @@
+{ inputs, ... }:
+{
+  imports = [
+    ./default.nix
+    ../modules/nixos/core.nix
+    ../modules/nixos/desktop
+    ../modules/nixos/users.nix
+    # TODO: Generate hardware-config with nixos-generate-config and import here
+    ../modules/cachix.nix
+    inputs.hardware.nixosModules.common-pc-laptop
+    inputs.hardware.nixosModules.common-cpu-intel
+  ];
+
+  networking.hostName = "foundry";
+
+  cathode.cachix.enable = true;
+
+  # Swap configuration (16GB swapfile)
+  swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+
+  # Home Manager configuration
+  home-manager.users.user = import ../modules/home-manager/desktop.nix;
+}

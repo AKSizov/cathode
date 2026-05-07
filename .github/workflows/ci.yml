@@ -40,6 +40,9 @@ jobs:
           - host: grassblock
             system: aarch64-linux
             runner: ubuntu-24.04-arm
+          - host: foundry
+            system: x86_64-linux
+            runner: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
