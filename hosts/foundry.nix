@@ -17,7 +17,7 @@
 
   # Use local RTC for Windows dual-boot compatibility
   # Windows expects hardware clock in local time; NixOS defaults to UTC
-  time.hardwareClockInLocalTimeZone = true;
+  time.hardwareClockInLocalTime = true;
 
   # Swap configuration (16GB swapfile)
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
