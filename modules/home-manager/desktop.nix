@@ -15,6 +15,13 @@
   # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
   programs.noctalia-shell = {
     enable = true;
+    # Override the package to include glib (provides gdbus) in PATH.
+    # Noctalia's lockOnSuspend feature runs `gdbus monitor --system` to listen
+    # for logind's PrepareForSleep signal, but glib is not included in the
+    # default runtimeDeps of the noctalia-shell Nix package.
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      extraPackages = [ pkgs.glib ];
+    };
     settings = {
       general = {
         showChangelogOnStartup = lib.mkForce false;
