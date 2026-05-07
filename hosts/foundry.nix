@@ -6,14 +6,11 @@
     ../modules/nixos/desktop
     ../modules/nixos/users.nix
     # TODO: Generate hardware-config with nixos-generate-config and import here
-    ../modules/cachix.nix
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-cpu-intel
   ];
 
   networking.hostName = "foundry";
-
-  cathode.cachix.enable = true;
 
   # Use local RTC for Windows dual-boot compatibility
   # Windows expects hardware clock in local time; NixOS defaults to UTC

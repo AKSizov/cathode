@@ -6,13 +6,10 @@
     ../modules/nixos/desktop
     ../modules/nixos/users.nix
     ../hardware-configs/hw-m1n1x.nix
-    ../modules/cachix.nix
     inputs.nixos-apple-silicon.nixosModules.apple-silicon-support
   ];
 
   networking.hostName = "m1n1x";
-
-  cathode.cachix.enable = true;
 
   # Swap configuration (16GB swapfile)
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];

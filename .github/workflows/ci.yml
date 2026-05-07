@@ -1,15 +1,3 @@
-# ============================================================================
-# Cathode CI — Build all NixOS configs & push to Cachix
-# ============================================================================
-#
-# Cachix Setup (one-time):
-#   1. nix profile install nixpkgs#cachix
-#   2. cachix authtoken <token-from-cachix>
-#   3. cachix create cathode
-#   4. Add CACHIX_AUTH_TOKEN to GitHub repo secrets (Settings → Secrets → Actions)
-#   5. Enable cathode.cachix.enable = true in host configs (already done)
-# ============================================================================
-
 name: CI
 
 on:
@@ -51,13 +39,6 @@ jobs:
 
       - name: Cache nix store
         uses: DeterminateSystems/flakehub-cache-action@v1
-
-      - name: Configure Cachix
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-        uses: cachix/cachix-action@v16
-        with:
-          name: cathode
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Build ${{ matrix.host }}
         run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel --print-build-logs
