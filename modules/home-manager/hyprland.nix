@@ -174,42 +174,23 @@
 
       # Window rules
       windowrulev2 = [
+        # Dialog suppression
         "suppressevent maximize, class:.*"
         "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
 
-        # Floating apps — dialogs, settings, utilities
-
+        # Floating apps
         "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
-        "float, class:^(pavucontrol)$"
-        "size 800 600, class:^(pavucontrol)$"
-        "float, class:^(nm-connection-editor)$"
-        "size 600 500, class:^(nm-connection-editor)$"
-        "float, class:^(blueman-manager)$"
-        "size 700 500, class:^(blueman-manager)$"
-        "float, class:^(org.gnome.FileRoller)$"
-        "float, class:^(org.gnome.Calculator)$"
-        "size 400 500, class:^(org.gnome.Calculator)$"
-        "float, class:^(org.gnome.DejaDup)$"
-        "float, class:^(org.gnome.SystemMonitor)$"
-        "size 900 600, class:^(org.gnome.SystemMonitor)$"
         "float, class:^(xdg-desktop-portal-gtk)$"
-        "float, class:^(org.kde.dolphin)$, title:^(Copy —|Move —|Delete —)"
         "float, class:^(easyeffects)$"
         "size 900 600, class:^(easyeffects)$"
 
         # File dialogs
         "float, title:^(Open File|Save File|Open Folder)$"
 
-        # Pinp apps (stay on top, no focus steal)
-        "float, class:^(com.obsproject.Studio)$, title:^(Properties for|Transform|Filters|About)"
-
         # Picture-in-Picture
         "float, title:^(Picture-in-Picture)$"
         "pin, title:^(Picture-in-Picture)$"
         "size 480 270, title:^(Picture-in-Picture)$"
-
-        # Popups and notifications
-
       ];
     };
 
