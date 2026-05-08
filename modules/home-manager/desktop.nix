@@ -21,6 +21,7 @@
         lockScreenAnimations = lib.mkForce true;
         lockOnSuspend = lib.mkForce true;
         enableLockScreenMediaControls = lib.mkForce true;
+        enableBlurBehind = lib.mkForce true;
       };
       nightLight = {
         enabled = lib.mkForce true;
@@ -50,6 +51,7 @@
       };
       ui = {
         panelBackgroundOpacity = lib.mkForce 0.75;
+        translucentWidgets = lib.mkForce true;
       };
       templates = {
         activeTemplates = lib.mkForce [
