@@ -3,6 +3,7 @@
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    inputs.stylix.nixosModules.stylix
   ];
 
   home-manager = {
@@ -16,5 +17,5 @@
   time.timeZone = lib.mkDefault "America/New_York";
 
   # State version
-  system.stateVersion = "26.05";
+  system.stateVersion = "24.11";
 }
