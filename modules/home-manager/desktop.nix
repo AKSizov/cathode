@@ -37,6 +37,24 @@
       templates = {
         activeTemplates = lib.mkForce [
           { id = "kitty"; active = true; }
+          { id = "ghostty"; active = true; }
+          { id = "foot"; active = true; }
+          { id = "alacritty"; active = true; }
+          { id = "wezterm"; active = true; }
+          { id = "starship"; active = true; }
+          { id = "fuzzel"; active = true; }
+          { id = "walker"; active = true; }
+          { id = "pywalfox"; active = true; }
+          { id = "cava"; active = true; }
+          { id = "yazi"; active = true; }
+          { id = "labwc"; active = true; }
+          { id = "niri"; active = true; }
+          { id = "hyprland"; active = true; }
+          { id = "sway"; active = true; }
+          { id = "scroll"; active = true; }
+          { id = "mango"; active = true; }
+          { id = "btop"; active = true; }
+          { id = "zathura"; active = true; }
         ];
       };
     };
@@ -76,7 +94,8 @@
     };
   };
 
-  # Qt theming is handled by Stylix (uses qtct platform)
+  # Qt theming — Noctalia's syncGsettings syncs GTK colors;
+  # qtct platform theme is still enabled for basic Qt integration
   qt.enable = true;
 
   # ============================================================================
@@ -84,7 +103,12 @@
   # ============================================================================
 
   # Enable Wayland for Electron apps (VSCode, etc.)
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    # Cursor theme — previously set by Stylix, now explicit
+    XCURSOR_THEME = "Bibata-Modern-Classic";
+    XCURSOR_SIZE = "24";
+  };
 
   # ============================================================================
   # Desktop Applications
@@ -237,12 +261,11 @@
   # ============================================================================
   # Stylix - Home Manager Level
   # ============================================================================
-  # Base theming is configured at the NixOS level in
-  # modules/nixos/desktop/stylix.nix and inherited by Home Manager.
-  # Browser profile names must be declared here (HM-level option).
+  # DISABLED: Stylix is off for Noctalia-only theming experiment.
+  # Uncomment to restore Stylix HM-level targets.
 
-  stylix.targets = {
-    firefox.profileNames = [ "default" ];
-    zen-browser.profileNames = [ "default" ];
-  };
+  # stylix.targets = {
+  #   firefox.profileNames = [ "default" ];
+  #   zen-browser.profileNames = [ "default" ];
+  # };
 }
