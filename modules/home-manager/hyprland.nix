@@ -221,50 +221,21 @@
           accel_profile = adaptive
       }
 
-      # Window rules (Hyprland 0.53+ block syntax)
-      windowrule {
-          suppressevent maximize
-          class = .*
-      }
-      windowrule {
-          nofocus
-          class = ^$
-          title = ^$
-          xwayland = 1
-          floating = 1
-          fullscreen = 0
-          pinned = 0
-      }
-      windowrule {
-          float
-          class = ^(org.kde.polkit-kde-authentication-agent-1)$
-      }
-      windowrule {
-          float
-          class = ^(xdg-desktop-portal-gtk)$
-      }
-      windowrule {
-          float
-          size 900 600
-          class = ^(easyeffects)$
-      }
-      windowrule {
-          float
-          title = ^(Open File|Save File|Open Folder)$
-      }
-      windowrule {
-          float
-          pin
-          size 480 270
-          title = ^(Picture-in-Picture)$
-      }
+      # Window rules (Hyprland 0.53+ inline syntax)
+      windowrule = suppressevent maximize, match:class .*
+      windowrule = nofocus, match:class ^$, match:title ^$, match:xwayland 1, match:floating 1, match:fullscreen 0, match:pinned 0
+      windowrule = float, match:class ^(org.kde.polkit-kde-authentication-agent-1)$
+      windowrule = float, match:class ^(xdg-desktop-portal-gtk)$
+      windowrule = float, match:class ^(easyeffects)$
+      windowrule = size 900 600, match:class ^(easyeffects)$
+      windowrule = float, match:title ^(Open File|Save File|Open Folder)$
+      windowrule = float, match:title ^(Picture-in-Picture)$
+      windowrule = pin, match:title ^(Picture-in-Picture)$
+      windowrule = size 480 270, match:title ^(Picture-in-Picture)$
 
       # Noctalia layer rules — blur for bar and panels
-      layerrule {
-          blur
-          ignorealpha 0.5
-          namespace = noctulia-background-.*
-      }
+      layerrule = blur, noctalia-background-.*
+      layerrule = ignorealpha 0.5, noctalia-background-.*
 
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
