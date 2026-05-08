@@ -45,6 +45,12 @@
         predefinedScheme = lib.mkForce "Tokyo Night";
         darkMode = lib.mkForce true;
       };
+      bar = {
+        backgroundOpacity = lib.mkForce 0.75;
+      };
+      ui = {
+        panelBackgroundOpacity = lib.mkForce 0.75;
+      };
       templates = {
         activeTemplates = lib.mkForce [
           { id = "kitty"; active = true; }
