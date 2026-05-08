@@ -34,6 +34,10 @@
       desktopWidgets = {
         enabled = lib.mkForce true;
       };
+      colorSchemes = {
+        predefinedScheme = lib.mkForce "Tokyo Night";
+        darkMode = lib.mkForce true;
+      };
       templates = {
         activeTemplates = lib.mkForce [
           { id = "kitty"; active = true; }
@@ -87,6 +91,10 @@
 
   gtk = {
     enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
     cursorTheme = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Classic";
