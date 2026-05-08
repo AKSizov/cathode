@@ -34,6 +34,11 @@
       desktopWidgets = {
         enabled = lib.mkForce true;
       };
+      templates = {
+        activeTemplates = lib.mkForce [
+          { id = "kitty"; active = true; }
+        ];
+      };
     };
   };
 
@@ -85,7 +90,13 @@
   # Desktop Applications
   # ============================================================================
 
-  programs.kitty.enable = true;
+  programs.kitty = {
+    enable = true;
+    # Use Noctalia's generated theme instead of Stylix
+    extraConfig = ''
+      include themes/noctalia.conf
+    '';
+  };
   programs.firefox.enable = true;
   programs.mpv.enable = true;
   programs.yt-dlp.enable = true;
