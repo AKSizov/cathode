@@ -8,6 +8,24 @@
     playerctl
   ];
 
+  # Hypridle — idle daemon for lock, DPMS, suspend
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof noctalia-shell && noctalia-shell ipc call lockScreen lock";
+        before_sleep_cmd = "noctalia-shell ipc call lockScreen lock";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+      listener = [
+        # Lock after 6 minutes
+        { timeout = 360; on-timeout = "loginctl lock-session"; }
+        # DPMS off after 10 minutes
+        { timeout = 600; on-timeout = "hyprctl dispatch dpms off"; on-resume = "hyprctl dispatch dpms on"; }
+      ];
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     # MUST be false when using UWSM (NixOS-level withUWSM = true)
@@ -101,9 +119,6 @@
       # Misc
       misc = {
         force_default_wallpaper = -1;
-        lock_cmd = "pidof noctalia-shell && noctalia-shell ipc call lockScreen lock";
-        before_sleep_cmd = "noctalia-shell ipc call lockScreen lock";
-        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
       # Variables
