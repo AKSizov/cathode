@@ -172,10 +172,29 @@
         "$mainMod, mouse:273, resizewindow"
       ];
 
+      # Window rules
+      windowrulev2 = [
+        # Dialog suppression
+        "suppressevent maximize, class:.*"
+        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+
+        # Floating apps
+        "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
+        "float, class:^(xdg-desktop-portal-gtk)$"
+        "float, class:^(easyeffects)$"
+        "size 900 600, class:^(easyeffects)$"
+
+        # File dialogs
+        "float, title:^(Open File|Save File|Open Folder)$"
+
+        # Picture-in-Picture
+        "float, title:^(Picture-in-Picture)$"
+        "pin, title:^(Picture-in-Picture)$"
+        "size 480 270, title:^(Picture-in-Picture)$"
+      ];
     };
 
-    # Media keys, lid switch, input/device config, window/layer rules, and autostart
-    # These use bindl/bindel and input/device blocks that are cleaner in extraConfig
+    # Media keys, lid switch, input/device config, layer rules, and autostart
     extraConfig = ''
       # Player controls
       bindl = , XF86AudioNext, exec, playerctl next
@@ -220,18 +239,6 @@
           natural_scroll = true
           accel_profile = adaptive
       }
-
-      # Window rules (Hyprland 0.53+ inline syntax)
-      windowrule = suppress_event maximize, match:class .*
-      windowrule = no_focus, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
-      windowrule = float, match:class ^(org.kde.polkit-kde-authentication-agent-1)$
-      windowrule = float, match:class ^(xdg-desktop-portal-gtk)$
-      windowrule = float, match:class ^(easyeffects)$
-      windowrule = size 900 600, match:class ^(easyeffects)$
-      windowrule = float, match:title ^(Open File|Save File|Open Folder)$
-      windowrule = float, match:title ^(Picture-in-Picture)$
-      windowrule = pin, match:title ^(Picture-in-Picture)$
-      windowrule = size 480 270, match:title ^(Picture-in-Picture)$
 
       # Noctalia layer rules — blur for bar and panels
       layerrule = blur, noctalia-background-.*
