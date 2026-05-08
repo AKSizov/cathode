@@ -1,20 +1,21 @@
 { pkgs, ... }:
 {
   # System-wide theming with Stylix
-  # Stylix provides base theming (fonts, cursor, GTK/QT) but terminal/app
-  # colors are handled by Noctalia's template system for a cohesive look.
+  # DISABLED: Experimenting with Noctalia-only theming.
+  # Set enable = true to restore Stylix theming.
   stylix = {
-    enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
-    image = pkgs.runCommand "wallpaper.png" {} ''
-      ${pkgs.imagemagick}/bin/convert -size 1920x1080 xc:"#1a1b26" $out
-    '';
-    polarity = "dark";
+    enable = false;
 
-    # Disable Stylix for apps where Noctalia templates take over
-    targets = {
-      console.enable = false;
-      kitty.enable = false;
-    };
+    # Preserved for easy re-enable:
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
+    # image = pkgs.runCommand "wallpaper.png" {} ''
+    #   ${pkgs.imagemagick}/bin/convert -size 1920x1080 xc:"#1a1b26" $out
+    # '';
+    # polarity = "dark";
+    #
+    # targets = {
+    #   console.enable = false;
+    #   kitty.enable = false;
+    # };
   };
 }
