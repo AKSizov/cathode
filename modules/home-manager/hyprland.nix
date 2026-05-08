@@ -222,8 +222,8 @@
       }
 
       # Window rules (Hyprland 0.53+ inline syntax)
-      windowrule = suppressevent maximize, match:class .*
-      windowrule = nofocus, match:class ^$, match:title ^$, match:xwayland 1, match:floating 1, match:fullscreen 0, match:pinned 0
+      windowrule = suppress_event maximize, match:class .*
+      windowrule = no_focus, match:class ^$, match:title ^$, match:xwayland true, match:float true, match:fullscreen false, match:pin false
       windowrule = float, match:class ^(org.kde.polkit-kde-authentication-agent-1)$
       windowrule = float, match:class ^(xdg-desktop-portal-gtk)$
       windowrule = float, match:class ^(easyeffects)$
