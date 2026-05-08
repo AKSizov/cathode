@@ -171,30 +171,9 @@
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
-
-      # Window rules
-      windowrulev2 = [
-        # Dialog suppression
-        "suppressevent maximize, class:.*"
-        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
-
-        # Floating apps
-        "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
-        "float, class:^(xdg-desktop-portal-gtk)$"
-        "float, class:^(easyeffects)$"
-        "size 900 600, class:^(easyeffects)$"
-
-        # File dialogs
-        "float, title:^(Open File|Save File|Open Folder)$"
-
-        # Picture-in-Picture
-        "float, title:^(Picture-in-Picture)$"
-        "pin, title:^(Picture-in-Picture)$"
-        "size 480 270, title:^(Picture-in-Picture)$"
-      ];
     };
 
-    # Media keys, lid switch, input/device config, layer rules, and autostart
+    # Rules, media keys, input config, and autostart
     extraConfig = ''
       # Player controls
       bindl = , XF86AudioNext, exec, playerctl next
@@ -240,9 +219,59 @@
           accel_profile = adaptive
       }
 
+      # Window rules (Hyprland 0.53+ block syntax)
+      windowrule {
+          name = suppress-maximize
+          match:class = .*
+          suppress_event = maximize
+      }
+      windowrule {
+          name = fix-xwayland-drags
+          match:class = ^$
+          match:title = ^$
+          match:xwayland = true
+          match:float = true
+          match:fullscreen = false
+          match:pin = false
+          no_focus = true
+      }
+      windowrule {
+          name = float-polkit
+          match:class = ^(org.kde.polkit-kde-authentication-agent-1)$
+          float = on
+      }
+      windowrule {
+          name = float-portal
+          match:class = ^(xdg-desktop-portal-gtk)$
+          float = on
+      }
+      windowrule {
+          name = float-easyeffects
+          match:class = ^(easyeffects)$
+          float = on
+          size = 900 600
+      }
+      windowrule {
+          name = float-file-dialogs
+          match:title = ^(Open File|Save File|Open Folder)$
+          float = on
+      }
+      windowrule {
+          name = pip
+          match:title = ^(Picture-in-Picture)$
+          float = on
+          pin = on
+          size = 480 270
+      }
+
       # Noctalia layer rules — blur for bar and panels
-      layerrule = blur, noctalia-background-.*
-      layerrule = ignorealpha 0.5, noctalia-background-.*
+      layerrule {
+          name = noctalia
+          match:namespace = noctalia-background-.*$
+          ignore_alpha = 0.5
+          blur = true
+          blur_popups = true
+      }
 
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
