@@ -196,59 +196,7 @@
 
     # Media keys, lid switch, input/device config, and autostart
     # These use bindl/bindel and input/device blocks that are cleaner in extraConfig
-    extraConfig = ''
-      # Player controls
-      bindl = , XF86AudioNext, exec, playerctl next
-      bindl = , XF86AudioPause, exec, playerctl play-pause
-      bindl = , XF86AudioPlay, exec, playerctl play-pause
-      bindl = , XF86AudioPrev, exec, playerctl previous
-
-      $ipc = noctalia-shell ipc call
-
-      # Volume & Brightness (via Noctalia IPC)
-      bindel = , XF86AudioRaiseVolume, exec, $ipc volume increase
-      bindel = , XF86AudioLowerVolume, exec, $ipc volume decrease
-      bindl = , XF86AudioMute, exec, $ipc volume muteOutput
-      bindel = , XF86MonBrightnessUp, exec, $ipc brightness increase
-      bindel = , XF86MonBrightnessDown, exec, $ipc brightness decrease
-
-      # Lid switch (laptop)
-      bindl = , switch:off:Apple SMC power/lid events, exec, hyprctl keyword monitor "eDP-1, preferred, auto, auto"
-      bindl = , switch:on:Apple SMC power/lid events, exec, hyprctl keyword monitor "eDP-1, disable"
-
-      # Idle dim — gently dim all windows when idle, restore on activity
-      bindl = , idle:in:120, exec, hyprctl keyword decoration:active_opacity 0.85 && hyprctl keyword decoration:inactive_opacity 0.75
-      bindl = , idle:out:120, exec, hyprctl keyword decoration:active_opacity 1.0 && hyprctl keyword decoration:inactive_opacity 1.0
-
-      # Input configuration
-      input {
-          kb_layout = us
-          kb_variant = dvorak
-          kb_options = ctrl:nocaps
-          accel_profile = flat
-          follow_mouse = 1
-          sensitivity = 0
-
-          touchpad {
-              natural_scroll = false
-          }
-      }
-
-      # Device-specific config
-      device {
-          name = apple-spi-trackpad
-          natural_scroll = true
-          accel_profile = adaptive
-      }
-
-      # Noctalia layer rules — blur for bar and panels
-      layerrule = blur, noctalia-background-.*
-      layerrule = ignorealpha 0.5, noctalia-background-.*
-
-      # Autostart
-      exec-once = hyprctl setcursor Bibata-Modern-Classic 24
-      exec-once = systemctl start --user hyprpolkitagent
-      exec-once = noctalia-shell
-    '';
+    # See ../../dotfiles/hyprland-extra.conf for the standalone config
+    extraConfig = builtins.readFile ../../dotfiles/hyprland-extra.conf;
   };
 }
