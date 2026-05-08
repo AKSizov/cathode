@@ -19,7 +19,14 @@
       general = {
         showChangelogOnStartup = lib.mkForce false;
         lockScreenAnimations = lib.mkForce true;
-        lockOnSuspend = lib.mkForce true; # Must be explicit — jsonFormat.type replaces entire attrset
+        lockOnSuspend = lib.mkForce true;
+        enableLockScreenMediaControls = lib.mkForce true;
+      };
+      nightLight = {
+        enabled = lib.mkForce true;
+      };
+      appLauncher = {
+        enableClipboardHistory = lib.mkForce true;
       };
       brightness = {
         enableDdcSupport = lib.mkForce true;
