@@ -16,7 +16,7 @@
     lz4
     pv
     podman-compose
-    nixfmt-rfc-style
+    nixfmt
   ];
 
   # Enable unfree packages

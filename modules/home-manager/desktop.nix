@@ -197,10 +197,9 @@
 
 
 
-  # VSCode with FHS environment for extension compatibility
-  programs.vscode = {
+  # VSCodium — OSS VSCode fork
+  programs.vscodium = {
     enable = true;
-    package = pkgs.vscodium;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       saoudrizwan.claude-dev
       ms-vscode.remote-explorer

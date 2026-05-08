@@ -8,7 +8,7 @@
   home = {
     username = "user";
     homeDirectory = "/home/user";
-    stateVersion = "24.11";
+    stateVersion = "26.05";
   };
 
   # ============================================================================
@@ -38,7 +38,11 @@
   # Terminal & CLI Tools
   # ============================================================================
 
-  programs.neovim.enable = true;
+  programs.neovim = {
+    enable = true;
+    withRuby = false;
+    withPython3 = false;
+  };
   programs.vim.enable = true;
   programs.htop.enable = true;
   programs.aria2.enable = true;
