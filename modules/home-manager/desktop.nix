@@ -183,25 +183,41 @@
   # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
 
   # ============================================================================
-  # Lock-on-Suspend & loginctl lock-session Workarounds
+  # Lock-on-Suspend Workaround
   # ============================================================================
   # Noctalia's built-in lockOnSuspend is broken for externally-triggered suspend
   # (lid close, power button) — see https://github.com/noctalia-dev/noctalia-shell/issues/2036
-  # PR #2176 fixes this but hasn't been merged yet.
-  # Instead, we use a systemd user service that locks before sleep, which is the
-  # same approach hypridle/swayidle use. This is compositor-agnostic and reliable.
+  # PR #2176 fixes this via DBus monitoring but hasn't been merged yet.
+  #
+  # User-level sleep.target doesn't activate on system suspend (it's system-level),
+  # so a WantedBy=sleep.target user service never fires. The only reliable approach
+  # from a user session is to monitor DBus for PrepareForSleep — same as hypridle
+  # and the Noctalia PR.
 
-  systemd.user.services.noctalia-lock-before-sleep = {
+  systemd.user.services.noctalia-lock-on-suspend = {
     Unit = {
-      Description = "Lock Noctalia screen before sleep";
-      Before = [ "sleep.target" ];
+      Description = "Lock Noctalia screen on suspend via DBus";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
     };
     Service = {
       Type = "simple";
-      ExecStart = "${config.programs.noctalia-shell.package}/bin/noctalia-shell ipc call lockScreen lock";
+      ExecStart = toString (pkgs.writeShellScript "noctalia-suspend-monitor" ''
+        ${lib.getExe' pkgs.glib "gdbus"} monitor --system \
+          --dest org.freedesktop.login1 \
+          --object-path /org/freedesktop/login1 2>/dev/null \
+          | ${lib.getExe' pkgs.coreutils "stdbuf"} -oL ${lib.getExe' pkgs.gnugrep "grep"} --line-buffered PrepareForSleep \
+          | while IFS= read -r line; do
+              if echo "$line" | ${lib.getExe' pkgs.gnugrep "grep"} -q "true"; then
+                ${config.programs.noctalia-shell.package}/bin/noctalia-shell ipc call lockScreen lock
+              fi
+            done
+      '');
+      Restart = "on-failure";
+      RestartSec = 5;
     };
     Install = {
-      WantedBy = [ "sleep.target" ];
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 
