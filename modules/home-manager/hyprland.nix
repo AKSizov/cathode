@@ -172,29 +172,9 @@
         "$mainMod, mouse:273, resizewindow"
       ];
 
-      # Window rules
-      windowrule = [
-        # Dialog suppression
-        "suppressevent maximize, class:.*"
-        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
-
-        # Floating apps
-        "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
-        "float, class:^(xdg-desktop-portal-gtk)$"
-        "float, class:^(easyeffects)$"
-        "size 900 600, class:^(easyeffects)$"
-
-        # File dialogs
-        "float, title:^(Open File|Save File|Open Folder)$"
-
-        # Picture-in-Picture
-        "float, title:^(Picture-in-Picture)$"
-        "pin, title:^(Picture-in-Picture)$"
-        "size 480 270, title:^(Picture-in-Picture)$"
-      ];
     };
 
-    # Media keys, lid switch, input/device config, and autostart
+    # Media keys, lid switch, input/device config, window/layer rules, and autostart
     # These use bindl/bindel and input/device blocks that are cleaner in extraConfig
     extraConfig = ''
       # Player controls
@@ -241,10 +221,50 @@
           accel_profile = adaptive
       }
 
+      # Window rules (Hyprland 0.53+ block syntax)
+      windowrule {
+          suppressevent maximize
+          class = .*
+      }
+      windowrule {
+          nofocus
+          class = ^$
+          title = ^$
+          xwayland = 1
+          floating = 1
+          fullscreen = 0
+          pinned = 0
+      }
+      windowrule {
+          float
+          class = ^(org.kde.polkit-kde-authentication-agent-1)$
+      }
+      windowrule {
+          float
+          class = ^(xdg-desktop-portal-gtk)$
+      }
+      windowrule {
+          float
+          size 900 600
+          class = ^(easyeffects)$
+      }
+      windowrule {
+          float
+          title = ^(Open File|Save File|Open Folder)$
+      }
+      windowrule {
+          float
+          pin
+          size 480 270
+          title = ^(Picture-in-Picture)$
+      }
+
       # Noctalia layer rules — blur for bar and panels
-      # Noctalia layer rules — blur for bar and panels
-      layerrule = blur, noctalia-background-.*
-      layerrule = ignorealpha 0.5, noctalia-background-.*
+      layerrule {
+          blur
+          ignorealpha 0.5
+          namespace = noctulia-background-.*
+      }
 
       # Autostart
       exec-once = hyprctl setcursor Bibata-Modern-Classic 24
