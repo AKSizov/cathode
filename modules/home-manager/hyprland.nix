@@ -101,6 +101,9 @@
       # Misc
       misc = {
         force_default_wallpaper = -1;
+        lock_cmd = "pidof noctalia-shell && noctalia-shell ipc call lockScreen lock";
+        before_sleep_cmd = "noctalia-shell ipc call lockScreen lock";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
       # Variables
