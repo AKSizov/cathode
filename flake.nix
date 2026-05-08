@@ -9,11 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix = {
-      url = "github:nix-community/stylix/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    
+
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
     };

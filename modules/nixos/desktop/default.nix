@@ -3,7 +3,6 @@
   imports = [
     ./audio.nix
     ./greetd.nix
-    ./stylix.nix
   ];
 
   # Desktop environment packages

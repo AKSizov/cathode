@@ -279,14 +279,4 @@
 
 
 
-  # ============================================================================
-  # Stylix - Home Manager Level
-  # ============================================================================
-  # DISABLED: Stylix is off for Noctalia-only theming experiment.
-  # Uncomment to restore Stylix HM-level targets.
-
-  # stylix.targets = {
-  #   firefox.profileNames = [ "default" ];
-  #   zen-browser.profileNames = [ "default" ];
-  # };
 }
