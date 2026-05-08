@@ -237,47 +237,4 @@
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
 
-  # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
-
-  # ============================================================================
-  # Lock-on-Suspend Workaround
-  # ============================================================================
-  # Noctalia's built-in lockOnSuspend is broken for externally-triggered suspend
-  # (lid close, power button) — see https://github.com/noctalia-dev/noctalia-shell/issues/2036
-  # PR #2176 fixes this via DBus monitoring but hasn't been merged yet.
-  #
-  # User-level sleep.target doesn't activate on system suspend (it's system-level),
-  # so a WantedBy=sleep.target user service never fires. The only reliable approach
-  # from a user session is to monitor DBus for PrepareForSleep — same as hypridle
-  # and the Noctalia PR.
-
-  systemd.user.services.noctalia-lock-on-suspend = {
-    Unit = {
-      Description = "Lock Noctalia screen on suspend via DBus";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = toString (pkgs.writeShellScript "noctalia-suspend-monitor" ''
-        ${lib.getExe' pkgs.glib "gdbus"} monitor --system \
-          --dest org.freedesktop.login1 \
-          --object-path /org/freedesktop/login1 2>/dev/null \
-          | ${lib.getExe' pkgs.coreutils "stdbuf"} -oL ${lib.getExe' pkgs.gnugrep "grep"} --line-buffered PrepareForSleep \
-          | while IFS= read -r line; do
-              if echo "$line" | ${lib.getExe' pkgs.gnugrep "grep"} -q "true"; then
-                ${config.programs.noctalia-shell.package}/bin/noctalia-shell ipc call lockScreen lock
-              fi
-            done
-      '');
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
-
-
-
 }
