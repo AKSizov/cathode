@@ -19,7 +19,10 @@
       options = [ "subvol=@" ];
     };
 
-  boot.initrd.luks.devices."luks-c1f150ca-7cfe-478e-a879-2a243a199546".device = "/dev/disk/by-uuid/c1f150ca-7cfe-478e-a879-2a243a199546";
+  boot.initrd.luks.devices."luks-c1f150ca-7cfe-478e-a879-2a243a199546" = {
+    device = "/dev/disk/by-uuid/c1f150ca-7cfe-478e-a879-2a243a199546";
+    crypttabExtraOpts = [ "tpm2-device=auto" ];
+  };
 
   fileSystems."/home" =
     { device = "/dev/mapper/luks-c1f150ca-7cfe-478e-a879-2a243a199546";

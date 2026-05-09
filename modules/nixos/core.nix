@@ -39,6 +39,7 @@
     
     # Enable systemd in initrd for faster boot and hibernation
     initrd.systemd.enable = true;
+    initrd.systemd.enableTpm2 = true;
     
     # Kernel parameters for performance and memory management
     kernelParams = [
