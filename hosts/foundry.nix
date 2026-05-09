@@ -8,6 +8,7 @@
     ../hardware-configs/hw-foundry.nix
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-cpu-intel
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   networking.hostName = "foundry";
@@ -18,6 +19,14 @@
 
   # Swap configuration (16GB swapfile)
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
+
+  # Secure boot
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
