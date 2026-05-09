@@ -44,6 +44,7 @@
     kernelParams = [
       "zswap.enabled=1"
       "preempt=full"
+      "mem_sleep_default=deep"
     ];
     
     # Kernel sysctl tuning
@@ -159,9 +160,16 @@
 
   # Laptop lid switch behavior
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandleLidSwitchExternalPower = "ignore";
     HandleLidSwitchDocked = "ignore";
+    PowerKey = "hibernate";
+    PowerKeyLongPress = "hibernate";
   };
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=60m
+    SuspendState=mem
+  '';
 
   # Device management and mounting
   services.devmon.enable = true;
