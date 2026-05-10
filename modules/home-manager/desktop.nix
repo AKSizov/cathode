@@ -28,8 +28,15 @@
       appLauncher = {
         enableClipboardHistory = lib.mkForce true;
       };
+      bar = {
+        backgroundOpacity = lib.mkForce 0;
+        useSeparateOpacity = lib.mkForce true;
+      };
       brightness = {
         enableDdcSupport = lib.mkForce true;
+      };
+      location = {
+        autoLocate = lib.mkForce true;
       };
       idle = {
         enabled = lib.mkForce true;
