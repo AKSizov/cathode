@@ -31,8 +31,16 @@
   };
 
   # Enable auto-upgrades with reboot
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = true;
+    flake = "github:AKSizov/cathode";
+    branch = "stable";
+    flags = [
+      "--refresh"  # Force re-fetch flake inputs (bypass cache)
+      "-L"         # Print build logs
+    ];
+  };
 
   # Home Manager configuration (headless)
   home-manager.users.user = import ../modules/home-manager/base.nix;
