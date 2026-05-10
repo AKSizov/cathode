@@ -34,8 +34,7 @@
   system.autoUpgrade = {
     enable = true;
     allowReboot = true;
-    flake = "github:AKSizov/cathode";
-    branch = "stable";
+    flake = "github:AKSizov/cathode/stable";  # Branch/ref goes in the URL, not a separate option
     flags = [
       "--refresh"  # Force re-fetch flake inputs (bypass cache)
       "-L"         # Print build logs
