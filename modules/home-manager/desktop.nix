@@ -15,6 +15,7 @@
   # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
   programs.noctalia-shell = {
     enable = true;
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
     settings = {
       general = {
         showChangelogOnStartup = lib.mkForce false;
