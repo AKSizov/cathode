@@ -4,6 +4,7 @@
     ./default.nix
     ../modules/nixos/core.nix
     ../modules/nixos/users.nix
+    ../modules/nixos/podman-services.nix
     ../hardware-configs/hw-grassblock.nix
   ];
 
