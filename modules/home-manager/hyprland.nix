@@ -112,15 +112,15 @@
       bind = [
         "$mainMod, T, exec, $terminal"
         "$mainMod, Return, exec, $terminal"
-        "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
+        "$mainMod, L, exec, qs -c noctalia-shell ipc call lockScreen lock"
 
         # Window management
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
         # Noctalia shell
-        "$mainMod, Space, exec, noctalia-shell ipc call launcher toggle"
-        "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
-        "$mainMod, comma, exec, noctalia-shell ipc call settings toggle"
+        "$mainMod, Space, exec, qs -c noctalia-shell ipc call launcher toggle"
+        "$mainMod, S, exec, qs -c noctalia-shell ipc call controlCenter toggle"
+        "$mainMod, comma, exec, qs -c noctalia-shell ipc call settings toggle"
         "$mainMod, F, fullscreen"
 
         # Focus movement
