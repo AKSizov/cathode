@@ -47,9 +47,11 @@ in
     wants = [ "podman-network-main.service" ];
     wantedBy = [ "multi-user.target" ];
     path = with pkgs; [ podman podman-compose bash ];
-    serviceConfig.Type = "oneshot";
-    ExecStart = "/data/podman-services.sh up";
-    ExecStop = "/data/podman-services.sh down";
-    serviceConfig.RemainAfterExit = true;
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "/data/podman-services.sh up";
+      ExecStop = "/data/podman-services.sh down";
+    };
   };
 }
