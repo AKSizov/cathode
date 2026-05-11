@@ -54,26 +54,6 @@
     bashrcExtra = builtins.readFile ../../dotfiles/bashrc;
   };
 
-  # ============================================================================
-  # Nix Configuration
-  # ============================================================================
-
-  nix = {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      connect-timeout = 5;
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
-
-  # ============================================================================
-  # System Integration
-  # ============================================================================
-
   # Reload user services on configuration change
   systemd.user.startServices = "sd-switch";
 }

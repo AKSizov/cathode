@@ -6,7 +6,7 @@
   # Shared user settings for all hosts. Override in host config if needed.
 
   users.users.user = {
-    initialPassword = "correcthorsebatterystaple"; # FIXME: replace with initialHashedPassword before any public/non-personal deployment
+    initialHashedPassword = "$6$QCjlyuI6owtt6n3S$v6wjKq1tuPB/KOwJB2alZW1pqfyvvqD8U3TU15AEtVfKM/nbPYdrutp5AUJG.pJcyotu9t.kQMOIC7J7xmkeh."; # correcthorsebatterystaple
     isNormalUser = true;
     linger = true;
     openssh.authorizedKeys.keys = [
