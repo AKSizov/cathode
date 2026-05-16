@@ -29,19 +29,8 @@
   };
 
 
-  # ThinkPad fan control
-  services.thinkfan = {
-    enable = true;
-    levels = [
-      [0 0 55]
-      [1 48 60]
-      [2 55 66]
-      [3 60 72]
-      [4 66 78]
-      [5 74 85]
-      [7 80 32767]
-    ];
-  };
+  # ThinkPad fan control (uses thinkfan's built-in default fan curve)
+  services.thinkfan.enable = true;
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
