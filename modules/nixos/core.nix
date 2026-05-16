@@ -22,6 +22,9 @@
   # Enable unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Full firmware support for all hardware (Wi-Fi, GPUs, etc.)
+  hardware.enableAllFirmware = true;
+
   # ============================================================================
   # Hardware Support
   # ============================================================================
