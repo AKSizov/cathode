@@ -4,6 +4,7 @@
     ./default.nix
     ../modules/nixos/core.nix
     ../modules/nixos/desktop
+    ../modules/nixos/gaming.nix
     ../modules/nixos/users.nix
     ../hardware-configs/hw-foundry.nix
     inputs.hardware.nixosModules.common-pc-laptop
