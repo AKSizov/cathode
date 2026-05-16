@@ -33,6 +33,10 @@
       gpu = {
         apply_gpu_optimisations = 0;        # No dGPU to tune (integrated Intel)
       };
+      custom = {
+        start = "hyprctl switchxkblayout current 1";   # Switch to QWERTY for games
+        end = "hyprctl switchxkblayout current 0";     # Switch back to Dvorak
+      };
     };
   };
 
