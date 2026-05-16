@@ -82,6 +82,15 @@
     };
   };
 
+  # ============================================================================  
+  # Nix Daemon Priority
+  # ============================================================================
+  # Nice the build daemon so it yields CPU and I/O to interactive use
+  systemd.services.nix-daemon.serviceConfig = {
+    Nice = 10;                  # Lower CPU priority (0=normal, 19=lowest)
+    IOSchedulingClass = "idle"; # Only use disk I/O when nothing else needs it
+  };
+
   # ============================================================================
   # Swap Strategy
   # ============================================================================
@@ -128,8 +137,6 @@
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
       max-jobs = "auto";   # Build derivations in parallel using all cores
       cores = 0;            # No per-build core limit (each build can use all cores)
-      daemon-nice-level = 10;   # Lower priority so builds yield to interactive use
-      daemon-ionice-level = 7; # I/O priority: idle — builds yield disk to foreground
     };
     
     # Pin flake inputs in registry so `nix run nixpkgs#hello` uses system nixpkgs
