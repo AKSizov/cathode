@@ -41,7 +41,7 @@
 
   # --- System packages ---
   environment.systemPackages = with pkgs; [
-    prismlauncher                          # MultiMC-fork launcher with mod management
+    hmcl                                    # Minecraft launcher — clean modern UI, solid modpack support
     mangohud                                # FPS/frame timing overlay (run games with `mangohud %command%`)
   ];
 
