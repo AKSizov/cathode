@@ -37,10 +37,11 @@
   };
 
   # --- Minecraft ---
-  programs.prismlauncher.enable = true;      # MultiMC-fork launcher with mod management
+  # prismlauncher is just a package, not a NixOS program module
 
   # --- System packages ---
   environment.systemPackages = with pkgs; [
+    prismlauncher                          # MultiMC-fork launcher with mod management
     mangohud                                # FPS/frame timing overlay (run games with `mangohud %command%`)
     proton-ge-custom                        # GloriousEggroll Proton — extra codecs and patches
   ];
