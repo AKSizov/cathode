@@ -43,18 +43,12 @@
   environment.systemPackages = with pkgs; [
     prismlauncher                          # MultiMC-fork launcher with mod management
     mangohud                                # FPS/frame timing overlay (run games with `mangohud %command%`)
-    proton-ge-custom                        # GloriousEggroll Proton — extra codecs and patches
   ];
 
-  # Tell Steam where to find Proton-GE
-  environment.sessionVariables = {
-    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/etc/steam-compat-tools";
-  };
-
-  # Symlink Proton-GE into Steam's compatibility tools search path
-  environment.etc."steam-compat-tools/proton-ge-custom" = {
-    source = "${pkgs.proton-ge-custom}/share/steam-proton-ge-custom";
-  };
+  # Proton-GE as a Steam compatibility tool (shows up in Steam dropdown)
+  programs.steam.extraCompatPackages = with pkgs; [
+    proton-ge-bin
+  ];
 
   # --- Kernel sysctl tuning for gaming ---
   boot.kernel.sysctl = {
