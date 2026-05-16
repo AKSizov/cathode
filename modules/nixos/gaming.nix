@@ -40,9 +40,9 @@
   # Provide Java runtimes so Modrinth doesn't download its own (broken on NixOS)
   environment.systemPackages = with pkgs; [
     modrinth-app                              # Minecraft launcher — polished UI, built-in modpack browsing
-    jre8                                     # Minecraft <=1.16.5
-    jre17                                    # Minecraft 1.17–1.20.4
-    jre21                                    # Minecraft 1.20.5+
+    jdk8                                     # Minecraft <=1.16.5
+    jdk17                                    # Minecraft 1.17–1.20.4
+    jdk21                                    # Minecraft 1.20.5+
     mangohud                                 # FPS/frame timing overlay (run games with `mangohud %command%`)
   ];
 
