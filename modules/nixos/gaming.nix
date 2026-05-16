@@ -37,12 +37,13 @@
   };
 
   # --- Minecraft ---
-  # prismlauncher is just a package, not a NixOS program module
-
-  # --- System packages ---
+  # Provide Java runtimes so Modrinth doesn't download its own (broken on NixOS)
   environment.systemPackages = with pkgs; [
     modrinth-app                              # Minecraft launcher — polished UI, built-in modpack browsing
-    mangohud                                # FPS/frame timing overlay (run games with `mangohud %command%`)
+    jre8                                     # Minecraft <=1.16.5
+    jre17                                    # Minecraft 1.17–1.20.4
+    jre21                                    # Minecraft 1.20.5+
+    mangohud                                 # FPS/frame timing overlay (run games with `mangohud %command%`)
   ];
 
   # Proton-GE as a Steam compatibility tool (shows up in Steam dropdown)
