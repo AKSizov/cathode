@@ -87,8 +87,8 @@
   # ============================================================================
   # Nice the build daemon so it yields CPU and I/O to interactive use
   systemd.services.nix-daemon.serviceConfig = {
-    Nice = 10;                  # Lower CPU priority (0=normal, 19=lowest)
-    IOSchedulingClass = "idle"; # Only use disk I/O when nothing else needs it
+    Nice = lib.mkForce 10;                  # Lower CPU priority (0=normal, 19=lowest)
+    IOSchedulingClass = lib.mkForce "idle";  # Only use disk I/O when nothing else needs it
   };
 
   # ============================================================================
