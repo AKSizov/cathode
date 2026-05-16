@@ -4,6 +4,7 @@
     ./default.nix
     ../modules/nixos/core.nix
     ../modules/nixos/desktop
+    ../modules/nixos/gaming.nix
     ../modules/nixos/users.nix
     ../hardware-configs/hw-foundry.nix
     inputs.hardware.nixosModules.common-pc-laptop
@@ -27,6 +28,9 @@
     pkiBundle = "/var/lib/sbctl";
   };
 
+
+  # ThinkPad fan control (uses thinkfan's built-in default fan curve)
+  services.thinkfan.enable = true;
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;

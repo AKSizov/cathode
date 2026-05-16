@@ -22,6 +22,9 @@
   # Enable unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Full firmware support for all hardware (Wi-Fi, GPUs, etc.)
+  hardware.enableAllFirmware = true;
+
   # ============================================================================
   # Hardware Support
   # ============================================================================
@@ -79,6 +82,15 @@
     };
   };
 
+  # ============================================================================  
+  # Nix Daemon Priority
+  # ============================================================================
+  # Nice the build daemon so it yields CPU and I/O to interactive use
+  systemd.services.nix-daemon.serviceConfig = {
+    Nice = lib.mkForce 10;                  # Lower CPU priority (0=normal, 19=lowest)
+    IOSchedulingClass = lib.mkForce "idle";  # Only use disk I/O when nothing else needs it
+  };
+
   # ============================================================================
   # Swap Strategy
   # ============================================================================
@@ -123,6 +135,8 @@
       # Enable flakes and new command-line interface
       experimental-features = "nix-command flakes";
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
+      max-jobs = "auto";   # Build derivations in parallel using all cores
+      cores = 0;            # No per-build core limit (each build can use all cores)
     };
     
     # Pin flake inputs in registry so `nix run nixpkgs#hello` uses system nixpkgs
