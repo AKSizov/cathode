@@ -126,6 +126,8 @@
       # Enable flakes and new command-line interface
       experimental-features = "nix-command flakes";
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
+      max-jobs = "auto";   # Build derivations in parallel using all cores
+      cores = 0;            # No per-build core limit (each build can use all cores)
     };
     
     # Pin flake inputs in registry so `nix run nixpkgs#hello` uses system nixpkgs
