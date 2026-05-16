@@ -41,7 +41,7 @@
 
   # --- System packages ---
   environment.systemPackages = with pkgs; [
-    hmcl                                    # Minecraft launcher — clean modern UI, solid modpack support
+    modrinth-app                              # Minecraft launcher — polished UI, built-in modpack browsing
     mangohud                                # FPS/frame timing overlay (run games with `mangohud %command%`)
   ];
 
