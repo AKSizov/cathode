@@ -101,7 +101,6 @@
       # Misc
       misc = {
         force_default_wallpaper = -1;
-        vrr = 1;                              # Variable refresh rate — eliminates tearing without vsync overhead
       };
 
       # Variables
