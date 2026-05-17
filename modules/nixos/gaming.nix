@@ -38,6 +38,9 @@
     };
   };
 
+  # Add user to gamemode group so they can request it
+  users.users.user.extraGroups = [ "gamemode" ];
+
   # --- Minecraft ---
   # Provide Java runtimes so Modrinth doesn't download its own (broken on NixOS)
   environment.systemPackages = with pkgs; [
