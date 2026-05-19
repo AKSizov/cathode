@@ -156,6 +156,9 @@
         # Magic terminal scratchpad
         "$mainMod, grave, exec, [workspace special:term; float; size 50% 600; move 25% 16] kitty"
 
+        # Layout toggle — switch between Dvorak and QWERTY (useful for games)
+        "$mainMod, F12, exec, hyprctl switchxkblayout current next"
+
         # Workspace scroll
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
