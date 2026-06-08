@@ -33,6 +33,9 @@
     };
   };
 
+  # Keep keyd responsive under CPU load — prevents mouse stalls and Parsec key sticking
+  systemd.services.keyd.serviceConfig.Nice = -15;
+
   # Fonts
   fonts = {
     packages = with pkgs; [
