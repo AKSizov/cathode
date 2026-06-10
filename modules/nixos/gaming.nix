@@ -32,8 +32,8 @@
       general = {
         renice = 10;                        # Give game processes higher priority
         ioprio = 0;                         # Best-effort I/O scheduling
-        desiredgov = "performance";         # Max CPU clocks during gaming
-        igpu_desiredgov = "performance";    # Same for integrated GPU governor
+        desiredgov = "schedutil";           # Dynamic governor — iGPU needs TDP headroom, performance starves it
+        igpu_desiredgov = "schedutil";      # Same for iGPU governor
       };
       gpu = {
         apply_gpu_optimisations = 0;        # No dGPU to tune (integrated Intel)
