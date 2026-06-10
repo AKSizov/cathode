@@ -6,8 +6,11 @@
   # Core gaming support, controller drivers, system optimizations, and tools
 
   # --- Steam ---
+  # gamemode lib must be in Steam's FHS sandbox or games can't request it
+  # https://github.com/NixOS/nixpkgs/issues/389142
   programs.steam = {
     enable = true;
+    package = pkgs.steam.override { extraPkgs = p: [ p.gamemode ]; };
     remotePlay.openFirewall = true;          # Steam Remote Play
     localNetworkGameTransfers.openFirewall = true; # LAN game transfers
     protontricks.enable = true;              # Winetricks wrapper for Proton prefixes
