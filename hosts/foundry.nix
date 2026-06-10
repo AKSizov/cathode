@@ -34,7 +34,7 @@
 
   # Intel thermal monitoring and passive cooling
   services.thermald.enable = true;
-  environment.etc."thermald/thermal-conf.xml".source = ../thermal-conf.xml;
+  environment.etc."thermald/thermal-conf.xml".source = ./thermal-conf.xml;
   systemd.services.thermald.serviceConfig.ExecStart =
     lib.mkForce "${pkgs.thermald}/sbin/thermald --ignore-cpuid-check --config-file /etc/thermald/thermal-conf.xml";
 
