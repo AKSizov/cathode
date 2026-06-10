@@ -36,7 +36,7 @@
   services.thermald.enable = true;
   environment.etc."thermald/thermal-conf.xml".source = ./thermal-conf.xml;
   systemd.services.thermald.serviceConfig.ExecStart =
-    lib.mkForce "${pkgs.thermald}/sbin/thermald --ignore-cpuid-check --config-file /etc/thermald/thermal-conf.xml";
+    lib.mkForce "${pkgs.thermald}/sbin/thermald --no-daemon --systemd --ignore-cpuid-check --config-file /etc/thermald/thermal-conf.xml";
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
