@@ -32,6 +32,9 @@
   # ThinkPad fan control (uses thinkfan's built-in default fan curve)
   services.thinkfan.enable = true;
 
+  # Intel thermal monitoring and passive cooling
+  services.thermald.enable = true;
+
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
 }

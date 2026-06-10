@@ -12,6 +12,9 @@
 
   networking.hostName = "mininix";
 
+  # Intel thermal monitoring and passive cooling
+  services.thermald.enable = true;
+
   # Swap configuration (16GB swapfile)
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];
 

@@ -27,6 +27,9 @@
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
 
+  # Intel thermal monitoring and passive cooling
+  services.thermald.enable = true;
+
   # Enable auto-upgrades with reboot
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
