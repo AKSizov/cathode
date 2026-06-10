@@ -19,7 +19,7 @@
           </TripPoint>
           <TripPoint>
             <Temperature>95000</Temperature>
-            <CoolingDeviceType>rapl_controller_mmio</CoolingDevicePowerCap>
+            <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
             <CoolingDevicePowerCap>10000000</CoolingDevicePowerCap>
           </TripPoint>
         </TripPoints>
