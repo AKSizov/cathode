@@ -1,4 +1,4 @@
-{ inputs, lib, ... }:
+{ inputs, lib, pkgs, ... }:
 {
   imports = [
     ./default.nix
@@ -34,6 +34,8 @@
 
   # Intel thermal monitoring and passive cooling
   services.thermald.enable = true;
+  systemd.services.thermald.serviceConfig.ExecStart =
+    lib.mkForce "${pkgs.thermald}/sbin/thermald --ignore-cpuid-check --config-file /etc/thermald/thermal-conf.xml";
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
