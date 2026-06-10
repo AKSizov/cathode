@@ -5,7 +5,7 @@
     <ProductName>*</ProductName>
     <ThermalZones>
       <ThermalZone>
-        <Type>intel_cpu</Type>
+        <Type>x86_pkg_temp</Type>
         <TripPoints>
           <TripPoint>
             <Temperature>85000</Temperature>
