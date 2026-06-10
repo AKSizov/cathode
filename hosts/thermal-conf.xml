@@ -8,19 +8,14 @@
         <Type>x86_pkg_temp</Type>
         <TripPoints>
           <TripPoint>
-            <Temperature>85000</Temperature>
+            <Temperature>105000</Temperature>
             <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
             <CoolingDevicePowerCap>45000000</CoolingDevicePowerCap>
           </TripPoint>
           <TripPoint>
-            <Temperature>90000</Temperature>
+            <Temperature>110000</Temperature>
             <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
             <CoolingDevicePowerCap>25000000</CoolingDevicePowerCap>
-          </TripPoint>
-          <TripPoint>
-            <Temperature>95000</Temperature>
-            <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
-            <CoolingDevicePowerCap>10000000</CoolingDevicePowerCap>
           </TripPoint>
         </TripPoints>
       </ThermalZone>
