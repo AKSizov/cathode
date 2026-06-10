@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     ./default.nix
@@ -38,9 +38,6 @@
     ignoreCpuidCheck = true;
     configFile = ./thermal-conf.xml;
   };
-  # Prevent thermald from adding its own low-temp default trip points
-  systemd.services.thermald.serviceConfig.ExecStart =
-    lib.mkForce "${pkgs.thermald}/sbin/thermald --no-daemon --ignore-cpuid-check --config-file ${./thermal-conf.xml} --ignore-default-control --dbus-enable";
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
