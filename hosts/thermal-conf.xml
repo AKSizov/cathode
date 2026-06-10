@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ThermalConfiguration>
+  <Platform>
+    <Name>ThinkPad T14 Gen3</Name>
+    <ProductName>*</ProductName>
+    <ThermalZones>
+      <ThermalZone>
+        <Type>cpu</Type>
+        <TripPoints>
+          <TripPoint>
+            <Temperature>85000</Temperature>
+            <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
+            <CoolingDevicePowerCap>45000000</CoolingDevicePowerCap>
+          </TripPoint>
+          <TripPoint>
+            <Temperature>90000</Temperature>
+            <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
+            <CoolingDevicePowerCap>25000000</CoolingDevicePowerCap>
+          </TripPoint>
+          <TripPoint>
+            <Temperature>95000</Temperature>
+            <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
+            <CoolingDevicePowerCap>10000000</CoolingDevicePowerCap>
+          </TripPoint>
+        </TripPoints>
+      </ThermalZone>
+    </ThermalZones>
+  </Platform>
+</ThermalConfiguration>
