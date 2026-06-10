@@ -5,7 +5,7 @@
     <ProductName>*</ProductName>
     <ThermalZones>
       <ThermalZone>
-        <Type>cpu</Type>
+        <Type>intel_cpu</Type>
         <TripPoints>
           <TripPoint>
             <Temperature>85000</Temperature>
@@ -19,7 +19,7 @@
           </TripPoint>
           <TripPoint>
             <Temperature>95000</Temperature>
-            <CoolingDeviceType>rapl_controller_mmio</CoolingDeviceType>
+            <CoolingDeviceType>rapl_controller_mmio</CoolingDevicePowerCap>
             <CoolingDevicePowerCap>10000000</CoolingDevicePowerCap>
           </TripPoint>
         </TripPoints>
