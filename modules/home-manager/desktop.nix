@@ -83,7 +83,11 @@
     # Creative & Design
     gimp3
     openscad
-    
+
+    # Electronics / EDA
+    kicad
+    kicad-library
+
     # Media & Entertainment
     parsec-bin
     moonlight-qt
