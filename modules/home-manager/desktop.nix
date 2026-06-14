@@ -86,7 +86,7 @@
 
     # Electronics / EDA
     kicad
-    kicad-library
+    turbocase
 
     # Media & Entertainment
     parsec-bin
