@@ -83,7 +83,11 @@
     # Creative & Design
     gimp3
     openscad
-    
+
+    # Electronics / EDA
+    kicad
+    turbocase
+
     # Media & Entertainment
     parsec-bin
     moonlight-qt
@@ -189,7 +193,7 @@
       }) 9;
       # Fails activation on schema changes to detect potential regressions
       # Find this in about:config or prefs.js of your profile
-      keyboardShortcutsVersion = 18;
+      keyboardShortcutsVersion = 19;
     };
   };
 

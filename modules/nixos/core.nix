@@ -193,8 +193,9 @@
   services.hardware.bolt.enable = true;
 
   # Tailscale VPN
-  services.tailscale.enable = true;
+  services.tailscale.enable = true; # auth with sudo tailscale up --auth-key=KEY
   services.tailscale.package = pkgs.tailscale.overrideAttrs { doCheck = false; };
+  services.tailscale.extraUpFlags = [ "--accept-routes" ];
 
   # ============================================================================
   # Virtualisation & Containers

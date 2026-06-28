@@ -13,10 +13,12 @@ in
 
   # Deploy the wrapper script to /data (only if it doesn’t exist)
   system.activationScripts.podman-services-script = ''
+    mkdir -p /data
+    chown -R user:user /data
     if [ ! -f /data/podman-services.sh ]; then
-      mkdir -p /data
       cp ${podmanServicesScript}/bin/podman-services.sh /data/podman-services.sh
       chmod +x /data/podman-services.sh
+      chown user:user /data/podman-services.sh
       echo "Deployed /data/podman-services.sh"
     fi
   '';
@@ -50,6 +52,8 @@ in
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
+      User = "user";
+      Group = "user";
       ExecStart = "/data/podman-services.sh up";
       ExecStop = "/data/podman-services.sh down";
     };
