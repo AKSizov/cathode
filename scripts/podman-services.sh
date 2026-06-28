@@ -15,7 +15,7 @@ case "$ACTION" in
       if [ -f "$dir/docker-compose.yml" ] || [ -f "$dir/docker-compose.yaml" ]; then
         echo ">>> Starting $dir"
         cd "$dir" || continue
-        podman-compose up -d 2>&1 || true
+        /run/current-system/sw/bin/podman compose up -d 2>&1 || true
       fi
     done
     ;;
@@ -24,12 +24,12 @@ case "$ACTION" in
       if [ -f "$dir/docker-compose.yml" ] || [ -f "$dir/docker-compose.yaml" ]; then
         echo ">>> Stopping $dir"
         cd "$dir" || continue
-        podman-compose down 2>&1 || true
+        /run/current-system/sw/bin/podman compose down 2>&1 || true
       fi
     done
     ;;
   status)
-    podman ps -a --format "table {{.Names}}	{{.Status}}	{{.Ports}}"
+    /run/current-system/sw/bin/podman ps -a --format "table {{.Names}}	{{.Status}}	{{.Ports}}"
     ;;
   *)
     echo "Usage: podman-services.sh {up|down|status}"
