@@ -245,6 +245,7 @@
       "original": {
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
+        "rev": "3aab45a2f34fd47666b05892b95054952e788de1",
         "type": "github"
       }
     },
