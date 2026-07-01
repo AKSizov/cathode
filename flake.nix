@@ -49,6 +49,7 @@
         closetcard = mkHost "x86_64-linux" ./hosts/closetcard.nix;
         grassblock = mkHost "aarch64-linux" ./hosts/grassblock.nix;
         foundry = mkHost "x86_64-linux" ./hosts/foundry.nix;
+        wyse1 = mkHost "x86_64-linux" ./hosts/wyse1.nix;
       };
     };
 }
