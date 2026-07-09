@@ -92,6 +92,11 @@
   services.libinput.enable = true;
   services.power-profiles-daemon.enable = true;
   services.ollama.enable = true;
+  services.ananicy = {
+    enable = true;
+    package = pkgs.ananicy-cpp;
+    rulesProvider = pkgs.ananicy-rules-cachyos;
+  };
 
   # Bluetooth
   hardware.bluetooth.powerOnBoot = false;
