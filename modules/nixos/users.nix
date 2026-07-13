@@ -15,6 +15,6 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENaV7GRpmpDbLOYGyFmX/na3HGivP6NLz27bA6eCfH2 k@oc"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILXVw3wVX8kWLfkgAhbr8OmfS/vOeI87WqKGZFCG9TkK user@foundry"
     ];
-    extraGroups = [ "wheel" "video" "audio" "networkmanager" ];
+    extraGroups = [ "wheel" "video" "audio" "networkmanager" "dialout" ];
   };
 }
