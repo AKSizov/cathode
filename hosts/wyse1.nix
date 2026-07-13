@@ -32,6 +32,14 @@
     ];
   };
 
+  # Grant user access to USB serial devices for rootless Podman containers.
+  # Rootless Podman's user namespace doesn't propagate supplementary groups
+  # (like dialout), so the container process can't access group-owned devices.
+  # MODE=0660 with GROUP would normally work, but user namespaces defeat it.
+  services.udev.extraRules = ''
+    SUBSYSTEM=="tty", ENV{ID_BUS}=="usb", MODE="0666"
+  '';
+
   # Home Manager configuration (headless)
   home-manager.users.user = import ../modules/home-manager/base.nix;
 }
