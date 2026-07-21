@@ -14,6 +14,11 @@
     # UWSM handles systemd session management itself
     systemd.enable = false;
 
+    # Pin to hyprlang format — stateVersion 26.05+ defaults to "lua"
+    # which requires a completely different settings structure.
+    # Migrate when the Lua config generation is stable.
+    configType = "hyprlang";
+
     settings = {
       # Monitor configuration
       monitor = [ ", preferred, auto, 1" ];
@@ -90,8 +95,11 @@
 
       # Layouts
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
+        smart_split = true;
+        smart_resizing = true;
+        force_split = 0;
+        split_width_multiplier = 1.0;
       };
 
       master = {
@@ -117,6 +125,8 @@
         # Window management
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
+        # Dwindle layout control
+        "$mainMod, V, togglesplit"
         # Noctalia shell
         "$mainMod, Space, exec, noctalia-shell ipc call launcher toggle"
         "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
