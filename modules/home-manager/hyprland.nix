@@ -189,7 +189,7 @@
       windowrule = [
         # Dialog suppression
         "suppress_event maximize, match:class .*"
-        "no_initial_focus true, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pinned 0"
+        "no_initial_focus true, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pin 0"
 
         # Floating apps
         "float true, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
