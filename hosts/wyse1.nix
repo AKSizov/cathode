@@ -9,6 +9,7 @@
   ];
 
   networking.hostName = "wyse1";
+  system.stateVersion = lib.mkDefault "25.11";
 
   # Disable sleep/suspend (headless server)
   systemd.targets.sleep.enable = false;

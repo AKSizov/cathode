@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     ./default.nix
@@ -12,6 +12,7 @@
   ];
 
   networking.hostName = "closetcard";
+  system.stateVersion = lib.mkDefault "25.11";
 
   # Static IP configuration
   networking.useDHCP = false;

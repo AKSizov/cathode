@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     ./default.nix
@@ -9,6 +9,7 @@
   ];
 
   networking.hostName = "grassblock";
+  system.stateVersion = lib.mkDefault "25.11";
 
   # Disable sleep/suspend (headless server)
   systemd.targets.sleep.enable = false;

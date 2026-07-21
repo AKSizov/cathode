@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     ./default.nix
@@ -11,6 +11,7 @@
   ];
 
   networking.hostName = "mininix";
+  system.stateVersion = lib.mkDefault "25.11";
 
   # Swap configuration (16GB swapfile)
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];

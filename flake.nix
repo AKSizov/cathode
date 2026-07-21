@@ -14,9 +14,15 @@
       url = "github:noctalia-dev/noctalia-shell/3aab45a2f34fd47666b05892b95054952e788de1";
     };
 
-    hardware.url = "github:NixOS/nixos-hardware/master";
+    hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     
-    nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon/main";
+    nixos-apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
