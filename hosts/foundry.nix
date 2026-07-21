@@ -13,7 +13,7 @@
   ];
 
   networking.hostName = "foundry";
-  system.stateVersion = lib.mkDefault "25.11";
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Use local RTC for Windows dual-boot compatibility
   # Windows expects hardware clock in local time; NixOS defaults to UTC

@@ -182,10 +182,10 @@
     PowerKey = "hibernate";
     PowerKeyLongPress = "hibernate";
   };
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=60m
-    SuspendState=mem
-  '';
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "60m";
+    SuspendState = "mem";
+  };
 
   # Device management and mounting
   services.devmon.enable = true;

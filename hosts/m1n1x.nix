@@ -10,7 +10,7 @@
   ];
 
   networking.hostName = "m1n1x";
-  system.stateVersion = lib.mkDefault "25.11";
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Swap configuration (16GB swapfile)
   swapDevices = [{ device = "/swapfile"; size = 16 * 1024; }];

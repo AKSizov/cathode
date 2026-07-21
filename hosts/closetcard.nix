@@ -12,7 +12,7 @@
   ];
 
   networking.hostName = "closetcard";
-  system.stateVersion = lib.mkDefault "25.11";
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Static IP configuration
   networking.useDHCP = false;
