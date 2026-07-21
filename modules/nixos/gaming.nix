@@ -38,6 +38,41 @@
     };
   };
 
+  # --- modrinth-app fix (nixpkgs#541756, PR #542808) ---
+  # symlinkJoin skips fixup phases; wrapGAppsHook broke on 0.15.7+.
+  # Rebuild wrapper with direct wrapGApp call. Drop this when upstream merges.
+  nixpkgs.overlays = [
+    (final: prev: {
+      modrinth-app = final.symlinkJoin {
+        name = "modrinth-app-${final.modrinth-app-unwrapped.version}";
+        paths = [ final.modrinth-app-unwrapped ];
+        nativeBuildInputs = [ final.glib final.wrapGAppsHook3 ];
+        buildInputs = [ final.glib-networking final.gsettings-desktop-schemas ];
+        postBuild =
+          let
+            runtimeDeps = final.lib.makeLibraryPath [
+              final.addDriverRunpath.driverLink
+              final.libGL final.libx11 final.libxcursor final.libxext final.libxrandr final.libxxf86vm
+              (final.lib.getLib final.stdenv.cc.cc)
+              final.flite
+              final.alsa-lib final.libjack2 final.libpulseaudio final.pipewire
+              final.udev
+            ];
+          in
+          ''
+            gappsWrapperArgs+=(
+              --prefix PATH : ${final.lib.makeSearchPath "bin/java" [ final.jdk8 final.jdk17 final.jdk21 final.jdk25 ]}
+              --prefix PATH : ${final.lib.makeBinPath [ final.xrandr ]}
+              --set LD_LIBRARY_PATH ${runtimeDeps}
+            )
+            wrapGApp "$out/bin/ModrinthApp"
+          '';
+        meta = final.modrinth-app-unwrapped.meta;
+      };
+    })
+  ];
+
+
   # Add user to gamemode group so they can request it
   users.users.user.extraGroups = [ "gamemode" ];
 
