@@ -2,10 +2,10 @@
   description = "Cathode - A clean NixOS distribution";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -26,8 +26,7 @@
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake/beta";
       inputs = {
-        # zen-browser needs nixpkgs-unstable for latest Firefox compatibility
-        # Do NOT follow our nixpkgs (25.11) — it will cause version mismatch
+        nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
       };
     };
