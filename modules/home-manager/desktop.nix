@@ -199,10 +199,9 @@
 
 
 
-  # VSCode with FHS environment for extension compatibility
-  programs.vscode = {
+  # VSCodium
+  programs.vscodium = {
     enable = true;
-    package = pkgs.vscodium;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       saoudrizwan.claude-dev
       ms-vscode.remote-explorer
@@ -218,7 +217,6 @@
       "update.showReleaseNotes" = false;
       "chat.disableAIFeatures" = true;
       
-      # Terminal profiles
       "terminal.integrated.profiles.linux" = {
         "bash (agent)" = {
           "path" = "bash";
