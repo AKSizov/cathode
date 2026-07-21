@@ -126,7 +126,7 @@
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
         # Dwindle layout control
-        "$mainMod, V, togglesplit"
+        "$mainMod, V, layoutmsg, togglesplit"
         # Noctalia shell
         "$mainMod, Space, exec, noctalia-shell ipc call launcher toggle"
         "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
@@ -186,24 +186,24 @@
       ];
 
       # Window rules
-      windowrulev2 = [
+      windowrule = [
         # Dialog suppression
-        "suppressevent maximize, class:.*"
-        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+        "suppressevent maximize, match:class .*"
+        "nofocus, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pinned 0"
 
         # Floating apps
-        "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
-        "float, class:^(xdg-desktop-portal-gtk)$"
-        "float, class:^(easyeffects)$"
-        "size 900 600, class:^(easyeffects)$"
+        "float, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
+        "float, match:class ^(xdg-desktop-portal-gtk)$"
+        "float, match:class ^(easyeffects)$"
+        "size 900 600, match:class ^(easyeffects)$"
 
         # File dialogs
-        "float, title:^(Open File|Save File|Open Folder)$"
+        "float, match:title ^(Open File|Save File|Open Folder)$"
 
         # Picture-in-Picture
-        "float, title:^(Picture-in-Picture)$"
-        "pin, title:^(Picture-in-Picture)$"
-        "size 480 270, title:^(Picture-in-Picture)$"
+        "float, match:title ^(Picture-in-Picture)$"
+        "pin, match:title ^(Picture-in-Picture)$"
+        "size 480 270, match:title ^(Picture-in-Picture)$"
       ];
     };
 
