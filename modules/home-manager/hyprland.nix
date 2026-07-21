@@ -188,21 +188,21 @@
       # Window rules
       windowrule = [
         # Dialog suppression
-        "suppressevent maximize, match:class .*"
-        "nofocus, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pinned 0"
+        "suppress_event maximize, match:class .*"
+        "no_initial_focus true, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pinned 0"
 
         # Floating apps
-        "float, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
-        "float, match:class ^(xdg-desktop-portal-gtk)$"
-        "float, match:class ^(easyeffects)$"
+        "float true, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
+        "float true, match:class ^(xdg-desktop-portal-gtk)$"
+        "float true, match:class ^(easyeffects)$"
         "size 900 600, match:class ^(easyeffects)$"
 
         # File dialogs
-        "float, match:title ^(Open File|Save File|Open Folder)$"
+        "float true, match:title ^(Open File|Save File|Open Folder)$"
 
         # Picture-in-Picture
-        "float, match:title ^(Picture-in-Picture)$"
-        "pin, match:title ^(Picture-in-Picture)$"
+        "float true, match:title ^(Picture-in-Picture)$"
+        "pin true, match:title ^(Picture-in-Picture)$"
         "size 480 270, match:title ^(Picture-in-Picture)$"
       ];
     };
