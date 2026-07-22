@@ -33,6 +33,13 @@
     ];
   };
 
+  # For use as a tailscale exit node
+  boot.kernel.sysctl = {
+    "net.ipv4.conf.all.forwarding" = true;
+    "net.ipv6.conf.all.forwarding" = true;
+  };
+
+
   # Grant user access to USB serial devices for rootless Podman containers.
   # Rootless Podman's user namespace doesn't propagate supplementary groups
   # (like dialout), so the container process can't access group-owned devices.
