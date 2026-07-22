@@ -10,8 +10,6 @@
     hyprpolkitagent
     nautilus
     gparted
-    firefox
-    kitty
   ];
 
   # Required for Home Manager xdg.portal to work properly

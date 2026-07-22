@@ -15,6 +15,5 @@
   networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
   time.timeZone = lib.mkDefault "America/New_York";
 
-  # State version
-  system.stateVersion = "24.11";
+  # State version — each host declares its own with lib.mkDefault
 }

@@ -14,6 +14,11 @@
     # UWSM handles systemd session management itself
     systemd.enable = false;
 
+    # Pin to hyprlang format — stateVersion 26.05+ defaults to "lua"
+    # which requires a completely different settings structure.
+    # Migrate when the Lua config generation is stable.
+    configType = "hyprlang";
+
     settings = {
       # Monitor configuration
       monitor = [ ", preferred, auto, 1" ];
@@ -90,8 +95,11 @@
 
       # Layouts
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
+        smart_split = true;
+        smart_resizing = true;
+        force_split = 0;
+        split_width_multiplier = 1.0;
       };
 
       master = {
@@ -117,6 +125,8 @@
         # Window management
         "$mainMod, Q, killactive"
         "$mainMod, M, exit"
+        # Dwindle layout control
+        "$mainMod, V, layoutmsg, togglesplit"
         # Noctalia shell
         "$mainMod, Space, exec, noctalia-shell ipc call launcher toggle"
         "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
@@ -176,24 +186,24 @@
       ];
 
       # Window rules
-      windowrulev2 = [
+      windowrule = [
         # Dialog suppression
-        "suppressevent maximize, class:.*"
-        "nofocus, class:^$, title:^$, xwayland:1, floating:1, fullscreen:0, pinned:0"
+        "suppress_event maximize, match:class .*"
+        "no_initial_focus true, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pin 0"
 
         # Floating apps
-        "float, class:^(org.kde.polkit-kde-authentication-agent-1)$"
-        "float, class:^(xdg-desktop-portal-gtk)$"
-        "float, class:^(easyeffects)$"
-        "size 900 600, class:^(easyeffects)$"
+        "float true, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
+        "float true, match:class ^(xdg-desktop-portal-gtk)$"
+        "float true, match:class ^(easyeffects)$"
+        "size 900 600, match:class ^(easyeffects)$"
 
         # File dialogs
-        "float, title:^(Open File|Save File|Open Folder)$"
+        "float true, match:title ^(Open File|Save File|Open Folder)$"
 
         # Picture-in-Picture
-        "float, title:^(Picture-in-Picture)$"
-        "pin, title:^(Picture-in-Picture)$"
-        "size 480 270, title:^(Picture-in-Picture)$"
+        "float true, match:title ^(Picture-in-Picture)$"
+        "pin true, match:title ^(Picture-in-Picture)$"
+        "size 480 270, match:title ^(Picture-in-Picture)$"
       ];
     };
 

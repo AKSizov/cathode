@@ -9,6 +9,7 @@
   ];
 
   networking.hostName = "wyse1";
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Disable sleep/suspend (headless server)
   systemd.targets.sleep.enable = false;
@@ -31,6 +32,13 @@
       "-L"         # Print build logs
     ];
   };
+
+  # For use as a tailscale exit node
+  boot.kernel.sysctl = {
+    "net.ipv4.conf.all.forwarding" = true;
+    "net.ipv6.conf.all.forwarding" = true;
+  };
+
 
   # Grant user access to USB serial devices for rootless Podman containers.
   # Rootless Podman's user namespace doesn't propagate supplementary groups

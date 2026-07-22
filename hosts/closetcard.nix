@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   imports = [
     ./default.nix
@@ -12,6 +12,7 @@
   ];
 
   networking.hostName = "closetcard";
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Static IP configuration
   networking.useDHCP = false;
@@ -28,8 +29,15 @@
   systemd.targets.hybrid-sleep.enable = false;
 
   # Enable auto-upgrades with reboot
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = true;
+    flake = "github:AKSizov/cathode/stable";
+    flags = [
+      "--refresh"
+      "-L"
+    ];
+  };
 
   # Home Manager configuration (headless)
   home-manager.users.user = import ../modules/home-manager/base.nix;

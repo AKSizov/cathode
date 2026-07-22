@@ -20,23 +20,40 @@
   # --- Controller support ---
   hardware.xpadneo.enable = true;           # Xbox Bluetooth controller (better than in-kernel xpad)
 
-  # --- GameMode ---
-  # Feral's on-demand system optimizer: CPU governor boost, I/O priority,
-  # screensaver inhibition, etc. Games request it via `gamemoded` or `gameMode` hint
-  programs.gamemode = {
-    enable = true;
-    settings = {
-      general = {
-        renice = 10;                        # Give game processes higher priority
-        ioprio = 0;                         # Best-effort I/O scheduling
-        desiredgov = "performance";         # Max CPU clocks during gaming
-        igpu_desiredgov = "performance";    # Same for integrated GPU governor
+  # --- modrinth-app fix (nixpkgs#541756, PR #542808) ---
+  # symlinkJoin skips fixup phases; wrapGAppsHook broke on 0.15.7+.
+  # Rebuild wrapper with direct wrapGApp call. Drop this when upstream merges.
+  nixpkgs.overlays = [
+    (final: prev: {
+      modrinth-app = final.symlinkJoin {
+        name = "modrinth-app-${final.modrinth-app-unwrapped.version}";
+        paths = [ final.modrinth-app-unwrapped ];
+        nativeBuildInputs = [ final.glib final.wrapGAppsHook3 ];
+        buildInputs = [ final.glib-networking final.gsettings-desktop-schemas ];
+        postBuild =
+          let
+            runtimeDeps = final.lib.makeLibraryPath [
+              final.addDriverRunpath.driverLink
+              final.libGL final.libx11 final.libxcursor final.libxext final.libxrandr final.libxxf86vm
+              (final.lib.getLib final.stdenv.cc.cc)
+              final.flite
+              final.alsa-lib final.libjack2 final.libpulseaudio final.pipewire
+              final.udev
+            ];
+          in
+          ''
+            gappsWrapperArgs+=(
+              --prefix PATH : ${final.lib.makeSearchPath "bin/java" [ final.jdk8 final.jdk17 final.jdk21 final.jdk25 ]}
+              --prefix PATH : ${final.lib.makeBinPath [ final.xrandr ]}
+              --set LD_LIBRARY_PATH ${runtimeDeps}
+            )
+            wrapGApp "$out/bin/ModrinthApp"
+          '';
+        meta = final.modrinth-app-unwrapped.meta;
       };
-      gpu = {
-        apply_gpu_optimisations = 0;        # No dGPU to tune (integrated Intel)
-      };
-    };
-  };
+    })
+  ];
+
 
   # Add user to gamemode group so they can request it
   users.users.user.extraGroups = [ "gamemode" ];

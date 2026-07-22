@@ -13,6 +13,7 @@
   ];
 
   networking.hostName = "foundry";
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Use local RTC for Windows dual-boot compatibility
   # Windows expects hardware clock in local time; NixOS defaults to UTC
@@ -33,8 +34,6 @@
   services.thinkfan.enable = true;
 
   # Lenovo ThinkPad throttling control (replaces thermald)
-  # throttled (lenovo-throttling-fix) provides per-power-state PL1/PL2 limits,
-  # undervolting, and trip temp overrides via intel MSR registers
   services.throttled = {
     enable = true;
     extraConfig = ''
@@ -45,10 +44,10 @@
 
       [BATTERY]
       Update_Rate_s: 30
-      PL1_Tdp_W: 30
+      PL1_Tdp_W: 25
       PL1_Duration_s: 28
       PL2_Tdp_W: 44
-      PL2_Duration_S: 5
+      PL2_Duration_s: 5
       Trip_Temp_C: 85
       cTDP: 0
       Disable_BDPROCHOT: True
@@ -58,32 +57,27 @@
       PL1_Tdp_W: 40
       PL1_Duration_s: 28
       PL2_Tdp_W: 54
-      PL2_Duration_S: 10
+      PL2_Duration_s: 10
       Trip_Temp_C: 95
       cTDP: 0
       Disable_BDPROCHOT: True
 
       [UNDERVOLT.BATTERY]
-      CORE: -80
-      GPU: -60
-      CACHE: -80
-      UNCORE: -60
+      CORE: 0
+      GPU: 0
+      CACHE: 0
+      UNCORE: 0
       ANALOGIO: 0
 
       [UNDERVOLT.AC]
-      CORE: -80
-      GPU: -60
-      CACHE: -80
-      UNCORE: -60
+      CORE: 0
+      GPU: 0
+      CACHE: 0
+      UNCORE: 0
       ANALOGIO: 0
-
-      # Uncomment only if you still hit hard power limits after the above changes
-      # [ICCMAX.AC]
-      # CORE: 120
-      # GPU: 80
-      # CACHE: 120
     '';
   };
+
 
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
