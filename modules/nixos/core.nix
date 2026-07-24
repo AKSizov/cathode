@@ -6,6 +6,18 @@
   # This module contains all core system settings including boot, networking,
   # security, services, and containerization.
 
+  # Disable glances test for ARM boxes
+  nixpkgs.overlays = [
+    (final: prev: {
+      glances = prev.glances.overrideAttrs (oldAttrs: {
+        disabledTests = (oldAttrs.disabledTests or []) ++ [
+          "test_phys_core_returns_int"
+        ];
+      });
+    })
+  ];
+
+
   # Core system packages
   environment.systemPackages = with pkgs; [
     vim
