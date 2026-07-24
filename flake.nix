@@ -1,6 +1,11 @@
 {
   description = "Cathode - A clean NixOS distribution";
 
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     
@@ -9,9 +14,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    
+    # Noctalia v5 — desktop shell (bar, notifications, lock, OSD, launcher, clipboard)
+    # Pinned to main branch (beta). Pin a specific rev when stable.
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/3aab45a2f34fd47666b05892b95054952e788de1";
+      url = "github:noctalia-dev/noctalia";
+      # Don't follow nixpkgs — keeps Cachix binary cache working
+    };
+
+    # Noctalia Greeter — graphical login screen that matches Noctalia theme
+    noctalia-greeter = {
+      url = "github:noctalia-dev/noctalia-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hardware = {
@@ -32,7 +45,6 @@
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake/beta";
       inputs = {
-        # IMPORTANT: To ensure compatibility with the latest Firefox version, use nixpkgs-unstable.
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
       };
