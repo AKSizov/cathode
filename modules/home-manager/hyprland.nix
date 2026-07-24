@@ -121,7 +121,7 @@
       bind = [
         "$mainMod, T, exec, $terminal"
         "$mainMod, Return, exec, $terminal"
-        "$mainMod, L, exec, noctalia msg session-lock"
+        "$mainMod, L, exec, noctalia msg panel-toggle session"
 
         # Window management
         "$mainMod, Q, killactive"
