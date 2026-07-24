@@ -6,6 +6,18 @@
   # This module contains all core system settings including boot, networking,
   # security, services, and containerization.
 
+  # Disable glances test for ARM boxes
+  nixpkgs.overlays = [
+    (final: prev: {
+      glances = prev.glances.overrideAttrs (oldAttrs: {
+        disabledTests = (oldAttrs.disabledTests or []) ++ [
+          "test_phys_core_returns_int"
+        ];
+      });
+    })
+  ];
+
+
   # Core system packages
   environment.systemPackages = with pkgs; [
     vim
@@ -16,7 +28,7 @@
     lz4
     pv
     podman-compose
-    nixfmt-rfc-style
+    nixfmt
   ];
 
   # Enable unfree packages
@@ -137,6 +149,7 @@
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
       max-jobs = "auto";   # Build derivations in parallel using all cores
       cores = 0;            # No per-build core limit (each build can use all cores)
+      trusted-users = [ "user" ];
     };
     
     # Pin flake inputs in registry so `nix run nixpkgs#hello` uses system nixpkgs
@@ -181,10 +194,10 @@
     PowerKey = "hibernate";
     PowerKeyLongPress = "hibernate";
   };
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=60m
-    SuspendState=mem
-  '';
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "60m";
+    SuspendState = "mem";
+  };
 
   # Device management and mounting
   services.devmon.enable = true;

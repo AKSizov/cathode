@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   # ============================================================================
   # Desktop Home Manager Configuration
@@ -12,65 +12,31 @@
     ./hyprland.nix
   ];
 
-  # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
-  programs.noctalia-shell = {
+  # Noctalia v5 — desktop shell: bar, notifications, lock, OSD, launcher, clipboard
+  programs.noctalia = {
     enable = true;
-    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    systemd.enable = true;
     settings = {
-      general = {
-        showChangelogOnStartup = lib.mkForce false;
-        lockScreenAnimations = lib.mkForce true;
-        lockOnSuspend = lib.mkForce true;
-        enableLockScreenMediaControls = lib.mkForce true;
-      };
-      nightLight = {
-        enabled = lib.mkForce true;
-      };
-      appLauncher = {
-        enableClipboardHistory = lib.mkForce true;
-      };
-      brightness = {
-        enableDdcSupport = lib.mkForce true;
-      };
-      location = {
-        autoLocate = lib.mkForce true;
+      shell.setup_wizard_enabled = false;
+      theme = {
+        mode = "dark";
+        source = "builtin";
+        builtin = "Tokyo-Night";
       };
       idle = {
-        enabled = lib.mkForce true;
-        screenOffTimeout = lib.mkForce 300;
-        lockTimeout = lib.mkForce 360;
-        suspendTimeout = lib.mkForce 0;
-        fadeDuration = lib.mkForce 5;
-      };
-      desktopWidgets = {
-        enabled = lib.mkForce true;
-      };
-      colorSchemes = {
-        predefinedScheme = lib.mkForce "Tokyo Night";
-        darkMode = lib.mkForce true;
-      };
-      templates = {
-        activeTemplates = lib.mkForce [
-          { id = "kitty"; active = true; }
-          { id = "ghostty"; active = true; }
-          { id = "foot"; active = true; }
-          { id = "alacritty"; active = true; }
-          { id = "wezterm"; active = true; }
-          { id = "starship"; active = true; }
-          { id = "fuzzel"; active = true; }
-          { id = "walker"; active = true; }
-          { id = "pywalfox"; active = true; }
-          { id = "cava"; active = true; }
-          { id = "yazi"; active = true; }
-          { id = "labwc"; active = true; }
-          { id = "niri"; active = true; }
-          { id = "hyprland"; active = true; }
-          { id = "sway"; active = true; }
-          { id = "scroll"; active = true; }
-          { id = "mango"; active = true; }
-          { id = "btop"; active = true; }
-          { id = "zathura"; active = true; }
-        ];
+        behavior = {
+          lock = {
+            timeout = 360;
+            command = "noctalia:session lock";
+            enabled = true;
+          };
+          "screen-off" = {
+            timeout = 300;
+            command = "noctalia:dpms-off";
+            resume_command = "noctalia:dpms-on";
+            enabled = true;
+          };
+        };
       };
     };
   };
@@ -199,10 +165,9 @@
 
 
 
-  # VSCode with FHS environment for extension compatibility
-  programs.vscode = {
+  # VSCodium
+  programs.vscodium = {
     enable = true;
-    package = pkgs.vscodium;
     profiles.default.extensions = with pkgs.vscode-extensions; [
       saoudrizwan.claude-dev
       ms-vscode.remote-explorer
@@ -218,7 +183,6 @@
       "update.showReleaseNotes" = false;
       "chat.disableAIFeatures" = true;
       
-      # Terminal profiles
       "terminal.integrated.profiles.linux" = {
         "bash (agent)" = {
           "path" = "bash";
@@ -237,45 +201,4 @@
 
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
-
-  # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
-
-  # ============================================================================
-  # Lock-on-Suspend Workaround
-  # ============================================================================
-  # Noctalia's built-in lockOnSuspend is broken for externally-triggered suspend
-  # (lid close, power button) — see https://github.com/noctalia-dev/noctalia-shell/issues/2036
-  # PR #2176 fixes this via DBus monitoring but hasn't been merged yet.
-  #
-  # User-level sleep.target doesn't activate on system suspend (it's system-level),
-  # so a WantedBy=sleep.target user service never fires. The only reliable approach
-  # from a user session is to monitor DBus for PrepareForSleep — same as hypridle
-  # and the Noctalia PR.
-
-  systemd.user.services.noctalia-lock-on-suspend = {
-    Unit = {
-      Description = "Lock Noctalia screen on suspend via DBus";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = toString (pkgs.writeShellScript "noctalia-suspend-monitor" ''
-        ${lib.getExe' pkgs.glib "gdbus"} monitor --system \
-          --dest org.freedesktop.login1 \
-          --object-path /org/freedesktop/login1 2>/dev/null \
-          | ${lib.getExe' pkgs.coreutils "stdbuf"} -oL ${lib.getExe' pkgs.gnugrep "grep"} --line-buffered PrepareForSleep \
-          | while IFS= read -r line; do
-              if echo "$line" | ${lib.getExe' pkgs.gnugrep "grep"} -q "true"; then
-                ${config.programs.noctalia-shell.package}/bin/noctalia-shell ipc call lockScreen lock
-              fi
-            done
-      '');
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
 }

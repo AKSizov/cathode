@@ -1,33 +1,51 @@
 {
   description = "Cathode - A clean NixOS distribution";
 
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
+  };
+
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    
+    # Noctalia v5 — desktop shell (bar, notifications, lock, OSD, launcher, clipboard)
+    # Pinned to main branch (beta). Pin a specific rev when stable.
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/3aab45a2f34fd47666b05892b95054952e788de1";
+      url = "github:noctalia-dev/noctalia";
+      # Don't follow nixpkgs — keeps Cachix binary cache working
     };
 
-    hardware.url = "github:NixOS/nixos-hardware/master";
+    # Noctalia Greeter — graphical login screen that matches Noctalia theme
+    noctalia-greeter = {
+      url = "github:noctalia-dev/noctalia-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     
-    nixos-apple-silicon.url = "github:nix-community/nixos-apple-silicon/main";
+    nixos-apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.0.0";
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake/beta";
       inputs = {
-        # zen-browser needs nixpkgs-unstable for latest Firefox compatibility
-        # Do NOT follow our nixpkgs (25.11) — it will cause version mismatch
+        nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
       };
     };

@@ -20,24 +20,6 @@
   # --- Controller support ---
   hardware.xpadneo.enable = true;           # Xbox Bluetooth controller (better than in-kernel xpad)
 
-  # --- GameMode ---
-  # Feral's on-demand system optimizer: CPU governor boost, I/O priority,
-  # screensaver inhibition, etc. Games request it via `gamemoded` or `gameMode` hint
-  programs.gamemode = {
-    enable = true;
-    settings = {
-      general = {
-        renice = 10;                        # Give game processes higher priority
-        ioprio = 0;                         # Best-effort I/O scheduling
-        desiredgov = "performance";         # Max CPU clocks during gaming
-        igpu_desiredgov = "performance";    # Same for integrated GPU governor
-      };
-      gpu = {
-        apply_gpu_optimisations = 0;        # No dGPU to tune (integrated Intel)
-      };
-    };
-  };
-
   # Add user to gamemode group so they can request it
   users.users.user.extraGroups = [ "gamemode" ];
 
