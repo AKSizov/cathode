@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   # ============================================================================
   # Desktop Home Manager Configuration
@@ -12,64 +12,31 @@
     ./hyprland.nix
   ];
 
-  # Noctalia handles bar, notifications, lock screen, OSD, launcher, and clipboard
-  programs.noctalia-shell = {
+  # Noctalia v5 — desktop shell: bar, notifications, lock, OSD, launcher, clipboard
+  programs.noctalia = {
     enable = true;
+    systemd.enable = true;
     settings = {
-      general = {
-        showChangelogOnStartup = lib.mkForce false;
-        lockScreenAnimations = lib.mkForce true;
-        lockOnSuspend = lib.mkForce true;
-        enableLockScreenMediaControls = lib.mkForce true;
-      };
-      nightLight = {
-        enabled = lib.mkForce true;
-      };
-      appLauncher = {
-        enableClipboardHistory = lib.mkForce true;
-      };
-      brightness = {
-        enableDdcSupport = lib.mkForce true;
-      };
-      location = {
-        autoLocate = lib.mkForce true;
+      shell.setup_wizard_enabled = false;
+      theme = {
+        mode = "dark";
+        source = "builtin";
+        builtin = "Tokyo-Night";
       };
       idle = {
-        enabled = lib.mkForce true;
-        screenOffTimeout = lib.mkForce 300;
-        lockTimeout = lib.mkForce 360;
-        suspendTimeout = lib.mkForce 0;
-        fadeDuration = lib.mkForce 5;
-      };
-      desktopWidgets = {
-        enabled = lib.mkForce true;
-      };
-      colorSchemes = {
-        predefinedScheme = lib.mkForce "Tokyo Night";
-        darkMode = lib.mkForce true;
-      };
-      templates = {
-        activeTemplates = lib.mkForce [
-          { id = "kitty"; active = true; }
-          { id = "ghostty"; active = true; }
-          { id = "foot"; active = true; }
-          { id = "alacritty"; active = true; }
-          { id = "wezterm"; active = true; }
-          { id = "starship"; active = true; }
-          { id = "fuzzel"; active = true; }
-          { id = "walker"; active = true; }
-          { id = "pywalfox"; active = true; }
-          { id = "cava"; active = true; }
-          { id = "yazi"; active = true; }
-          { id = "labwc"; active = true; }
-          { id = "niri"; active = true; }
-          { id = "hyprland"; active = true; }
-          { id = "sway"; active = true; }
-          { id = "scroll"; active = true; }
-          { id = "mango"; active = true; }
-          { id = "btop"; active = true; }
-          { id = "zathura"; active = true; }
-        ];
+        behavior = {
+          lock = {
+            timeout = 360;
+            command = "noctalia:session lock";
+            enabled = true;
+          };
+          "screen-off" = {
+            timeout = 300;
+            command = "noctalia:dpms-off";
+            resume_command = "noctalia:dpms-on";
+            enabled = true;
+          };
+        };
       };
     };
   };

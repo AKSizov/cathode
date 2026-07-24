@@ -1,9 +1,16 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     ./audio.nix
     ./greetd.nix
+    inputs.noctalia.nixosModules.default
   ];
+
+  # Noctalia v5 system-wide — enables recommended desktop services
+  programs.noctalia = {
+    enable = true;
+    recommendedServices.enable = true;  # NetworkManager, Bluetooth, UPower, power-profiles-daemon
+  };
 
   # Desktop environment packages
   environment.systemPackages = with pkgs; [
@@ -85,10 +92,7 @@
   security.pam.services.login.enableGnomeKeyring = true;
 
   # Desktop services
-  services.upower.enable = true;
-  services.blueman.enable = true;
   services.libinput.enable = true;
-  services.power-profiles-daemon.enable = true;
   services.ollama.enable = true;
   services.ananicy = {
     enable = true;

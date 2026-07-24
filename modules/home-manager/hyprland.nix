@@ -109,6 +109,7 @@
       # Misc
       misc = {
         force_default_wallpaper = -1;
+        disable_hyprland_logo = true;
       };
 
       # Variables
@@ -120,7 +121,7 @@
       bind = [
         "$mainMod, T, exec, $terminal"
         "$mainMod, Return, exec, $terminal"
-        "$mainMod, L, exec, noctalia-shell ipc call lockScreen lock"
+        "$mainMod, L, exec, noctalia msg panel-toggle session"
 
         # Window management
         "$mainMod, Q, killactive"
@@ -128,9 +129,9 @@
         # Dwindle layout control
         "$mainMod, V, layoutmsg, togglesplit"
         # Noctalia shell
-        "$mainMod, Space, exec, noctalia-shell ipc call launcher toggle"
-        "$mainMod, S, exec, noctalia-shell ipc call controlCenter toggle"
-        "$mainMod, comma, exec, noctalia-shell ipc call settings toggle"
+        "$mainMod, Space, exec, noctalia msg panel-toggle launcher"
+        "$mainMod, S, exec, noctalia msg panel-toggle control-center"
+        "$mainMod, comma, exec, noctalia msg settings-toggle"
         "$mainMod, F, fullscreen"
 
         # Focus movement
