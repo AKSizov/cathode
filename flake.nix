@@ -57,21 +57,7 @@
       mkHost = system: hostPath: nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; outputs = self; };
-        modules = [
-          hostPath
-          # ARM-specific package fixes (overlays)
-          ({ pkgs, ... }: {
-            nixpkgs.overlays = [
-              (final: prev: {
-                glances = prev.glances.overridePythonAttrs (old: {
-                  disabledTests = old.disabledTests ++
-                    # psutil.cpu_count(logical=False) returns None on some ARM boxes
-                    final.lib.optionals prev.stdenv.hostPlatform.isAarch64 [ "test_phys_core_returns_int" ];
-                });
-              })
-            ];
-          })
-        ];
+        modules = [ hostPath ];
       };
     in
     {
