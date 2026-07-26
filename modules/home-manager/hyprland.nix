@@ -20,6 +20,9 @@
     configType = "hyprlang";
 
     settings = {
+      # Force scale=1 — 1200p panel misdetected as HiDPI
+      monitor = [ ", preferred, auto, 1" ];
+
       # Environment variables
       env = [
         "XCURSOR_SIZE,24"
