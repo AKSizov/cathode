@@ -27,13 +27,12 @@
         behavior = {
           lock = {
             timeout = 360;
-            command = "noctalia:session lock";
+            action = "lock";
             enabled = true;
           };
           "screen-off" = {
             timeout = 300;
-            command = "noctalia:dpms-off";
-            resume_command = "noctalia:dpms-on";
+            action = "screen_off";
             enabled = true;
           };
         };
