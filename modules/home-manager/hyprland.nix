@@ -20,9 +20,6 @@
     configType = "hyprlang";
 
     settings = {
-      # Monitor configuration
-      monitor = [ ", preferred, auto, 1" ];
-
       # Environment variables
       env = [
         "XCURSOR_SIZE,24"
