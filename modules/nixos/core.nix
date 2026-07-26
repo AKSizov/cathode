@@ -191,8 +191,6 @@
     HandleLidSwitch = "suspend-then-hibernate";
     HandleLidSwitchExternalPower = "ignore";
     HandleLidSwitchDocked = "ignore";
-    PowerKey = "hibernate";
-    PowerKeyLongPress = "hibernate";
   };
   systemd.sleep.settings.Sleep = {
     HibernateDelaySec = "60m";
