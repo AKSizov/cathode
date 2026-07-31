@@ -63,6 +63,9 @@
     # 3D Printing
     orca-slicer
     prusa-slicer
+
+    # Development
+    android-studio
   ];
 
   # ============================================================================
