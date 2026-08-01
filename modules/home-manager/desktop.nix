@@ -200,6 +200,38 @@
   # Desktop Services
   # ============================================================================
 
+  # Lock Noctalia before system suspend (Noctalia v5 claims native PrepareForSleep
+  # support, but this is the reliable fallback via logind lock integration)
+  systemd.user.services.noctalia-lock-before-sleep = {
+    Unit = {
+      Description = "Lock session before system sleep";
+      Before = [ "sleep.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.systemd}/bin/loginctl lock-sessions";
+    };
+    Install = {
+      WantedBy = [ "sleep.target" ];
+    };
+  };
+
+  # Re-enable eDP-1 after resume — fixes the race where the switch:off lid-open
+  # event is lost during suspend, leaving the internal display dead
+  systemd.user.services.restore-edp1-after-sleep = {
+    Unit = {
+      Description = "Re-enable eDP-1 after resume from suspend";
+      After = [ "sleep.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.hyprland}/bin/hyprctl keyword monitor eDP-1,preferred,auto,1";
+    };
+    Install = {
+      WantedBy = [ "sleep.target" ];
+    };
+  };
+
 
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
