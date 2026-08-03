@@ -31,6 +31,9 @@ jobs:
           - host: foundry
             system: x86_64-linux
             runner: ubuntu-latest
+          - host: wyse1
+            system: x86_64-linux
+            runner: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
