@@ -134,6 +134,7 @@
     settings = {
       # Enable flakes and new command-line interface
       experimental-features = "nix-command flakes";
+      accept-flake-config = true; # Auto-accept flake nixConfig (substituters, keys)
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
       max-jobs = "auto";   # Build derivations in parallel using all cores
       cores = 0;            # No per-build core limit (each build can use all cores)
