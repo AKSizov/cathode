@@ -33,6 +33,20 @@
     ];
   };
 
+  services.openthread-border-router = {
+    enable = true;
+    backboneInterfaces = [ "enp1s0" ];
+    radio = {
+      device = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_F0:F5:BD:00:C3:B8-if00";
+      baudRate = 460800;
+      flowControl = false;  # ESP32-C6 doesn't support it
+    };
+    rest = {
+      # defaults to port 8081 on 127.0.0.1 — that's what HA needs
+    };
+  };
+
+
   # For use as a tailscale exit node
   boot.kernel.sysctl = {
     "net.ipv4.conf.all.forwarding" = true;
