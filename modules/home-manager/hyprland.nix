@@ -20,7 +20,7 @@
     configType = "hyprlang";
 
     settings = {
-      # Monitor configuration
+      # Force scale=1 — 1200p panel misdetected as HiDPI
       monitor = [ ", preferred, auto, 1" ];
 
       # Environment variables
