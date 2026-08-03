@@ -11,29 +11,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  discover:
+    name: Discover hosts
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v17
+
+      - name: Generate build matrix from flake
+        id: matrix
+        run: |
+          MATRIX=$(nix eval --json .#nixosConfigurations \
+            --apply '
+              configs:
+                let
+                  hosts = builtins.attrNames configs;
+                  exclude = [ "m1n1x" ];  # Asahi firmware not available in CI
+                  buildable = builtins.filter (h: !(builtins.elem h exclude)) hosts;
+                  mkEntry = h: {
+                    host = h;
+                    system = configs.${h}.pkgs.stdenv.hostPlatform.system;
+                  };
+                in
+                  builtins.map mkEntry buildable
+            ')
+          echo "matrix={\"include\":${MATRIX}}" >> $GITHUB_OUTPUT
+
   build:
     name: Build ${{ matrix.host }}
-    runs-on: ${{ matrix.runner }}
+    needs: discover
+    runs-on: ${{ matrix.system == 'aarch64-linux' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
-      matrix:
-        # m1n1x excluded — requires Asahi firmware not available in CI
-        include:
-          - host: mininix
-            system: x86_64-linux
-            runner: ubuntu-latest
-          - host: closetcard
-            system: x86_64-linux
-            runner: ubuntu-latest
-          - host: grassblock
-            system: aarch64-linux
-            runner: ubuntu-24.04-arm
-          - host: foundry
-            system: x86_64-linux
-            runner: ubuntu-latest
-          - host: wyse1
-            system: x86_64-linux
-            runner: ubuntu-latest
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
 
