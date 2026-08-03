@@ -6,24 +6,12 @@
   # This module contains all core system settings including boot, networking,
   # security, services, and containerization.
 
-  # Disable glances test for ARM boxes
-  nixpkgs.overlays = [
-    (final: prev: {
-      glances = prev.glances.overrideAttrs (oldAttrs: {
-        disabledTests = (oldAttrs.disabledTests or []) ++ [
-          "test_phys_core_returns_int"
-        ];
-      });
-    })
-  ];
-
 
   # Core system packages
   environment.systemPackages = with pkgs; [
     vim
     git
     htop
-    glances
     inxi
     lz4
     pv
@@ -146,6 +134,7 @@
     settings = {
       # Enable flakes and new command-line interface
       experimental-features = "nix-command flakes";
+      accept-flake-config = true; # Auto-accept flake nixConfig (substituters, keys)
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
       max-jobs = "auto";   # Build derivations in parallel using all cores
       cores = 0;            # No per-build core limit (each build can use all cores)
