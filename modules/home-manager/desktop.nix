@@ -52,62 +52,7 @@
         transition_on_startup = true;
         edge_smoothness = 0.3;
       };
-      # Desktop widgets — clock, system monitor, calendar
-      # Positioned for a 1920x1200 panel. Use `noctalia msg desktop-widgets-edit`
-      # to visually adjust positions, then export via Settings → Export Config.
-      desktop_widgets = {
-        enabled = true;
-        schema_version = 2;
-        widget_order = [ "clock_main" "sysmon_main" "cal_main" ];
 
-        widget = {
-          # Large analog clock — center-left of desktop
-          clock_main = {
-            type = "clock";
-            cx = 960.0;
-            cy = 540.0;
-            settings = {
-              clock_style = "analog";
-              shadow = true;
-              background = false;
-            };
-          };
-
-          # System monitor — top-right corner
-          sysmon_main = {
-            type = "sysmon";
-            cx = 1750.0;
-            cy = 200.0;
-            box_width = 260.0;
-            box_height = 0.0;
-            settings = {
-              background = true;
-              background_opacity = 0.7;
-              background_radius = 16.0;
-              background_padding = 14.0;
-              shadow = true;
-            };
-          };
-
-          # Calendar — bottom-right, above Noctalia bar
-          cal_main = {
-            type = "calendar";
-            cx = 1750.0;
-            cy = 600.0;
-            box_width = 280.0;
-            box_height = 0.0;
-            settings = {
-              show_events = true;
-              show_week_numbers = false;
-              background = true;
-              background_opacity = 0.7;
-              background_radius = 16.0;
-              background_padding = 14.0;
-              shadow = true;
-            };
-          };
-        };
-      };
       idle = {
         behavior = {
           lock = {

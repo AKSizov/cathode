@@ -45,48 +45,45 @@
         active_opacity = 1.0;
         inactive_opacity = 1.0;
         dim_inactive = true;
-        dim_strength = 0.1;
+        dim_strength = 0.15;
 
         shadow = {
           enabled = true;
-          range = 8;
+          range = 12;
           render_power = 3;
+          color = "rgba(0a0a0fee)";
         };
 
         blur = {
           enabled = true;
-          size = 10;
+          size = 12;
           passes = 3;
-          vibrancy = 0.1696;
+          vibrancy = 0.2;
         };
       };
 
-      # Animations
+      # Animations — minimal, consistent. Parent nodes set defaults;
+      # only override children when the style or speed should differ.
+      # Curves: easeOutQuint for UI, spring for window open/close.
       animations = {
         enabled = true;
 
         bezier = [
           "easeOutQuint, 0.23, 1, 0.32, 1"
-          "easeInOutCubic, 0.65, 0.05, 0.36, 1"
-          "linear, 0, 0, 1, 1"
-          "quick, 0.15, 0, 0.1, 1"
           "spring, 0.3, 1.2, 0.5, 1"
+          "linear, 0, 0, 1, 1"
         ];
 
         animation = [
-          "global, 1, 6, default"
-          "border, 1, 4, easeOutQuint"
-          "windows, 1, 3, easeOutQuint"
+          "global, 1, 5, easeOutQuint"
+          "border, 1, 5, easeOutQuint"
+          "windows, 1, 4, easeOutQuint"
           "windowsIn, 1, 4, spring, popin 87%"
-          "windowsOut, 1, 2, easeOutQuint, popin 87%"
-          "fadeIn, 1, 3, quick"
-          "fadeOut, 1, 3, quick"
-          "fade, 1, 3, quick"
+          "windowsOut, 1, 3, easeOutQuint, popin 87%"
+          "fade, 1, 3, easeOutQuint"
           "layers, 1, 3, easeOutQuint"
           "layersIn, 1, 3, easeOutQuint, fade"
-          "layersOut, 1, 1.5, linear, fade"
-          "fadeLayersIn, 1, 3, quick"
-          "fadeLayersOut, 1, 1.5, quick"
+          "layersOut, 1, 2, linear, fade"
           "workspaces, 1, 4, easeOutQuint, slidefade 15%"
           "workspacesIn, 1, 4, easeOutQuint, slidefade 15%"
           "workspacesOut, 1, 3, easeOutQuint, fade"
