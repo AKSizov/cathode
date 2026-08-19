@@ -87,9 +87,9 @@
           "layersOut, 1, 1.5, linear, fade"
           "fadeLayersIn, 1, 3, quick"
           "fadeLayersOut, 1, 1.5, quick"
-          "workspaces, 1, 3, quick, fade"
-          "workspacesIn, 1, 2, quick, fade"
-          "workspacesOut, 1, 3, quick, fade"
+          "workspaces, 1, 4, easeOutQuint, slidefade 15%"
+          "workspacesIn, 1, 4, easeOutQuint, slidefade 15%"
+          "workspacesOut, 1, 3, easeOutQuint, fade"
         ];
       };
 
