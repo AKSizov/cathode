@@ -22,6 +22,28 @@
         mode = "dark";
         source = "builtin";
         builtin = "Tokyo-Night";
+        templates = {
+          enable_builtin_templates = true;
+          enable_community_templates = true;
+          # Sync Noctalia palette to all installed apps that have templates
+          builtin_ids = [
+            "hyprland"   # compositor
+            "gtk3"       # GTK 3
+            "gtk4"       # GTK 4
+            "qt"         # Qt
+            "kitty"      # terminal
+            "starship"   # shell prompt
+          ];
+          community_ids = [
+            "zen-browser"  # browser
+            "obsidian"     # notes
+            "vscode"       # VSCodium
+            "neovim"       # editor
+            "gimp"         # image editor
+            "fastfetch"    # system info
+            "steam"        # gaming
+          ];
+        };
       };
       idle = {
         behavior = {
