@@ -257,4 +257,8 @@
 
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;
+
+  # T14 Gen 3 speaker preset — bass enhancer + EQ + compressor + limiter
+  # Replaces Dolby Atmos processing that Windows does in the Realtek driver
+  xdg.configFile."easyeffects/output/T14-Gen3-Speakers.json".source = ../../dotfiles/easyeffects/T14-Gen3-Speakers.json;
 }
