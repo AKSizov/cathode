@@ -21,7 +21,12 @@
 
     settings = {
       # DP-1: Sceptre M34 3440x1440 — highres picks highest resolution + refresh
-      monitor = [ "DP-1, highres, auto, 1" ];
+      # Wildcard: all other monitors default to preferred mode, scale 1
+      # (first matching entry wins — specific monitors must be listed BEFORE this)
+      monitor = [
+        "DP-1, highres, auto, 1"
+        ", preferred, auto, 1"
+      ];
 
       # Environment variables
       env = [
