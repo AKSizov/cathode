@@ -20,8 +20,8 @@
     configType = "hyprlang";
 
     settings = {
-      # Force scale=1 — 1200p panel misdetected as HiDPI
-      monitor = [ ", preferred, auto, 1" ];
+      # DP-1: Sceptre M34 3440x1440@240 — explicit mode (preferred picks 60Hz)
+      monitor = [ "DP-1, 3440x1440@240, auto, 1" ];
 
       # Environment variables
       env = [
@@ -171,9 +171,9 @@
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
 
-        # Monitor toggle keybinds (from custom config)
-        "$mainMod, F1, exec, hyprctl keyword monitor HDMI-A-3, preferred, auto, 1"
-        "$mainMod, F2, exec, hyprctl keyword monitor HDMI-A-3, 1920x1080, 0x0, 1"
+        # Monitor refresh-rate keybinds (Sceptre M34, DP-1)
+        "$mainMod, F1, exec, hyprctl keyword monitor DP-1, 3440x1440@240, auto, 1"
+        "$mainMod, F2, exec, hyprctl keyword monitor DP-1, 3440x1440@144, auto, 1"
         "$mainMod, F3, exec, hyprctl reload"
       ];
 
