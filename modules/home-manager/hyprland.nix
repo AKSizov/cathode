@@ -21,8 +21,7 @@
 
     settings = {
       # DP-1: Sceptre M34 3440x1440 — highres picks highest resolution + refresh
-      # VRR enabled — panel supports Adaptive Sync (FreeSync)
-      monitor = [ "DP-1, highres, auto, 1, vrr, 1" ];
+      monitor = [ "DP-1, highres, auto, 1" ];
 
       # Environment variables
       env = [
