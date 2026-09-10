@@ -20,8 +20,8 @@
     configType = "hyprlang";
 
     settings = {
-      # DP-1: Sceptre M34 3440x1440@240 — explicit mode (preferred picks 60Hz)
-      monitor = [ "DP-1, 3440x1440@240, auto, 1" ];
+      # DP-1: Sceptre M34 3440x1440 — highres picks highest resolution + refresh
+      monitor = [ "DP-1, highres, auto, 1" ];
 
       # Environment variables
       env = [
