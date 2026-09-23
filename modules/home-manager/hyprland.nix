@@ -200,6 +200,10 @@
         "float true, match:class ^(easyeffects)$"
         "size 900 600, match:class ^(easyeffects)$"
 
+        # Noctalia settings window — float instead of tiling (per v5 docs)
+        "float true, match:class ^(dev.noctalia.Noctalia)$"
+        "size 1080 920, match:class ^(dev.noctalia.Noctalia)$"
+
         # File dialogs
         "float true, match:title ^(Open File|Save File|Open Folder)$"
 
@@ -207,6 +211,16 @@
         "float true, match:title ^(Picture-in-Picture)$"
         "pin true, match:title ^(Picture-in-Picture)$"
         "size 480 270, match:title ^(Picture-in-Picture)$"
+      ];
+
+      # Blur Noctalia surfaces (bar, notifications, dock, panels, OSD, switcher).
+      # Per v5 docs; Hyprland's layer animations are disabled for these so they
+      # don't fight Noctalia's own.
+      layerrule = [
+        "noanim, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
+        "ignorealpha 0.5, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
+        "blur, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
+        "blurpopups, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
       ];
     };
 
