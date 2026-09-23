@@ -215,12 +215,13 @@
 
       # Blur Noctalia surfaces (bar, notifications, dock, panels, OSD, switcher).
       # Per v5 docs; Hyprland's layer animations are disabled for these so they
-      # don't fight Noctalia's own.
+      # don't fight Noctalia's own. v0.53+ layerrule syntax (explicit values,
+      # match:namespace field). Verify actual namespaces with `hyprctl layers`.
       layerrule = [
-        "noanim, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
-        "ignorealpha 0.5, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
-        "blur, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
-        "blurpopups, namespace:^(noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher))$"
+        "no_anim true, match:namespace ^(noctalia-bar-.+|noctalia-notification|noctalia-dock|noctalia-panel|noctalia-attached-panel|noctalia-osd|noctalia-window-switcher)$"
+        "ignore_alpha 0.5, match:namespace ^(noctalia-bar-.+|noctalia-notification|noctalia-dock|noctalia-panel|noctalia-attached-panel|noctalia-osd|noctalia-window-switcher)$"
+        "blur true, match:namespace ^(noctalia-bar-.+|noctalia-notification|noctalia-dock|noctalia-panel|noctalia-attached-panel|noctalia-osd|noctalia-window-switcher)$"
+        "blur_popups true, match:namespace ^(noctalia-bar-.+|noctalia-notification|noctalia-dock|noctalia-panel|noctalia-attached-panel|noctalia-osd|noctalia-window-switcher)$"
       ];
     };
 
