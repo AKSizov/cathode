@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 {
   imports = [
     ./audio.nix
@@ -99,6 +99,16 @@
     package = pkgs.ananicy-cpp;
     rulesProvider = pkgs.ananicy-rules-cachyos;
   };
+
+  # Fingerprint — PAM vs Noctalia split. nixpkgs' fprintd module defaults
+  # fprintAuth ON everywhere when fprintd is enabled, which would put
+  # pam_fprintd in the login PAM stack. Noctalia v5 drives fprintd itself over
+  # D-Bus and the two can't share the sensor (noctalia#3277: 30s password
+  # hang). So: login OFF (Noctalia owns the lock screen), sudo ON (PAM owns
+  # sudo — fingerprint unlock for elevated commands, no Noctalia involved).
+  # Both inert without fprintd.
+  security.pam.services.login.fprintAuth = lib.mkIf config.services.fprintd.enable false;
+  security.pam.services.sudo.fprintAuth = lib.mkIf config.services.fprintd.enable true;
 
   # Bluetooth
   hardware.bluetooth.powerOnBoot = false;

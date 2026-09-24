@@ -9,7 +9,9 @@
   # Noctalia Greeter — graphical login that matches the shell theme
   imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
-  programs.noctalia-greeter = {
+  # Renamed from programs.noctalia-greeter (mkRenamedOptionModule in the
+  # greeter flake; the old path will hard-error on a future input bump).
+  services.displayManager.noctalia-greeter = {
     enable = true;
     settings = {
       cursor = {
