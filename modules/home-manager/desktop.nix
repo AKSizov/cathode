@@ -53,6 +53,11 @@
         edge_smoothness = 0.3;
       };
 
+      # Lock screen — fingerprint unlock via fprintd (Noctalia drives the
+      # reader itself over D-Bus; no PAM involvement). Inert on hosts
+      # without a reader — Noctalia falls back to password only.
+      lockscreen.fingerprint = true;
+
       idle = {
         behavior = {
           lock = {
