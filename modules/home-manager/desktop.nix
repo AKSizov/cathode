@@ -22,7 +22,42 @@
         mode = "dark";
         source = "builtin";
         builtin = "Tokyo-Night";
+        templates = {
+          enable_builtin_templates = true;
+          enable_community_templates = true;
+          # Sync Noctalia palette to all installed apps that have templates
+          builtin_ids = [
+            "hyprland"   # compositor
+            "gtk3"       # GTK 3
+            "gtk4"       # GTK 4
+            "qt"         # Qt
+            "kitty"      # terminal
+            "starship"   # shell prompt
+          ];
+          community_ids = [
+            "zen-browser"  # browser
+            "obsidian"     # notes
+            "vscode"       # VSCodium
+            "neovim"       # editor
+            "gimp"         # image editor
+            "fastfetch"    # system info
+            "steam"        # gaming
+          ];
+        };
       };
+      # Wallpaper — animate transitions including initial startup fade-in
+      wallpaper = {
+        transition = [ "fade" "wipe" "zoom" "honeycomb" ];
+        transition_duration = 1500;
+        transition_on_startup = true;
+        edge_smoothness = 0.3;
+      };
+
+      # Lock screen — fingerprint unlock via fprintd (Noctalia drives the
+      # reader itself over D-Bus; no PAM involvement). Inert on hosts
+      # without a reader — Noctalia falls back to password only.
+      lockscreen.fingerprint = true;
+
       idle = {
         behavior = {
           lock = {
@@ -161,7 +196,7 @@
       }) 9;
       # Fails activation on schema changes to detect potential regressions
       # Find this in about:config or prefs.js of your profile
-      keyboardShortcutsVersion = 19;
+      keyboardShortcutsVersion = 20;
     };
   };
 
@@ -199,39 +234,6 @@
   # ============================================================================
   # Desktop Services
   # ============================================================================
-
-  # Lock Noctalia before system suspend (Noctalia v5 claims native PrepareForSleep
-  # support, but this is the reliable fallback via logind lock integration)
-  systemd.user.services.noctalia-lock-before-sleep = {
-    Unit = {
-      Description = "Lock session before system sleep";
-      Before = [ "sleep.target" ];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.systemd}/bin/loginctl lock-sessions";
-    };
-    Install = {
-      WantedBy = [ "sleep.target" ];
-    };
-  };
-
-  # Re-enable eDP-1 after resume — fixes the race where the switch:off lid-open
-  # event is lost during suspend, leaving the internal display dead
-  systemd.user.services.restore-edp1-after-sleep = {
-    Unit = {
-      Description = "Re-enable eDP-1 after resume from suspend";
-      After = [ "sleep.target" ];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.hyprland}/bin/hyprctl keyword monitor eDP-1,preferred,auto,1";
-    };
-    Install = {
-      WantedBy = [ "sleep.target" ];
-    };
-  };
-
 
   # relies on programs.dconf.enable = true;
   services.easyeffects.enable = true;

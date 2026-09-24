@@ -46,7 +46,6 @@
     
     # Kernel parameters for performance and memory management
     kernelParams = [
-      "zswap.enabled=1"
       "preempt=full"
       "mem_sleep_default=deep"
     ];
@@ -94,22 +93,19 @@
   # ============================================================================
   # Swap Strategy
   # ============================================================================
-  # Three-layer approach for universal memory management:
+  # Two layers:
   #
   # Layer 1: zramSwap (below) — Compressed swap in RAM, dynamically grows/shrinks
   #   with memory pressure. Up to 50% of physical RAM, lz4 compression.
-  #   This is the primary "dynamic" swap layer — no disk I/O needed.
+  #   Primary swap device (priority 5) — takes all normal swap traffic.
   #
-  # Layer 2: zswap (kernel param above) — Compresses pages before writing to disk
-  #   swapfile, reducing disk I/O when Layer 1 is exhausted.
-  #
-  # Layer 3: Disk swapfile (per-host) — Static overflow on disk for pathological
-  #   cases. Only configured on hosts that need it (desktops with enough disk).
+  # Layer 2: Disk swapfile (per-host) — Cold overflow for pathological cases.
+  #   Lower priority (-2); only touched when zram is full.
   #   Server/VPS hosts rely on zram alone.
   #
-  # Result: Most swap happens in compressed RAM (fast), disk is only touched
-  # under extreme memory pressure — similar to Windows' dynamic pagefile but
-  # faster because zram compression ratios typically achieve 2-3x.
+  # Note: kernel zswap is deliberately NOT enabled. It sits in front of the
+  #   selected swap device and would double-compress pages zram already keeps
+  #   in compressed RAM, with an uncapped pool. Pure overhead on this topology.
 
   zramSwap = {
     enable = true;
@@ -137,7 +133,6 @@
       accept-flake-config = true; # Auto-accept flake nixConfig (substituters, keys)
       connect-timeout = 5; # Prevent hanging on unreachable substitutes
       max-jobs = "auto";   # Build derivations in parallel using all cores
-      cores = 0;            # No per-build core limit (each build can use all cores)
       trusted-users = [ "user" ];
     };
     
@@ -175,15 +170,15 @@
     };
   };
 
-  # Laptop lid switch behavior
+  # Laptop lid policy — the other half of the lid contract (the bindl guard in
+  # hyprland-extra.conf is the first). Kept explicit even though these match
+  # logind defaults: this is the boundary where the lid-close soft crash lived,
+  # and HandleLidSwitch=suspend is what drives the suspend the bindl guard
+  # coordinates with.
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "ignore";
     HandleLidSwitchDocked = "ignore";
-  };
-  systemd.sleep.settings.Sleep = {
-    HibernateDelaySec = "60m";
-    SuspendState = "mem";
   };
 
   # Device management and mounting

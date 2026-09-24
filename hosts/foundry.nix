@@ -33,6 +33,12 @@
   # ThinkPad fan control (uses thinkfan's built-in default fan curve)
   services.thinkfan.enable = true;
 
+  # Fingerprint reader (Synaptics 06cb:00f9, in power button) — built into
+  # libfprint's synaptics driver, no TOD needed. Noctalia v5 drives fprintd
+  # directly over D-Bus (lockscreen.fingerprint in desktop.nix); password
+  # auth stays on plain PAM, no pam_fprintd in the login stack.
+  services.fprintd.enable = true;
+
   # Lenovo ThinkPad throttling control (replaces thermald)
   services.throttled = {
     enable = true;
