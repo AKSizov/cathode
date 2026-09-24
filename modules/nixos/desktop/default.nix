@@ -101,13 +101,19 @@
   };
 
   # Fingerprint — PAM vs Noctalia split. nixpkgs' fprintd module defaults
-  # fprintAuth ON everywhere when fprintd is enabled, which would put
-  # pam_fprintd in the login PAM stack. Noctalia v5 drives fprintd itself over
-  # D-Bus and the two can't share the sensor (noctalia#3277: 30s password
-  # hang). So: login OFF (Noctalia owns the lock screen), sudo ON (PAM owns
-  # sudo — fingerprint unlock for elevated commands, no Noctalia involved).
-  # Both inert without fprintd.
+  # fprintAuth ON for every PAM service when fprintd is enabled. Noctalia v5
+  # drives fprintd itself over D-Bus and the two can't share the sensor
+  # (noctalia#3277). Split:
+  #   login  OFF — Noctalia owns the lock screen (D-Bus, not PAM)
+  #   greetd OFF — fingerprint there succeeds WITHOUT a password, so
+  #                PAM_AUTHTOK is never set and pam_gnome_keyring (which needs
+  #                the password) can't unlock the keyring -> stray "unlock
+  #                keyring" prompt after every fingerprint boot. Password at
+  #                boot is the only path that unlocks the keyring.
+  #   sudo   ON   — PAM owns sudo; fingerprint for elevated commands
+  # Both inert without fprintd (mkIf).
   security.pam.services.login.fprintAuth = lib.mkIf config.services.fprintd.enable false;
+  security.pam.services.greetd.fprintAuth = lib.mkIf config.services.fprintd.enable false;
   security.pam.services.sudo.fprintAuth = lib.mkIf config.services.fprintd.enable true;
 
   # Bluetooth
