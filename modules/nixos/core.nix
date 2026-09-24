@@ -170,6 +170,17 @@
     };
   };
 
+  # Laptop lid policy — the other half of the lid contract (the bindl guard in
+  # hyprland-extra.conf is the first). Kept explicit even though these match
+  # logind defaults: this is the boundary where the lid-close soft crash lived,
+  # and HandleLidSwitch=suspend is what drives the suspend the bindl guard
+  # coordinates with.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+  };
+
   # Device management and mounting
   services.devmon.enable = true;
   services.gvfs.enable = true;
