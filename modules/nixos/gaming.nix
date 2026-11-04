@@ -34,6 +34,8 @@
     gamescope                                # Micro-compositor for lag-free gaming (use: gamescope --gamemode -- %command%)
   ];
 
+  services.flatpak.enable = true; 
+
   # Shader cache — prevent stutter from recompilation on repeat plays
   environment.sessionVariables = {
     MESA_SHADER_CACHE_MAX_SIZE = "4G";

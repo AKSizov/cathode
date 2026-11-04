@@ -83,6 +83,7 @@
     # Creative & Design
     gimp3
     openscad
+    freecad
 
     # Electronics / EDA
     kicad
