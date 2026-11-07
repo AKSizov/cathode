@@ -85,6 +85,11 @@
   };
 
 
+  # Intel iGPU VA-API (iHD) — hardware video decode host-wide (mpv, browsers,
+  # OpenNOW cloud streaming). Lands in /run/opengl-driver/lib/dri, which nixpkgs
+  # libva searches first.
+  hardware.graphics.extraPackages = [ pkgs.intel-media-driver ];
+
   # Home Manager configuration
   home-manager.users.user = import ../modules/home-manager/desktop.nix;
 }
