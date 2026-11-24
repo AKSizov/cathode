@@ -1,35 +1,4 @@
-{ pkgs, lib, ... }:
-let
-  # --- OpenNOW (open-source GeForce NOW client) ---
-  # Upstream's recommended Linux package is the Type-2 AppImage, wrapped in an
-  # FHS env so its bundled Qt 6.8+/SDL3/Rust streamer resolve on NixOS.
-  # Hardware decode is VA-API (upstream: docs/linux-video-backends.md). The
-  # AppImage's AppRun hook picks libva via `ldconfig -p`: the FHS env generates
-  # the ld cache at startup, so including nixpkgs libva here makes the hook use
-  # it (ABI-matched to nixpkgs intel-media-driver) instead of the bundled
-  # Ubuntu libva 2.20, which cannot load a newer-ABI VA driver.
-  # intel-media-driver lands at /usr/lib/dri inside the env — nixpkgs libva's
-  # default driverdir. Version bumps: update version + hash (upstream release
-  # asset; hash verified against upstream's signed .manifest.json).
-  opennow = pkgs.appimageTools.wrapType2 {
-    pname = "opennow";
-    version = "1.0.3";
-    src = pkgs.fetchurl {
-      url = "https://github.com/OpenCloudGaming/OpenNOW/releases/download/v1.0.3/OpenNOW-Qt-1.0.3-Linux-x64.AppImage";
-      hash = "sha256-xG1Wzyk89VMhsA4Pc32e9nmbceq6wGBRhgsiK2j5EDo=";
-    };
-    extraPkgs = p: [
-      p.libva
-      p.intel-media-driver
-    ];
-    meta = {
-      description = "Open-source GeForce NOW client";
-      homepage = "https://opennow.zortos.me/";
-      license = lib.licenses.mit;
-      platforms = [ "x86_64-linux" ];
-    };
-  };
-in
+{ pkgs, ... }:
 {
   # ============================================================================
   # Gaming Module
@@ -63,10 +32,35 @@ in
     jdk21                                    # Minecraft 1.20.5+
     mangohud                                 # FPS/frame timing overlay (run games with `mangohud %command%`)
     gamescope                                # Micro-compositor for lag-free gaming (use: gamescope --gamemode -- %command%)
-    opennow                                  # GeForce NOW client (wrapped AppImage — see let block above)
   ];
 
   services.flatpak.enable = true; 
+
+  # --- OpenNOW (open-source GeForce NOW client) ---
+  # The release AppImage lives OUTSIDE the store (~/Applications/) and updates
+  # itself via the app's Ed25519-verified in-app updater (Settings → Updates,
+  # stable/nightly channel) — no more version/hash bumps in this file.
+  # binfmt routes any AppImage execution through appimage-run (appimage-exec.sh
+  # exports APPIMAGE=<realpath of the file> so the updater can replace it, and
+  # unpacks to ~/.cache/appimage-run/<sha256>, re-keyed after each update).
+  # The FHS env carries nixpkgs libva + intel-media-driver: the AppImage's
+  # AppRun libva-detection hook (ldconfig -p) then picks ABI-matched nixpkgs
+  # libva instead of the bundled Ubuntu libva 2.20 (which cannot load newer-ABI
+  # VA drivers — hw decode silently falls back to software; upstream docs:
+  # linux-video-backends.md). This is the same mechanism as the old wrapType2
+  # package, minus the read-only store pin that broke the in-app updater.
+  # Fallback if the in-app updater ever misbehaves: `appimageupdate` (nixpkgs)
+  # applies the release's .AppImage.zsync sidecar in place.
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+    package = pkgs.appimage-run.override {
+      extraPkgs = p: [
+        p.libva
+        p.intel-media-driver
+      ];
+    };
+  };
 
   # Shader cache — prevent stutter from recompilation on repeat plays
   environment.sessionVariables = {
